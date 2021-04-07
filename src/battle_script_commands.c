@@ -56,6 +56,7 @@
 #include "constants/rgb.h"
 #include "data.h"
 #include "constants/party_menu.h"
+#include "constants/flags.h"
 
 extern struct MusicPlayerInfo gMPlayInfo_BGM;
 
@@ -3327,7 +3328,7 @@ static void Cmd_getexp(void)
                 if (!(gBattleTypeFlags & BATTLE_TYPE_TRAINER) && gBattleMons[0].hp && !gBattleStruct->wildVictorySong)
                 {
                     BattleStopLowHpSound();
-                    PlayBGM(MUS_VICTORY_WILD);
+                    PlayBGM(MUS_VICTORY_WILD, FlagGet(FLAG_GB_PLAYER_ENABLED));
                     gBattleStruct->wildVictorySong++;
                 }
 

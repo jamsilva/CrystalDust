@@ -163,10 +163,13 @@ gbs_azalea_town_track_0_call_1:
 	.byte GBP_A7
 	.byte GBP_RET
 
+	.global gbs_azalea_town_track_0
 gbs_azalea_town_track_0:
 	.byte	KEYSH , gbs_azalea_town_key+0
 	.byte	TEMPO , GBP_TEMPO_BPM*gbs_azalea_town_tbs/2
 	.byte	GBP , 0x00
+	.global gbs_azalea_town_track_0_0
+gbs_azalea_town_track_0_0:
 	.byte GBP_TEMPO
 	.byte NONOTE0
 	.byte GBP_A0

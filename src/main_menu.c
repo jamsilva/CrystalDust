@@ -792,7 +792,7 @@ static void Task_MainMenuCheckSaveFile(u8 taskId)
     else if (IsBGMStopped()) // coming from title screen, waiting for music to fade
     {
         BeginNormalPaletteFade(0xFFFFFFFF, 0, 0x10, 0, 0xFFFF); // fade from white
-        m4aSongNumStart(MUS_MAIN_MENU);
+        m4aSongNumStart(MUS_MAIN_MENU, FALSE);
     }
     else    // egads, music is not faded yet!
     {
@@ -1757,7 +1757,7 @@ static void Task_NewGameOakSpeech_Init(u8 taskId)
     gTasks[taskId].tPlayerSpriteId = 0xFF;
     gTasks[taskId].tPokeBallSpriteId = 0xFF;
     gTasks[taskId].tTimer = 80;
-    PlayBGM(MUS_ROUTE30);
+    PlayBGM(MUS_ROUTE30, FALSE);
     ShowBg(0);
     ShowBg(1);
     ShowBg(2);

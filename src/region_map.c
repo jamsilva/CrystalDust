@@ -917,7 +917,7 @@ static u8 MoveRegionMapCursor_Full(void)
     }
 
     LoadMapLayersFromPosition(gRegionMap->cursorPosX, gRegionMap->cursorPosY);
-    
+
     if (gRegionMap->primaryMapSecStatus != MAPSECTYPE_NONE)
     {
         GetPositionOfCursorWithinMapSec();

@@ -324,19 +324,19 @@ static bool8 Task_ProcessSoundCheckMenuInput(u8 taskId) // sub_080E8688
             {
                 if (gTasks[taskId].tSeIndex != 0)
                 {
-                    m4aSongNumStop(gTasks[taskId].tSeIndexOld);
-                    m4aSongNumStart(gTasks[taskId].tSeIndex);
+                    m4aSongNumStop(gTasks[taskId].tSeIndexOld, FALSE);
+                    m4aSongNumStart(gTasks[taskId].tSeIndex, FALSE);
                     gTasks[taskId].tSeIndexOld = gTasks[taskId].tSeIndex;
                 }
                 else
                 {
-                    m4aSongNumStop(gTasks[taskId].tSeIndexOld);
+                    m4aSongNumStop(gTasks[taskId].tSeIndexOld, FALSE);
                     gTasks[taskId].tSeIndexOld = 0;
                 }
             }
             else if (gTasks[taskId].tSeIndex != 0)
             {
-                m4aSongNumStart(gTasks[taskId].tSeIndex);
+                m4aSongNumStart(gTasks[taskId].tSeIndex, FALSE);
                 gTasks[taskId].tSeIndexOld = gTasks[taskId].tSeIndex;
             }
         }
@@ -346,26 +346,26 @@ static bool8 Task_ProcessSoundCheckMenuInput(u8 taskId) // sub_080E8688
             {
                 if (gTasks[taskId].tBgmIndex != 0)
                 {
-                    m4aSongNumStop(gTasks[taskId].tBgmIndexOld + (MUS_LITTLEROOT_TEST - 1));
-                    m4aSongNumStart(gTasks[taskId].tBgmIndex + (MUS_LITTLEROOT_TEST - 1));
+                    m4aSongNumStop(gTasks[taskId].tBgmIndexOld + (MUS_LITTLEROOT_TEST - 1), FALSE);
+                    m4aSongNumStart(gTasks[taskId].tBgmIndex + (MUS_LITTLEROOT_TEST - 1), FALSE);
                     gTasks[taskId].tBgmIndexOld = gTasks[taskId].tBgmIndex;
                 }
                 else
                 {
-                    m4aSongNumStop(gTasks[taskId].tBgmIndexOld + (MUS_LITTLEROOT_TEST - 1));
+                    m4aSongNumStop(gTasks[taskId].tBgmIndexOld + (MUS_LITTLEROOT_TEST - 1), FALSE);
                     gTasks[taskId].tBgmIndexOld = 0;
                 }
             }
             else if (gTasks[taskId].tBgmIndex != 0)
             {
-                m4aSongNumStart(gTasks[taskId].tBgmIndex + (MUS_LITTLEROOT_TEST - 1));
+                m4aSongNumStart(gTasks[taskId].tBgmIndex + (MUS_LITTLEROOT_TEST - 1), FALSE);
                 gTasks[taskId].tBgmIndexOld = gTasks[taskId].tBgmIndex;
             }
         }
     }
     else if (JOY_NEW(B_BUTTON))
     {
-        m4aSongNumStart(SE_SELECT);
+        m4aSongNumStart(SE_SELECT, FALSE);
         BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB(0, 0, 0));
         gTasks[taskId].func = Task_ExitToTitleScreen;
     }
@@ -461,10 +461,10 @@ static void HighlightSelectedWindow(u8 windowType) // sub_080E88E8
 static void PrintSoundNumber(u16 soundIndex, u8 windowId) // sub_080E8928
 {
     ConvertIntToDecimalStringN(gStringVar1, soundIndex, STR_CONV_MODE_RIGHT_ALIGN, 3);
-    
+
     gStringVar1[3] = CHAR_COLON;
     gStringVar1[4] = EOS;
-    
+
     AddTextPrinterParameterized(windowId, 2, gStringVar1, 0, 14, TEXT_SPEED_FF, NULL);
     PutWindowTilemapAndCopyWindowToVram(windowId);
 }

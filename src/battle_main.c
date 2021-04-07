@@ -1850,7 +1850,7 @@ static void FreeRestoreBattleData(void)
     gScanlineEffect.state = 3;
     gMain.inBattle = 0;
     ZeroEnemyPartyMons();
-    m4aSongNumStop(SE_LOW_HEALTH);
+    m4aSongNumStop(SE_LOW_HEALTH, FALSE);
     FreeMonSpritesGfx();
     FreeBattleSpritesData();
     FreeBattleResources();
@@ -4926,9 +4926,9 @@ static void HandleEndTurn_BattleWon(void)
         gBattlescriptCurrInstr = BattleScript_FrontierTrainerBattleWon;
 
         if (gTrainerBattleOpponent_A == TRAINER_FRONTIER_BRAIN)
-            PlayBGM(MUS_VICTORY_GYM_LEADER);
+            PlayBGM(MUS_VICTORY_GYM_LEADER, FlagGet(FLAG_GB_PLAYER_ENABLED));
         else
-            PlayBGM(MUS_VICTORY_TRAINER);
+            PlayBGM(MUS_VICTORY_TRAINER, FlagGet(FLAG_GB_PLAYER_ENABLED));
     }
     else if (gBattleTypeFlags & BATTLE_TYPE_TRAINER && !(gBattleTypeFlags & BATTLE_TYPE_LINK))
     {
@@ -4939,7 +4939,7 @@ static void HandleEndTurn_BattleWon(void)
         {
         case TRAINER_CLASS_ELITE_FOUR:
         case TRAINER_CLASS_CHAMPION:
-            PlayBGM(MUS_VICTORY_LEAGUE);
+            PlayBGM(MUS_VICTORY_LEAGUE, FlagGet(FLAG_GB_PLAYER_ENABLED));
             break;
         /*case TRAINER_CLASS_TEAM_ROCKET:
         case TRAINER_CLASS_SUPER_NERD:
@@ -4947,13 +4947,13 @@ static void HandleEndTurn_BattleWon(void)
         case TRAINER_CLASS_AQUA_LEADER:
         case TRAINER_CLASS_MAGMA_ADMIN:
         case TRAINER_CLASS_MAGMA_LEADER:
-            PlayBGM(MUS_VICTORY_AQUA_MAGMA);
+            PlayBGM(MUS_VICTORY_AQUA_MAGMA, FlagGet(FLAG_GB_PLAYER_ENABLED));
             break;*/
         case TRAINER_CLASS_LEADER:
-            PlayBGM(MUS_VICTORY_GYM_LEADER);
+            PlayBGM(MUS_VICTORY_GYM_LEADER, FlagGet(FLAG_GB_PLAYER_ENABLED));
             break;
         default:
-            PlayBGM(MUS_VICTORY_TRAINER);
+            PlayBGM(MUS_VICTORY_TRAINER, FlagGet(FLAG_GB_PLAYER_ENABLED));
             break;
         }
     }
@@ -5198,7 +5198,7 @@ static void ReturnFromBattleToOverworld(void)
             SetRoamerInactive();
     }
 
-    m4aSongNumStop(SE_LOW_HEALTH);
+    m4aSongNumStop(SE_LOW_HEALTH, FALSE);
     SetMainCallback2(gMain.savedCallback);
 }
 

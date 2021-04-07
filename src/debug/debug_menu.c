@@ -100,6 +100,7 @@ static void DebugMenu_MaxCoins(u8 taskId);
 static void DebugMenu_BecomeChampion(u8 taskId);
 static void DebugMenu_ToggleWalkThroughWalls(u8 taskId);
 static void DebugMenu_ToggleOverride(u8 taskId);
+static void DebugMenu_ToggleGBSounds(u8 taskId);
 static void DebugMenu_CraftDNTint(u8 taskId);
 static void DebugMenu_CraftDNTint_ProcessInput(u8 taskId);
 static void DebugMenu_Pokedex_ToggleNationalDex(u8 taskId);
@@ -140,6 +141,7 @@ static const u8 sText_SetFlag[] = _("Set flag");
 static const u8 sText_SetVar[] = _("Set variable");
 static const u8 sText_AddItem[] = _("Add item");
 static const u8 sText_GenderBender[] = _("Gender bender");
+static const u8 sText_ToggleGBSounds[] = _("Toggle GB Sounds");
 static const u8 sText_LottoNumber[] = _("Set lotto number");
 static const u8 sText_MaxMoney[] = _("Max money");
 static const u8 sText_MaxBankedMoney[] = _("Max banked money");
@@ -209,7 +211,7 @@ static const struct DebugMenuAction sDebugMenu_MainActions[] =
 
 CREATE_EXIT_BOUNCER(MainActions);
 
-static const struct DebugMenuAction sDebugMenu_PlayerInfoActions[] = 
+static const struct DebugMenuAction sDebugMenu_PlayerInfoActions[] =
 {
     { sText_SetFlag, DebugMenu_SetFlag, NULL },
     { sText_SetVar, DebugMenu_SetVar, NULL },
@@ -262,7 +264,7 @@ static const struct DebugMenuAction sDebugMenu_PokemonActions[] =
 
 CREATE_BOUNCER(PokemonActions, MainActions);
 
-static const struct DebugMenuAction sDebugMenu_PositionalActions[] = 
+static const struct DebugMenuAction sDebugMenu_PositionalActions[] =
 {
     { sText_FlyTo, DebugMenu_FlyMenu, NULL },
     { sText_SetRespawn, DebugMenu_SetRespawn, NULL },
@@ -277,11 +279,12 @@ static const struct DebugMenuAction sDebugMenu_MiscActions[] =
     { sText_EnableResetRTC, DebugMenu_EnableResetRTC, NULL },
     { sText_TestBattleTransition, DebugMenu_TestBattleTransition, NULL },
     { sText_FillThePC, DebugMenu_FillThePC, NULL },
+    { sText_ToggleGBSounds, DebugMenu_ToggleGBSounds, NULL },
 };
 
 CREATE_BOUNCER(MiscActions, MainActions);
 
-static const struct WindowTemplate sDebugMenu_Window_SetFlag = 
+static const struct WindowTemplate sDebugMenu_Window_SetFlag =
 {
     .bg = 0,
     .tilemapLeft = 1,
@@ -292,7 +295,7 @@ static const struct WindowTemplate sDebugMenu_Window_SetFlag =
     .baseBlock = 0x120
 };
 
-static const struct WindowTemplate sDebugMenu_Window_AddItem = 
+static const struct WindowTemplate sDebugMenu_Window_AddItem =
 {
     .bg = 0,
     .tilemapLeft = 1,
@@ -303,7 +306,7 @@ static const struct WindowTemplate sDebugMenu_Window_AddItem =
     .baseBlock = 0x120
 };
 
-static const struct WindowTemplate sDebugMenu_Window_SetVar = 
+static const struct WindowTemplate sDebugMenu_Window_SetVar =
 {
     .bg = 0,
     .tilemapLeft = 1,
@@ -314,7 +317,7 @@ static const struct WindowTemplate sDebugMenu_Window_SetVar =
     .baseBlock = 0x120
 };
 
-static const struct WindowTemplate sDebugMenu_Window_SetDexCount = 
+static const struct WindowTemplate sDebugMenu_Window_SetDexCount =
 {
     .bg = 0,
     .tilemapLeft = 1,
@@ -325,7 +328,7 @@ static const struct WindowTemplate sDebugMenu_Window_SetDexCount =
     .baseBlock = 0x120
 };
 
-static const struct WindowTemplate sDebugMenu_Window_TimeCycle = 
+static const struct WindowTemplate sDebugMenu_Window_TimeCycle =
 {
     .bg = 0,
     .tilemapLeft = 1,
@@ -336,7 +339,7 @@ static const struct WindowTemplate sDebugMenu_Window_TimeCycle =
     .baseBlock = 0x120
 };
 
-static const struct WindowTemplate sDebugMenu_Window_CraftDNTint = 
+static const struct WindowTemplate sDebugMenu_Window_CraftDNTint =
 {
     .bg = 0,
     .tilemapLeft = 1,
@@ -347,7 +350,7 @@ static const struct WindowTemplate sDebugMenu_Window_CraftDNTint =
     .baseBlock = 0x120
 };
 
-static const struct WindowTemplate sDebugMenu_Window_SetRespawn = 
+static const struct WindowTemplate sDebugMenu_Window_SetRespawn =
 {
     .bg = 0,
     .tilemapLeft = 1,
@@ -358,7 +361,7 @@ static const struct WindowTemplate sDebugMenu_Window_SetRespawn =
     .baseBlock = 0x120
 };
 
-static const struct WindowTemplate sDebugMenu_Window_LottoNum = 
+static const struct WindowTemplate sDebugMenu_Window_LottoNum =
 {
     .bg = 0,
     .tilemapLeft = 1,
@@ -427,7 +430,7 @@ static void DebugMenu_InitNewSubmenu(u8 taskId, const struct DebugMenuBouncer *b
         .tilemapTop = 1,
         .width = 0,
         .height = 0,
-        .paletteNum = 15, 
+        .paletteNum = 15,
         .baseBlock = 1
     };
 
@@ -815,7 +818,7 @@ static void DebugMenu_AddItem_ProcessInputNum(u8 taskId)
         temp = (tItemNum % powersOfTen[tWhichDigit]) + ((tItemNum / powersOfTen[tWhichDigit + 1]) * powersOfTen[tWhichDigit + 1]);
         temp2 = ((tItemNum - temp) / shifter) + 1;
         temp += (temp2 > 9) ? 0 : temp2 * shifter;
-        
+
         if (temp <= ITEMS_COUNT)
         {
             PlaySE(SE_SELECT);
@@ -831,7 +834,7 @@ static void DebugMenu_AddItem_ProcessInputNum(u8 taskId)
         temp = (tItemNum % powersOfTen[tWhichDigit]) + ((tItemNum / powersOfTen[tWhichDigit + 1]) * powersOfTen[tWhichDigit + 1]);
         temp2 = ((tItemNum - temp) / shifter) - 1;
         temp += (temp2 > 9) ? 9 * shifter : temp2 * shifter;
-        
+
         if (temp <= ITEMS_COUNT)
         {
             PlaySE(SE_SELECT);
@@ -1075,7 +1078,7 @@ static void DebugMenu_LottoNumber_ProcessInput(u8 taskId)
         temp = (lottoNum % powersOfTen[tWhichDigit]) + ((lottoNum / powersOfTen[tWhichDigit + 1]) * powersOfTen[tWhichDigit + 1]);
         temp2 = ((lottoNum - temp) / shifter) + 1;
         temp += (temp2 > 9) ? 0 : temp2 * shifter;
-        
+
         if (temp >= 0 && temp <= 99999)
         {
             PlaySE(SE_SELECT);
@@ -1092,7 +1095,7 @@ static void DebugMenu_LottoNumber_ProcessInput(u8 taskId)
         temp = (lottoNum % powersOfTen[tWhichDigit]) + ((lottoNum / powersOfTen[tWhichDigit + 1]) * powersOfTen[tWhichDigit + 1]);
         temp2 = ((lottoNum - temp) / shifter) - 1;
         temp += (temp2 > 9) ? 0 : temp2 * shifter;
-        
+
         if (temp >= 0 && temp <= 99999)
         {
             PlaySE(SE_SELECT);
@@ -1136,6 +1139,14 @@ static void DebugMenu_LottoNumber_ProcessInput(u8 taskId)
 
 #undef LOTTO_NUM
 #undef SET_LOTTO_NUM
+
+static void DebugMenu_ToggleGBSounds(u8 taskId)
+{
+    if (FlagGet(FLAG_GB_PLAYER_ENABLED))
+        FlagClear(FLAG_GB_PLAYER_ENABLED);
+    else
+        FlagSet(FLAG_GB_PLAYER_ENABLED);
+}
 
 static void DebugMenu_ToggleWalkThroughWalls(u8 taskId)
 {
@@ -1268,7 +1279,7 @@ static void DebugMenu_CraftDNTint(u8 taskId)
     DebugMenu_RemoveMenu(taskId);
     tWindowId = AddWindow(&sDebugMenu_Window_CraftDNTint);
     SetStandardWindowBorderStyle(tWindowId, FALSE);
-    
+
     DebugMenu_CraftDNTint_PrintStatus(tWindowId, TINT_R, TINT_G, TINT_B);
     ScheduleBgCopyTilemapToVram(0);
     gTasks[taskId].func = DebugMenu_CraftDNTint_ProcessInput;
@@ -1384,7 +1395,7 @@ static void DebugMenu_Pokedex_ProfOakRating_ProcessInput(u8 taskId)
         temp = (tDexCount % powersOfTen[tWhichDigit]) + ((tDexCount / powersOfTen[tWhichDigit + 1]) * powersOfTen[tWhichDigit + 1]);
         temp2 = ((tDexCount - temp) / shifter) + 1;
         temp += (temp2 > 9) ? 0 : temp2 * shifter;
-        
+
         if (temp >= 1 && temp <= JOHTO_DEX_COUNT)
         {
             PlaySE(SE_SELECT);
@@ -1400,7 +1411,7 @@ static void DebugMenu_Pokedex_ProfOakRating_ProcessInput(u8 taskId)
         temp = (tDexCount % powersOfTen[tWhichDigit]) + ((tDexCount / powersOfTen[tWhichDigit + 1]) * powersOfTen[tWhichDigit + 1]);
         temp2 = ((tDexCount - temp) / shifter) - 1;
         temp += (temp2 > 9) ? 9 * shifter : temp2 * shifter;
-        
+
         if (temp >= 1 && temp <= JOHTO_DEX_COUNT)
         {
             PlaySE(SE_SELECT);

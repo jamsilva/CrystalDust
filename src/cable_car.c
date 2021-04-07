@@ -18,6 +18,7 @@
 #include "sprite.h"
 #include "task.h"
 #include "constants/event_objects.h"
+#include "constants/flags.h"
 #include "constants/rgb.h"
 #include "constants/songs.h"
 #include "constants/weather.h"
@@ -351,7 +352,7 @@ static void CB2_LoadCableCar(void)
         break;
     case 8:
         BeginNormalPaletteFade(0xFFFFFFFF, 3, 16, 0, RGB(0, 0, 0));
-        FadeInNewBGM(MUS_CABLE_CAR, 1);
+        FadeInNewBGM(MUS_CABLE_CAR, 1, FlagGet(FLAG_GB_PLAYER_ENABLED));
         SetBgRegs(TRUE);
         gMain.state++;
         break;

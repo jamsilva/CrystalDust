@@ -34,6 +34,7 @@
 #include "trainer_pokemon_sprites.h"
 #include "data.h"
 #include "confetti_util.h"
+#include "constants/flags.h"
 #include "constants/rgb.h"
 
 #define HALL_OF_FAME_MAX_TEAMS 50
@@ -396,7 +397,7 @@ static bool8 InitHallOfFameScreen(void)
         if (!gPaletteFade.active)
         {
             SetMainCallback2(CB2_HallOfFame);
-            PlayBGM(MUS_HALL_OF_FAME);
+            PlayBGM(MUS_HALL_OF_FAME, FlagGet(FLAG_GB_PLAYER_ENABLED));
             return FALSE;
         }
         break;

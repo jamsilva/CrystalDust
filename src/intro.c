@@ -1721,7 +1721,7 @@ static void Task_IntroStartPart3(u8 taskId)
                                 | DISPCNT_OBJ_ON
                                 | DISPCNT_WIN0_ON);
     gIntroFrameCounter = 0;
-    m4aSongNumStart(MUS_INTRO);
+    m4aSongNumStart(MUS_INTRO, FALSE);
 }
 
 static void Task_IntroDoSuicuneRunningInPlace(u8 taskId)

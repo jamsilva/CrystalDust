@@ -1518,7 +1518,7 @@
 #define FLAG_UNUSED_0x8FC                           (SYSTEM_FLAGS + 0x9C) // Unused Flag
 #define FLAG_UNUSED_0x8FD                           (SYSTEM_FLAGS + 0x9D) // Unused Flag
 #define FLAG_UNUSED_0x8FE                           (SYSTEM_FLAGS + 0x9E) // Unused Flag
-#define FLAG_UNUSED_0x8FF                           (SYSTEM_FLAGS + 0x9F) // Unused Flag
+#define FLAG_GB_PLAYER_ENABLED                      (SYSTEM_FLAGS + 0x9F)
 
 #define FLAG_FRUIT_TREES_START                      (SYSTEM_FLAGS + 0xA0)
 
