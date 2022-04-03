@@ -40,12 +40,12 @@ TITLE       := POKEMON EMER
 GAME_CODE   := BPEE
 MAKER_CODE  := 01
 REVISION    := 0
-MODERN      ?= 0
-DEBUG		?= 0
+MODERN      ?= 1
+DEBUG       ?= 0
 RELEASE_ID  ?= 0
 
-ifeq (modern,$(MAKECMDGOALS))
-  MODERN := 1
+ifeq (classic,$(MAKECMDGOALS))
+  MODERN := 0
 endif
 
 ifeq (debug,$(MAKECMDGOALS))
@@ -142,7 +142,7 @@ XORENCRYPT := tools/xorencrypt/xorencrypt$(EXE)
 
 PERL := perl
 
-TOOLDIRS := $(filter-out tools/agbcc tools/binutils tools/poryscript,$(wildcard tools/*))
+TOOLDIRS := $(filter-out tools/submodules_extra,$(wildcard tools/*))
 TOOLBASE = $(TOOLDIRS:tools/%=%)
 TOOLS = $(foreach tool,$(TOOLBASE),tools/$(tool)/$(tool)$(EXE))
 
@@ -158,7 +158,7 @@ MAKEFLAGS += --no-print-directory
 # Secondary expansion is required for dependency variables in object rules.
 .SECONDEXPANSION:
 
-.PHONY: all rom clean compare tidy tools mostlyclean clean-tools $(TOOLDIRS) berry_fix libagbsyscall modern tidymodern tidynonmodern
+.PHONY: all rom clean compare tidy tools mostlyclean pre-tools clean-tools $(TOOLDIRS) berry_fix libagbsyscall modern tidymodern tidynonmodern
 
 infoshell = $(foreach line, $(shell $1 | sed "s/ /__SPACE__/g"), $(info $(subst __SPACE__, ,$(line))))
 
@@ -222,12 +222,16 @@ AUTO_GEN_TARGETS :=
 
 all: rom
 
-tools: $(TOOLDIRS)
+tools: pre-tools $(TOOLDIRS)
 
 syms: $(SYM)
 
 $(TOOLDIRS):
 	@$(MAKE) -C $@
+
+pre-tools:
+	git submodule update --recursive --init
+	cp -r tools/submodules_extra/* tools
 
 rom: $(ROM)
 ifeq ($(COMPARE),1)
@@ -264,7 +268,7 @@ tidynonmodern:
 tidymodern:
 	rm -f $(MODERN_ROM_NAME) $(MODERN_ELF_NAME) $(MODERN_MAP_NAME)
 	rm -rf $(MODERN_OBJ_DIR_NAME)
-	
+
 ifneq ($(MODERN),0)
 $(C_BUILDDIR)/berry_crush.o: override CFLAGS += -Wno-address-of-packed-member
 endif
@@ -439,7 +443,7 @@ LD_SCRIPT := ld_script.txt
 LD_SCRIPT_DEPS := $(OBJ_DIR)/sym_bss.ld $(OBJ_DIR)/sym_common.ld $(OBJ_DIR)/sym_ewram.ld
 else
 LD_SCRIPT := ld_script_modern.txt
-LD_SCRIPT_DEPS := 
+LD_SCRIPT_DEPS :=
 endif
 
 $(OBJ_DIR)/ld_script.ld: $(LD_SCRIPT) $(LD_SCRIPT_DEPS)

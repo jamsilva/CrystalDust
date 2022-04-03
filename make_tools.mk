@@ -1,11 +1,15 @@
 
 MAKEFLAGS += --no-print-directory
 
-TOOLDIRS := $(filter-out tools/agbcc tools/binutils tools/poryscript,$(wildcard tools/*))
+TOOLDIRS := $(filter-out tools/submodules_extra,$(wildcard tools/*))
 
-.PHONY: all $(TOOLDIRS)
+.PHONY: all pre-tools $(TOOLDIRS)
 
-all: $(TOOLDIRS)
+all: pre-tools $(TOOLDIRS)
 
 $(TOOLDIRS):
 	@$(MAKE) -C $@
+
+pre-tools:
+	git submodule update --recursive --init
+	cp -r tools/submodules_extra/* tools

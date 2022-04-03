@@ -1,0 +1,6 @@
+[submodule "tools/agbcc"]
+	path = tools/agbcc
+	url = https://github.com/pret/agbcc
+[submodule "tools/poryscript"]
+	path = tools/poryscript
+	url = https://github.com/huderlem/poryscript
