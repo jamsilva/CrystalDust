@@ -52,11 +52,10 @@
 #include "battle_interface.h"
 
 // Config options - Note that some config options need external modifications to fully work, such as CONFIG_CAN_FORGET_HM_MOVES, CONFIG_PHYSICAL_SPECIAL_SPLIT, and CONFIG_DECAPITALIZE_MET_LOCATION_STRINGS
+#define CONFIG_CONTEST_MOVES_ENABLED                    TRUE
 #define CONFIG_CAN_SWITCH_PAGES_WHILE_DETAILS_ARE_UP    TRUE
-// Make sure gBallIconTable in src/data/item_icon_table.h is ordered correctly.  Default does not match RHH
 
 enum {
-    PSS_PAGE_EGG_INFO,
     PSS_PAGE_INFO,
     PSS_PAGE_SKILLS,
     PSS_PAGE_BATTLE_MOVES,
@@ -72,16 +71,23 @@ enum {
 };
 
 // Text Windows
-#define PSS_LABEL_PANE_LEFT_TOP                     0
-#define PSS_LABEL_PANE_LEFT_BOTTOM                  (PSS_LABEL_PANE_LEFT_TOP + 1)
-#define PSS_LABEL_PANE_LEFT_MOVE                    (PSS_LABEL_PANE_LEFT_BOTTOM + 1)
-#define PSS_LABEL_PANE_RIGHT                        (PSS_LABEL_PANE_LEFT_MOVE + 1)
-#define PSS_LABEL_PANE_RIGHT_HP                     (PSS_LABEL_PANE_RIGHT + 1)
-#define PSS_LABEL_PANE_RIGHT_SMALL                  (PSS_LABEL_PANE_RIGHT_HP + 1)
-#define PSS_LABEL_PANE_RIGHT_BOTTOM                 (PSS_LABEL_PANE_RIGHT_SMALL + 1)
-#define PSS_LABEL_PANE_TITLE                        (PSS_LABEL_PANE_RIGHT_BOTTOM + 1)
+enum
+{
+    PSS_LABEL_PANE_TITLE,
+    PSS_LABEL_LVL_NICK_GENDER,
 
-#define PSS_LABEL_WINDOW_END                        (PSS_LABEL_PANE_TITLE + 1)
+    PSS_INFO_WINDOW_RIGHT = PSS_LABEL_LVL_NICK_GENDER + 1,
+    PSS_INFO_WINDOW_MEMO,
+
+    PSS_LABEL_PANE_LEFT_TOP,
+    PSS_LABEL_PANE_LEFT_BOTTOM,
+    PSS_LABEL_PANE_LEFT_MOVE,
+    PSS_LABEL_PANE_RIGHT,
+    PSS_LABEL_PANE_RIGHT_HP,
+    PSS_LABEL_PANE_RIGHT_SMALL,
+    PSS_LABEL_PANE_RIGHT_BOTTOM,
+    PSS_LABEL_WINDOW_END
+};
 
 #define MOVE_SELECTOR_SPRITES_COUNT 4
 #define HP_BAR_SPRITES_COUNT        11
@@ -93,9 +99,9 @@ enum
     SPRITE_ARR_ID_MON,
     SPRITE_ARR_ID_BALL,
     SPRITE_ARR_ID_ITEM,
-    SPRITE_ARR_ID_MON_ICON,
     SPRITE_ARR_ID_STATUS,
-    SPRITE_ARR_ID_ORIGIN,
+    SPRITE_ARR_ID_BEGIN_TRANSIENT,
+    SPRITE_ARR_ID_MON_ICON = SPRITE_ARR_ID_BEGIN_TRANSIENT,
     SPRITE_ARR_ID_TYPE, // 2 for mon types, 5 for move types(4 moves and 1 to learn)
     SPRITE_ARR_ID_MOVE_SELECTOR1 = SPRITE_ARR_ID_TYPE + 7,
     SPRITE_ARR_ID_MOVE_SELECTOR2 = SPRITE_ARR_ID_MOVE_SELECTOR1 + MOVE_SELECTOR_SPRITES_COUNT,
@@ -123,7 +129,9 @@ static EWRAM_DATA struct PokemonSummaryScreenData
     {
         u16 species;
         u16 species2;
-        u8 isEgg;
+        u8 isEgg:1; // 0x4
+        u8 locationBit:1;
+        u8 filler:6;
         u8 level;
         u8 ribbonCount;
         u8 ailment;
@@ -175,6 +183,7 @@ static EWRAM_DATA struct PokemonSummaryScreenData
     u16 moveDetailTilemapBuffer[0x800];
     u8 mode;
     bool8 isBoxMon;
+    bool8 lastWasEgg;
     u8 curMonIndex;
     u8 maxMonIndex;
     u8 currPageIndex;
@@ -220,9 +229,9 @@ static void InitBGs(void);
 static bool8 DecompressGraphics(void);
 static void CopyMonToSummaryStruct(struct Pokemon* a);
 static bool8 ExtractMonDataToSummaryStruct(struct Pokemon* a);
+static void UpdateInfoPageType(void);
 static void CloseSummaryScreen(u8 taskId);
 static void Task_HandleInput(u8 taskId);
-static void ChangeStatTask(u8 taskId);
 static void ChangeSummaryPokemon(u8 taskId, s8 a);
 static void Task_ChangeSummaryMon(u8 taskId);
 static s8 AdvanceMonIndex(s8 delta);
@@ -249,6 +258,7 @@ static void Task_SwitchPageInReplaceMove(u8 taskId);
 static void Task_ConfirmHMCantForget(u8 taskId);
 static bool8 CanReplaceMove(void);
 static void ShowCantForgetHMsWindow(u8 taskId);
+static void DrawPagination(void);
 static void ResetWindows(void);
 static void PrintMonInfo(void);
 static void PrintNotEggInfo(void);
@@ -257,6 +267,8 @@ static void PutPageWindowTilemaps(u8 a);
 static void RemoveWindowByIndex(u8 a);
 static void PrintPageSpecificText(u8 a);
 static void PrintInfoPage(void);
+static void PrintInfoPageEgg(void);
+static void PrintInfoPageMon(void);
 static void BufferMonTrainerMemo(void);
 static void BufferNatureString(void);
 static void BufferCharacteristicString(void);
@@ -269,7 +281,6 @@ static bool8 DidMonComeFromCD(void);
 static bool8 DidMonComeFromDPPt(void);
 static bool8 IsInGamePartnerMon(void);
 static void PrintEggOTID(void);
-static void BufferEggState(void);
 static void BufferEggMemo(void);
 static void PrintSkillsPage(void);
 static void PrintBattleMoves(void);
@@ -295,7 +306,6 @@ static void StopPokemonAnimations(void);
 static void CreateMonMarkingsSprite(struct Pokemon *mon);
 static void RemoveAndCreateMonMarkingsSprite(struct Pokemon *mon);
 static void CreateCaughtBallSprite(struct Pokemon *mon);
-static void CreateHeldItemSprite(struct Pokemon *mon);
 static void CreateSetStatusSprite(void);
 static void CreateMoveSelectorSprites(u8 idArrayStart);
 static void SpriteCb_MoveSelector(struct Sprite *sprite);
@@ -312,9 +322,6 @@ static void ConfigureExpBarSprites(void);
 static void DestroyExpBarSprites(void);
 static void SetExpBarSprites(void);
 static void PrintInfoBar(u8 pageIndex, bool8 detailsShown);
-static u8 WhatRegionWasMonCaughtIn(struct Pokemon *mon);
-static u8 *GetMapNameHoennKanto(u8 *dest, u16 mapSecId);
-static u8 *GetMapNameOrre(u8 *dest, u16 mapSecId, bool8 isXD);
 
 // const rom data
 #include "data/text/move_descriptions.h"
@@ -366,6 +373,43 @@ static const s8 sMultiBattleOrder[] = {0, 2, 3, 1, 4, 5};
 
 static const struct WindowTemplate sSummaryTemplate[] =
 {
+    [PSS_LABEL_PANE_TITLE] = {
+        .bg = 0,
+        .tilemapLeft = 0,
+        .tilemapTop = 0,
+        .width = 30,
+        .height = 2,
+        .paletteNum = 15,
+        .baseBlock = 1,
+    },
+    [PSS_LABEL_LVL_NICK_GENDER] = {
+        .bg = 0,
+        .tilemapLeft = 0,
+        .tilemapTop = 2,
+        .width = 15,
+        .height = 2,
+        .paletteNum = 15,
+        .baseBlock = 61,
+    },
+    [PSS_INFO_WINDOW_RIGHT] = {
+        .bg = 0,
+        .tilemapLeft = 15,
+        .tilemapTop = 2,
+        .width = 15,
+        .height = 12,
+        .paletteNum = 8,
+        .baseBlock = 91,
+    },
+    [PSS_INFO_WINDOW_MEMO] = {
+        .bg = 0,
+        .tilemapLeft = 1,
+        .tilemapTop = 14,
+        .width = 28,
+        .height = 6,
+        .paletteNum = 8,
+        .baseBlock = 271,
+    },
+
     [PSS_LABEL_PANE_LEFT_TOP] = {
         .bg = 0,
         .tilemapLeft = 0,
@@ -381,7 +425,7 @@ static const struct WindowTemplate sSummaryTemplate[] =
         .tilemapTop = 16,
         .width = 8,
         .height = 5,
-        .paletteNum = 5,
+        .paletteNum = 8,
         .baseBlock = 44,
     },
     [PSS_LABEL_PANE_LEFT_MOVE] = {
@@ -390,7 +434,7 @@ static const struct WindowTemplate sSummaryTemplate[] =
         .tilemapTop = 4,
         .width = 14,
         .height = 16,
-        .paletteNum = 5,
+        .paletteNum = 8,
         .baseBlock = 418,
     },
     [PSS_LABEL_PANE_RIGHT] = {
@@ -399,7 +443,7 @@ static const struct WindowTemplate sSummaryTemplate[] =
         .tilemapTop = 2,
         .width = 19,
         .height = 18,
-        .paletteNum = 5,
+        .paletteNum = 8,
         .baseBlock = 76,
     },
     [PSS_LABEL_PANE_RIGHT_HP] = {
@@ -408,7 +452,7 @@ static const struct WindowTemplate sSummaryTemplate[] =
         .tilemapTop = 2,
         .width = 19,
         .height = 3,
-        .paletteNum = 5,
+        .paletteNum = 8,
         .baseBlock = 76,
     },
     [PSS_LABEL_PANE_RIGHT_SMALL] = {
@@ -417,7 +461,7 @@ static const struct WindowTemplate sSummaryTemplate[] =
         .tilemapTop = 5,
         .width = 19,
         .height = 15,
-        .paletteNum = 5,
+        .paletteNum = 8,
         .baseBlock = 152,
     },
     [PSS_LABEL_PANE_RIGHT_BOTTOM] = {
@@ -426,65 +470,37 @@ static const struct WindowTemplate sSummaryTemplate[] =
         .tilemapTop = 15,
         .width = 19,
         .height = 6,
-        .paletteNum = 5,
+        .paletteNum = 8,
         .baseBlock = 684,
-    },
-    [PSS_LABEL_PANE_TITLE] = {
-        .bg = 0,
-        .tilemapLeft = 11,
-        .tilemapTop = 0,
-        .width = 19,
-        .height = 2,
-        .paletteNum = 5,
-        .baseBlock = 644,
     },
     [PSS_LABEL_WINDOW_END] = DUMMY_WIN_TEMPLATE
 };
 
 enum
 {
-    PSS_COLOR_BLACK_GRAY_SHADOW,
     PSS_COLOR_WHITE_BLACK_SHADOW,
     PSS_COLOR_MALE_GENDER_SYMBOL,
     PSS_COLOR_FEMALE_GENDER_SYMBOL,
+    PSS_COLOR_BLACK_GRAY_SHADOW,
     PSS_COLOR_SHINY_STARS,
     PSS_COLOR_POKERUS_CURED,
     PSS_COLOR_FATEFUL_TRIANGLE,
-    PP_UNK_1,
-    PP_UNK_2,
-    PP_UNK_3,
-    PP_UNK_4,
-    PP_UNK_5,
-    PP_UNK_6,
     PSS_COLOR_ORANGE,
     PSS_COLOR_LIGHT_RED
 };
 
 static const u8 sTextColors[][3] =
 {
-    [PSS_COLOR_BLACK_GRAY_SHADOW]       = {0, 7, 8},
     [PSS_COLOR_WHITE_BLACK_SHADOW]      = {0, 1, 2},
-    [PSS_COLOR_MALE_GENDER_SYMBOL]      = {0, 3, 4},
-    [PSS_COLOR_FEMALE_GENDER_SYMBOL]    = {0, 5, 6},
+    [PSS_COLOR_MALE_GENDER_SYMBOL]      = {0, 9, 8},
+    [PSS_COLOR_FEMALE_GENDER_SYMBOL]    = {0, 5, 4},
+    [PSS_COLOR_BLACK_GRAY_SHADOW]       = {0, 7, 8},
     [PSS_COLOR_SHINY_STARS]             = {0, 5, 5},
     [PSS_COLOR_POKERUS_CURED]           = {0, 9, 9},
-    [PSS_COLOR_FATEFUL_TRIANGLE]       = {0, 10, 10},
-    /* Probably left from Pokémon Polar,
-    check if they are actually needed so
-    we can remove them if unused */
-    [PP_UNK_1]                          = {0, 10, 9},
-    [PP_UNK_2]                          = {13, 15, 14},
-    [PP_UNK_3]                          = {0, 6, 5},
-    [PP_UNK_4]                          = {0, 6, 2},
-    [PP_UNK_5]                          = {0, 5, 6},
-    [PP_UNK_6]                          = {0, 7, 8},
-    // Used for PP text
+    [PSS_COLOR_FATEFUL_TRIANGLE]        = {0, 10, 10},
     [PSS_COLOR_ORANGE]                  = {0, 11, 12},
     [PSS_COLOR_LIGHT_RED]               = {0, 13, 14}
 };
-
-static const u8 sSummaryAButtonBitmap[] = INCBIN_U8("graphics/summary_screen/a_button.4bpp");
-static const u8 sSummaryBButtonBitmap[] = INCBIN_U8("graphics/summary_screen/b_button.4bpp");
 
 static void (*const sTextPrinterFunctions[])(void) =
 {
@@ -494,8 +510,7 @@ static void (*const sTextPrinterFunctions[])(void) =
     [PSS_PAGE_CONTEST_MOVES] = PrintContestMoves
 };
 
-static const u8 sMemoNatureTextColor[] = _("{COLOR 5}{SHADOW 6}");
-static const u8 sMemoMiscTextColor[] = _("{COLOR 7}{SHADOW 8}");
+static const u8 sBlackTextColor[] = _("{COLOR 7}{SHADOW 8}");
 
 #define TAG_MOVE_SELECTOR   30000
 #define TAG_MON_STATUS      30001
@@ -907,7 +922,6 @@ static const union AnimCmd * const sSpriteAnimTable_ExpHealthBars[] =
 
 static const u32 * const sPageTilemaps[] =
 {
-    gSummaryScreenPageInfoEggTilemap,
     gSummaryScreenPageInfoTilemap,
     gSummaryScreenPageSkillsTilemap,
     gSummaryScreenPageMovesTilemap,
@@ -917,49 +931,30 @@ static const u32 * const sPageTilemaps[] =
 const u8 sText_Shiny[] = _("{SUM_SHINY}");
 const u8 sText_Pokerus[] = _("{SUM_IMMUNE}");
 const u8 sText_Fateful[] = _("{SUM_FATEFUL}");
-const u8 sText_OTName[] = _("OT");
-const u8 sText_OTID[] = _("ID No.");
-const u8 sText_HP[] = _("HP");
 const u8 sText_PP[] = _("PP");
 const u8 sText_TitleInfo[] = _("POKéMON INFO");
-const u8 sText_TitleMemo[] = _("TRAINER MEMO");
-const u8 sText_TitleSkills[] = _("POKéMON STATS");
+const u8 sText_TitleSkills[] = _("POKéMON SKILLS");
 const u8 sText_TitleBattleMoves[] = _("BATTLE MOVES");
-const u8 sText_TitleCondition[] = _("CONDITION");
 const u8 sText_TitleContestMoves[] = _("CONTEST MOVES");
-const u8 sText_TitleRibbons[] = _("RIBBONS");
-const u8 sText_TitleIVs[] = _("POKéMON IVS");
-const u8 sText_TitleEVs[] = _("POKéMON EVS");
+const u8 sText_TitleCancel[] = _("{A_BUTTON}CANCEL");
+const u8 sText_TitlePageCancel[] = _("{DPAD_RIGHT}PAGE {A_BUTTON}CANCEL");
 const u8 sText_TitlePage[] = _("{DPAD_LEFTRIGHT}PAGE");
-const u8 sText_TitlePageDetail[] = _("{DPAD_LEFTRIGHT}PAGE {A_BUTTON}DETAIL");
+const u8 sText_TitlePageDetailL[] = _("{DPAD_LEFT}PAGE {A_BUTTON}DETAIL");
+const u8 sText_TitlePageDetailLR[] = _("{DPAD_LEFTRIGHT}PAGE {A_BUTTON}DETAIL");
 const u8 sText_TitlePickSwitch[] = _("{DPAD_UPDOWN}PICK {A_BUTTON}SWITCH");
-const u8 sText_TitlePageIVs[] = _("{DPAD_LEFTRIGHT}PAGE {A_BUTTON}IVS");
-const u8 sText_TitlePageEVs[] = _("{DPAD_LEFTRIGHT}PAGE {A_BUTTON}EVS");
-const u8 sText_TitlePageStats[] = _("{DPAD_LEFTRIGHT}PAGE {A_BUTTON}STATS");
 const u8 sText_None[] = _("NONE");
 const u8 sText_Cancel[] = _("CANCEL");
 const u8 sText_Power[] = _("POWER");
 const u8 sText_Accuracy[] = _("ACCURACY");
 const u8 sText_Appeal[] = _("APPEAL");
 const u8 sText_Jam[] = _("JAM");
-const u8 sText_DexNo[] = _("POKéDEX No.");
-const u8 sText_Species[] = _("NAME");
-const u8 sText_Type[] = _("TYPE");
 const u8 sText_ExpPoints[] = _("EXP. POINTS");
-const u8 sText_ToNextLevel[] = _("TO NEXT LV.");
-const u8 sText_Attack[] = _("ATTACK");
+const u8 sText_NextLevel[] = _("NEXT LV.");
 const u8 sText_Defense[] = _("DEFENSE");
 const u8 sText_SpecialAttack[] = _("SP. ATK");
 const u8 sText_SpecialDefense[] = _("SP. DEF");
 const u8 sText_Speed[] = _("SPEED");
 const u8 sText_Ability[] = _("ABILITY");
-const u8 sText_Sheen[] = _("SHEEN");
-const u8 sText_Cool[] = _("COOL");
-const u8 sText_Beauty[] = _("BEAUTY");
-const u8 sText_Cute[] = _("CUTE");
-const u8 sText_Smart[] = _("SMART");
-const u8 sText_Tough[] = _("TOUGH");
-const u8 sText_HeldItem[] = _("HELD ITEM");
 
 // code
 void ShowPokemonSummaryScreen(u8 mode, void *mons, u8 monIndex, u8 maxMonIndex, void (*callback)(void))
@@ -981,7 +976,10 @@ void ShowPokemonSummaryScreen(u8 mode, void *mons, u8 monIndex, u8 maxMonIndex, 
     case SUMMARY_MODE_NORMAL:
     case SUMMARY_MODE_BOX:
         sMonSummaryScreen->trueMinPageIndex = PSS_PAGE_INFO;
-        sMonSummaryScreen->trueMaxPageIndex = PSS_PAGE_CONTEST_MOVES;
+        if (CONFIG_CONTEST_MOVES_ENABLED)
+            sMonSummaryScreen->trueMaxPageIndex = PSS_PAGE_CONTEST_MOVES;
+        else
+            sMonSummaryScreen->trueMaxPageIndex = PSS_PAGE_BATTLE_MOVES;
         break;
     case SUMMARY_MODE_LOCK_MOVES:
         sMonSummaryScreen->trueMinPageIndex = PSS_PAGE_INFO;
@@ -1007,7 +1005,7 @@ void ShowPokemonSummaryScreen(u8 mode, void *mons, u8 monIndex, u8 maxMonIndex, 
 
     if (gMonSpritesGfxPtr == NULL)
         sub_806F2AC(0, 0);
-    
+
     SetMainCallback2(CB2_InitSummaryScreen);
 }
 
@@ -1094,24 +1092,29 @@ static bool8 LoadGraphics(void)
             gMain.state++;
         break;
     case 10:
-        PrintMonInfo();
+        DrawPagination();
+        UpdateInfoPageType();
         gMain.state++;
         break;
     case 11:
-        PrintPageSpecificText(sMonSummaryScreen->currPageIndex);
+        PrintMonInfo();
         gMain.state++;
         break;
     case 12:
-        PutPageWindowTilemaps(sMonSummaryScreen->currPageIndex);
+        PrintPageSpecificText(sMonSummaryScreen->currPageIndex);
         gMain.state++;
         break;
     case 13:
+        PutPageWindowTilemaps(sMonSummaryScreen->currPageIndex);
+        gMain.state++;
+        break;
+    case 14:
         ResetSpriteIds();
         CreateMoveTypeIcons();
         sMonSummaryScreen->switchCounter = 0;
         gMain.state++;
         break;
-    case 14:
+    case 15:
         sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON] = LoadMonGfxAndSprite(&sMonSummaryScreen->currentMon, &sMonSummaryScreen->switchCounter);
         if (sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON] != SPRITE_NONE)
         {
@@ -1119,34 +1122,31 @@ static bool8 LoadGraphics(void)
             gMain.state++;
         }
         break;
-    case 15:
+    case 16:
         CreateMonMarkingsSprite(&sMonSummaryScreen->currentMon);
         gMain.state++;
         break;
-    case 16:
+    case 17:
         CreateCaughtBallSprite(&sMonSummaryScreen->currentMon);
         gMain.state++;
         break;
-    case 17:
-        CreateHeldItemSprite(&sMonSummaryScreen->currentMon);
+    case 18:
+        CreateSetStatusSprite();
         gMain.state++;
         break;
-    case 18:
+    case 19:
         LoadMonIconPalette(sMonSummaryScreen->summary.species2);
         sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON] = CreateMonIcon(sMonSummaryScreen->summary.species2, SpriteCB_MonIcon, 20, 47, 1, sMonSummaryScreen->summary.pid, TRUE);
         gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON]].hFlip = !IsMonSpriteNotFlipped(sMonSummaryScreen->summary.species2);
         SetSpriteInvisibility(SPRITE_ARR_ID_MON_ICON, TRUE);
         gMain.state++;
         break;
-    case 19:
+    case 20:
         CreateHealthBarSprites(TAG_HEALTH_BAR, TAG_HEALTH_BAR);
         gMain.state++;
         break;
-    case 20:
-        CreateExpBarSprites(TAG_EXP_BAR, TAG_HEALTH_BAR);
-        gMain.state++;
     case 21:
-        CreateSetStatusSprite();
+        CreateExpBarSprites(TAG_EXP_BAR, TAG_HEALTH_BAR);
         gMain.state++;
         break;
     case 22:
@@ -1157,18 +1157,20 @@ static bool8 LoadGraphics(void)
         if (sMonSummaryScreen->mode == SUMMARY_MODE_SELECT_MOVE)
         {
             SetSpriteInvisibility(SPRITE_ARR_ID_MON, TRUE);
-            SetSpriteInvisibility(SPRITE_ARR_ID_ITEM, TRUE);
             SetSpriteInvisibility(SPRITE_ARR_ID_STATUS, TRUE);
             StopPokemonAnimations();
-            sMonSummaryScreen->markingsSprite->x = 257;
-            sMonSummaryScreen->markingsSprite->y = 332;
+            if (CONFIG_CONTEST_MOVES_ENABLED)
+                sMonSummaryScreen->markingsSprite->invisible = TRUE;
         }
         gMain.state++;
         break;
     case 24:
         if (sMonSummaryScreen->mode != SUMMARY_MODE_SELECT_MOVE)
         {
-            LZDecompressWram(sPageTilemaps[sMonSummaryScreen->currPageIndex], sMonSummaryScreen->bgTilemapBufferPage);
+            if (sMonSummaryScreen->summary.isEgg)
+                LZDecompressWram(gSummaryScreenPageInfoEggTilemap, sMonSummaryScreen->bgTilemapBufferPage);
+            else
+                LZDecompressWram(sPageTilemaps[sMonSummaryScreen->currPageIndex], sMonSummaryScreen->bgTilemapBufferPage);
             SetBgTilemapBuffer(2, sMonSummaryScreen->bgTilemapBufferPage);
             ScheduleBgCopyTilemapToVram(2);
             CreateTask(Task_HandleInput, 0);
@@ -1381,9 +1383,9 @@ static bool8 ExtractMonDataToSummaryStruct(struct Pokemon *mon)
         sum->fatefulEncounter = GetMonData(mon, MON_DATA_EVENT_LEGAL);
         if (sum->isEgg)
         {
-            sMonSummaryScreen->minPageIndex = PSS_PAGE_EGG_INFO;
-            sMonSummaryScreen->maxPageIndex = PSS_PAGE_EGG_INFO;
-            sMonSummaryScreen->currPageIndex = PSS_PAGE_EGG_INFO;
+            sMonSummaryScreen->minPageIndex = PSS_PAGE_INFO;
+            sMonSummaryScreen->maxPageIndex = PSS_PAGE_INFO;
+            sMonSummaryScreen->currPageIndex = PSS_PAGE_INFO;
         }
         else
         {
@@ -1394,6 +1396,34 @@ static bool8 ExtractMonDataToSummaryStruct(struct Pokemon *mon)
     }
     sMonSummaryScreen->switchCounter++;
     return FALSE;
+}
+
+static void UpdateInfoPageType(void)
+{
+    if (sMonSummaryScreen->currPageIndex != PSS_PAGE_INFO)
+        return;
+
+    if (sMonSummaryScreen->lastWasEgg == sMonSummaryScreen->summary.isEgg)
+        return;
+
+    DrawPagination();
+    PrintInfoBar(sMonSummaryScreen->currPageIndex, TRUE);
+    PrintMonInfo();
+    SetTypeIcons();
+
+    if (sMonSummaryScreen->summary.isEgg)
+    {
+        PrintInfoPageEgg();
+        LZDecompressWram(gSummaryScreenPageInfoEggTilemap, sMonSummaryScreen->bgTilemapBufferPage);
+    }
+    else
+    {
+        PrintInfoPageMon();
+        LZDecompressWram(gSummaryScreenPageInfoTilemap, sMonSummaryScreen->bgTilemapBufferPage);
+    }
+
+    SetBgTilemapBuffer(2, sMonSummaryScreen->bgTilemapBufferPage);
+    ScheduleBgCopyTilemapToVram(2);
 }
 
 static void FreeSummaryScreen(void)
@@ -1454,15 +1484,16 @@ static void Task_HandleInput(u8 taskId)
         }
         else if (JOY_NEW(A_BUTTON))
         {
+            if (sMonSummaryScreen->currPageIndex == PSS_PAGE_INFO)
+            {
+                StopPokemonAnimations();
+                PlaySE(SE_SELECT);
+                BeginCloseSummaryScreen(taskId);
+            }
             if (sMonSummaryScreen->currPageIndex == PSS_PAGE_BATTLE_MOVES || sMonSummaryScreen->currPageIndex == PSS_PAGE_CONTEST_MOVES)
             {
                 PlaySE(SE_SELECT);
                 SwitchToMoveSelection(taskId);
-            }
-            else if (sMonSummaryScreen->currPageIndex == PSS_PAGE_SKILLS && FlagGet(FLAG_SYS_GAME_CLEAR))
-            {
-                PlaySE(SE_SELECT);
-                SetTaskFuncWithFollowupFunc(taskId, ChangeStatTask, gTasks[taskId].func);
             }
         }
         else if (JOY_NEW(B_BUTTON))
@@ -1474,33 +1505,10 @@ static void Task_HandleInput(u8 taskId)
     }
 }
 
-static void ChangeStatTask(u8 taskId)
-{
-    s16 *data = gTasks[taskId].data;
-
-    switch (data[0])
-    {
-        case 0:
-            sMonSummaryScreen->currStatIndex = (sMonSummaryScreen->currStatIndex + 1) % 3;
-            ClearWindowTilemap(PSS_LABEL_PANE_RIGHT);
-            ScheduleBgCopyTilemapToVram(0);
-            data[0]++;
-            break;
-        case 1:
-            PrintInfoBar(PSS_PAGE_SKILLS, FALSE);
-            PrintSkillsPage();
-            data[0]++;
-            break;
-        case 2:
-            data[0] = 0;
-            SwitchTaskToFollowupFunc(taskId);
-            break;
-    }
-}
-
 static void ChangeSummaryPokemon(u8 taskId, s8 delta)
 {
     s8 monId;
+    sMonSummaryScreen->lastWasEgg = sMonSummaryScreen->summary.isEgg;
 
     if (sMonSummaryScreen->maxMonIndex == 0)
         return;
@@ -1553,19 +1561,18 @@ static void Task_ChangeSummaryMon(u8 taskId)
         DestroySpriteAndFreeResources(&gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_BALL]]);
         break;
     case 3:
-        if (GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_HELD_ITEM))
-            DestroySpriteAndFreeResources(&gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ITEM]]);
-        break;
-    case 4:
         FreeAndDestroyMonIconSprite(&gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON]]);
         break;
-    case 5:
+    case 4:
         CopyMonToSummaryStruct(&sMonSummaryScreen->currentMon);
         sMonSummaryScreen->switchCounter = 0;
         break;
-    case 6:
+    case 5:
         if (ExtractMonDataToSummaryStruct(&sMonSummaryScreen->currentMon) == FALSE)
             return;
+        break;
+    case 6:
+        UpdateInfoPageType();
         break;
     case 7:
         RemoveAndCreateMonMarkingsSprite(&sMonSummaryScreen->currentMon);
@@ -1574,7 +1581,7 @@ static void Task_ChangeSummaryMon(u8 taskId)
         CreateCaughtBallSprite(&sMonSummaryScreen->currentMon);
         break;
     case 9:
-        CreateHeldItemSprite(&sMonSummaryScreen->currentMon);
+        CreateSetStatusSprite();
         break;
     case 10:
         FreeMonIconPalettes();
@@ -1625,17 +1632,28 @@ static void Task_ChangeSummaryMon(u8 taskId)
 static s8 AdvanceMonIndex(s8 delta)
 {
     struct Pokemon *mon = sMonSummaryScreen->monList.mons;
-    s8 index = sMonSummaryScreen->curMonIndex;
 
-    do
+    if (sMonSummaryScreen->currPageIndex == PSS_PAGE_INFO)
     {
-        index += delta;
-        if (index < 0)
-            index = sMonSummaryScreen->maxMonIndex;
-        else if (index > sMonSummaryScreen->maxMonIndex)
-            index = 0;
-    } while (GetMonData(&mon[index], MON_DATA_IS_EGG));
-    return index;
+        if (delta == -1 && sMonSummaryScreen->curMonIndex == 0)
+            return -1;
+        else if (delta == 1 && sMonSummaryScreen->curMonIndex >= sMonSummaryScreen->maxMonIndex)
+            return -1;
+        else
+            return sMonSummaryScreen->curMonIndex + delta;
+    }
+    else
+    {
+        s8 index = sMonSummaryScreen->curMonIndex;
+
+        do
+        {
+            index += delta;
+            if (index < 0 || index > sMonSummaryScreen->maxMonIndex)
+                return -1;
+        } while (GetMonData(&mon[index], MON_DATA_IS_EGG));
+        return index;
+    }
 }
 
 static s8 AdvanceMultiBattleMonIndex(s8 delta)
@@ -1686,9 +1704,9 @@ static void ChangePage(u8 taskId, s8 delta)
     if (sMonSummaryScreen->minPageIndex == sMonSummaryScreen->maxPageIndex)
         return;
     else if (delta == -1 && sMonSummaryScreen->currPageIndex == sMonSummaryScreen->minPageIndex)
-        sMonSummaryScreen->currPageIndex = sMonSummaryScreen->maxPageIndex;
+        return;
     else if (delta == 1 && sMonSummaryScreen->currPageIndex == sMonSummaryScreen->maxPageIndex)
-        sMonSummaryScreen->currPageIndex = sMonSummaryScreen->minPageIndex;
+        return;
     else
         sMonSummaryScreen->currPageIndex += delta;
 
@@ -1736,6 +1754,10 @@ static void ChangePageTask(u8 taskId)
             data[0]++;
             break;
         case 5:
+            DrawPagination();
+            data[0]++;
+            break;
+        case 6:
             data[0] = 0;
             SwitchTaskToFollowupFunc(taskId);
             break;
@@ -1762,11 +1784,10 @@ static void Task_SwitchToMoveDetails(u8 taskId)
     {
         case 0:
             SetSpriteInvisibility(SPRITE_ARR_ID_MON, TRUE);
-            SetSpriteInvisibility(SPRITE_ARR_ID_ITEM, TRUE);
             SetSpriteInvisibility(SPRITE_ARR_ID_STATUS, TRUE);
             StopPokemonAnimations();
-            sMonSummaryScreen->markingsSprite->x = 257;
-            sMonSummaryScreen->markingsSprite->y = 332;
+            if (CONFIG_CONTEST_MOVES_ENABLED)
+                sMonSummaryScreen->markingsSprite->invisible = TRUE;
             ClearWindowTilemap(PSS_LABEL_PANE_LEFT_MOVE);
             ScheduleBgCopyTilemapToVram(0);
             data[0]++;
@@ -2009,13 +2030,9 @@ static void Task_SwitchFromMoveDetails(u8 taskId)
             gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].y2 = 0;
             gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].oam.x = gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].x + gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].centerToCornerVecX;
             gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].oam.y = gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].y + gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].centerToCornerVecY;
-
-            if (GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_HELD_ITEM))
-                SetSpriteInvisibility(SPRITE_ARR_ID_ITEM, FALSE);
-
             CreateSetStatusSprite();
-            sMonSummaryScreen->markingsSprite->x = 57;
-            sMonSummaryScreen->markingsSprite->y = 132;
+            if (CONFIG_CONTEST_MOVES_ENABLED)
+                sMonSummaryScreen->markingsSprite->invisible = FALSE;
             PrintInfoBar(sMonSummaryScreen->currPageIndex, FALSE);
             data[0]++;
             break;
@@ -2327,12 +2344,44 @@ static bool8 CanReplaceMove(void)
 
 static void PrintTextOnWindow(u8 windowId, const u8 *string, u8 x, u8 y, u8 lineSpacing, u8 colorId)
 {
-    AddTextPrinterParameterized4(windowId, 1, x, y, 0, lineSpacing, sTextColors[colorId], 0, string);
+    AddTextPrinterParameterized4(windowId, 2, x, y, 0, lineSpacing, sTextColors[colorId], 0, string);
 }
 
-static void PrintTextOnWindowSigned(u8 windowId, const u8 *string, u8 x, s8 y, u8 lineSpacing, u8 colorId)
+static void PrintMonInfo(void)
 {
-    AddTextPrinterParameterized4(windowId, 1, x, y, 0, lineSpacing, sTextColors[colorId], 0, string); //should say signed but fuck that for now
+    struct Pokemon *mon = &sMonSummaryScreen->currentMon;
+    struct PokeSummary *summary = &sMonSummaryScreen->summary;
+    FillWindowPixelBuffer(PSS_LABEL_LVL_NICK_GENDER, PIXEL_FILL(0));
+
+    if (summary->isEgg)
+    {
+        ClearWindowTilemap(PSS_LABEL_LVL_NICK_GENDER);
+        CopyBgTilemapBufferToVram(0);
+        return;
+    }
+
+    StringCopy(gStringVar1, gText_LevelSymbol);
+    ConvertIntToDecimalStringN(gStringVar2, summary->level, STR_CONV_MODE_LEFT_ALIGN, 3);
+    StringAppend(gStringVar1, gStringVar2);
+    PrintTextOnWindow(PSS_LABEL_LVL_NICK_GENDER, gStringVar1, 4, 2, 0, PSS_COLOR_WHITE_BLACK_SHADOW);
+
+    GetMonNickname(mon, gStringVar1);
+    PrintTextOnWindow(PSS_LABEL_LVL_NICK_GENDER, gStringVar1, 40, 2, 0, PSS_COLOR_WHITE_BLACK_SHADOW);
+
+    if (summary->species2 != SPECIES_NIDORAN_M && summary->species2 != SPECIES_NIDORAN_F)
+    {
+        switch (GetMonGender(mon))
+        {
+        case MON_MALE:
+            PrintTextOnWindow(PSS_LABEL_LVL_NICK_GENDER, gText_MaleSymbol, 105, 2, 0, PSS_COLOR_MALE_GENDER_SYMBOL);
+            break;
+        case MON_FEMALE:
+            PrintTextOnWindow(PSS_LABEL_LVL_NICK_GENDER, gText_FemaleSymbol, 105, 2, 0, PSS_COLOR_FEMALE_GENDER_SYMBOL);
+            break;
+        }
+    }
+
+    PutWindowTilemap(PSS_LABEL_LVL_NICK_GENDER);
 }
 
 static void ShowCantForgetHMsWindow(u8 taskId)
@@ -2360,6 +2409,73 @@ u8 GetMoveSlotToReplace(void)
     return sMoveSlotToReplace;
 }
 
+static void DrawPagination(void) // Updates the pagination dots at the top of the summary screen
+{
+    u16 *alloced = Alloc(32);
+    u8 i;
+
+    for (i = 0; i < 4; i++)
+    {
+        u8 j = i * 2;
+
+        if (i < sMonSummaryScreen->minPageIndex)
+        {
+            alloced[j + 0] = 0x15A;
+            alloced[j + 1] = 0x15A;
+            alloced[j + 8] = 0x16C;
+            alloced[j + 9] = 0x16C;
+        }
+        else if (i > sMonSummaryScreen->maxPageIndex)
+        {
+            alloced[j + 0] = 0x15B;
+            alloced[j + 1] = 0x15B;
+            alloced[j + 8] = 0x15B;
+            alloced[j + 9] = 0x15B;
+        }
+        else if (i < sMonSummaryScreen->currPageIndex)
+        {
+            alloced[j + 0] = 0x18A;
+            alloced[j + 1] = 0x15A;
+            alloced[j + 8] = 0x19A;
+            alloced[j + 9] = 0x16C;
+        }
+        else if (i == sMonSummaryScreen->currPageIndex)
+        {
+            if (i != sMonSummaryScreen->maxPageIndex)
+            {
+                alloced[j + 0] = 0x16A;
+                alloced[j + 1] = 0x169;
+                alloced[j + 8] = 0x17A;
+                alloced[j + 9] = 0x179;
+            }
+            else
+            {
+                alloced[j + 0] = 0x16A;
+                alloced[j + 1] = 0x189;
+                alloced[j + 8] = 0x17A;
+                alloced[j + 9] = 0x199;
+            }
+        }
+        else if (i != sMonSummaryScreen->maxPageIndex)
+        {
+            alloced[j + 0] = 0x16B;
+            alloced[j + 1] = 0x16D;
+            alloced[j + 8] = 0x17B;
+            alloced[j + 9] = 0x17D;
+        }
+        else
+        {
+            alloced[j + 0] = 0x16B;
+            alloced[j + 1] = 0x16E;
+            alloced[j + 8] = 0x17B;
+            alloced[j + 9] = 0x17E;
+        }
+    }
+    CopyToBgTilemapBufferRect_ChangePalette(3, alloced, 12, 0, 8, 2, 16);
+    ScheduleBgCopyTilemapToVram(3);
+    Free(alloced);
+}
+
 static void ResetWindows(void)
 {
     u8 i;
@@ -2370,20 +2486,6 @@ static void ResetWindows(void)
         FillWindowPixelBuffer(i, PIXEL_FILL(0));
     for (i = 0; i < ARRAY_COUNT(sMonSummaryScreen->windowIds); i++)
         sMonSummaryScreen->windowIds[i] = WINDOW_NONE;
-}
-
-static void PrintMonInfo(void)
-{
-    FillWindowPixelBuffer(PSS_LABEL_PANE_LEFT_TOP, PIXEL_FILL(0));
-    FillWindowPixelBuffer(PSS_LABEL_PANE_LEFT_BOTTOM, PIXEL_FILL(0));
-
-    if (!sMonSummaryScreen->summary.isEgg)
-        PrintNotEggInfo();
-    else
-        PrintEggInfo();
-    PutWindowTilemap(PSS_LABEL_PANE_LEFT_TOP);
-    PutWindowTilemap(PSS_LABEL_PANE_LEFT_BOTTOM);
-    ScheduleBgCopyTilemapToVram(0);
 }
 
 static void PrintNotEggInfo(void)
@@ -2422,7 +2524,6 @@ static void PrintNotEggInfo(void)
         CopyItemName(sMonSummaryScreen->summary.item, gStringVar1);
 
     x = GetStringCenterAlignXOffset(0, gStringVar1, 60);
-    AddTextPrinterParameterized4(PSS_LABEL_PANE_LEFT_BOTTOM, 0, 9, 7, 0, 0, sTextColors[PSS_COLOR_WHITE_BLACK_SHADOW], 0, sText_HeldItem);
     AddTextPrinterParameterized4(PSS_LABEL_PANE_LEFT_BOTTOM, 0, x, 19, 0, 0, sTextColors[PSS_COLOR_BLACK_GRAY_SHADOW], 0, gStringVar1);
 }
 
@@ -2437,7 +2538,6 @@ static void PrintEggInfo(void)
     else
         CopyItemName(sMonSummaryScreen->summary.item, gStringVar1);
     x = GetStringCenterAlignXOffset(0, gStringVar1, 60);
-    AddTextPrinterParameterized4(PSS_LABEL_PANE_LEFT_BOTTOM, 0, 9, 7, 0, 0, sTextColors[PSS_COLOR_WHITE_BLACK_SHADOW], 0, sText_HeldItem);
     AddTextPrinterParameterized4(PSS_LABEL_PANE_LEFT_BOTTOM, 0, x, 19, 0, 0, sTextColors[PSS_COLOR_BLACK_GRAY_SHADOW], 0, gStringVar1);
 }
 
@@ -2475,8 +2575,6 @@ static void RemoveWindowByIndex(u8 windowIndex)
 
 static void PrintPageSpecificText(u8 pageIndex)
 {
-    u16 i;
-
     PrintInfoBar(pageIndex, FALSE);
     sTextPrinterFunctions[pageIndex]();
 }
@@ -2493,99 +2591,114 @@ static void SetTypeSpritePosAndPal(u8 typeId, u8 x, u8 y, u8 spriteArrayId)
 
 static void PrintInfoPage(void)
 {
-    u8 x, i;
-    s64 numExpProgressBarTicks;
-    u16 *dst;
+    if (sMonSummaryScreen->lastWasEgg != sMonSummaryScreen->summary.isEgg)
+        return;
+
+    if (sMonSummaryScreen->summary.isEgg)
+        PrintInfoPageEgg();
+    else
+        PrintInfoPageMon();
+}
+
+static void PrintInfoPageEgg(void)
+{
+    const u8 *text;
+    struct Pokemon *mon = &sMonSummaryScreen->currentMon;
+    struct PokeSummary *sum = &sMonSummaryScreen->summary;
+    u16 dexNum = SpeciesToPokedexNum(sum->species);
+    FillWindowPixelBuffer(PSS_INFO_WINDOW_RIGHT, PIXEL_FILL(0));
+    FillWindowPixelBuffer(PSS_INFO_WINDOW_MEMO, PIXEL_FILL(0));
+
+    GetMonNickname(mon, gStringVar1);
+    PrintTextOnWindow(PSS_INFO_WINDOW_RIGHT, gStringVar1, 47, 19, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
+
+    if (sum->sanity || sum->friendship > 40)
+        text = gText_EggWillTakeALongTime;
+    else if (sum->friendship > 10)
+        text = gText_EggWillTakeSomeTime;
+    else if (sum->friendship > 5)
+        text = gText_EggWillHatchSoon;
+    else
+        text = gText_EggAboutToHatch;
+    PrintTextOnWindow(PSS_INFO_WINDOW_RIGHT, text, 7, 45, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
+
+    BufferEggMemo();
+    PrintTextOnWindow(PSS_INFO_WINDOW_MEMO, gStringVar4, 0, 3, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
+
+    ScheduleBgCopyTilemapToVram(0);
+    PutWindowTilemap(PSS_INFO_WINDOW_RIGHT);
+    PutWindowTilemap(PSS_INFO_WINDOW_MEMO);
+}
+
+static void BufferEggMemo(void)
+{
+    const u8 *text;
+    struct PokeSummary *sum = &sMonSummaryScreen->summary;
+
+    DynamicPlaceholderTextUtil_SetPlaceholderPtr(0, sBlackTextColor);
+    DynamicPlaceholderTextUtil_SetPlaceholderPtr(1, sBlackTextColor);
+
+    if (sMonSummaryScreen->summary.sanity)
+        text = gText_TrainerMemo_BadEgg;
+    else if (sum->metLocation == METLOC_FATEFUL_ENCOUNTER)
+        text = gText_TrainerMemo_EggFateful;
+    else if (!DoesMonOTMatchOwner())
+        text = gText_TrainerMemo_EggTraded;
+    else if (sum->metLocation != METLOC_SPECIAL_EGG)
+        text = gText_TrainerMemo_EggFromDayCare;
+    else if (DidMonComeFromRSE())
+        text = gText_TrainerMemo_EggFromHotSprings;
+    else
+        text = gText_TrainerMemo_EggFromTraveler;
+
+    DynamicPlaceholderTextUtil_ExpandPlaceholders(gStringVar4, text);
+}
+
+static void PrintInfoPageMon(void)
+{
     struct Pokemon *mon = &sMonSummaryScreen->currentMon;
     struct PokeSummary *summary = &sMonSummaryScreen->summary;
     u16 dexNum = SpeciesToPokedexNum(summary->species);
+    FillWindowPixelBuffer(PSS_INFO_WINDOW_RIGHT, PIXEL_FILL(0));
+    FillWindowPixelBuffer(PSS_INFO_WINDOW_MEMO, PIXEL_FILL(0));
 
-    FillWindowPixelBuffer(PSS_LABEL_PANE_RIGHT, PIXEL_FILL(0));
-
-    PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, sText_DexNo, 8, 16, 0, PSS_COLOR_WHITE_BLACK_SHADOW);
     if (dexNum == 0xFFFF)
         StringCopy(gStringVar1, gText_ThreeMarks);
     else
         ConvertIntToDecimalStringN(gStringVar1, dexNum, STR_CONV_MODE_LEADING_ZEROS, 3);
-    x = GetStringCenterAlignXOffset(1, gStringVar1, 72) + 76;
-    PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gStringVar1, x, 16, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
+    PrintTextOnWindow(PSS_INFO_WINDOW_RIGHT, gStringVar1, 47, 5, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
 
-    PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, sText_Species, 8, 32, 0, PSS_COLOR_WHITE_BLACK_SHADOW);
-    StringCopy(gStringVar1, gSpeciesNames[summary->species2]);
-    x = GetStringCenterAlignXOffset(1, gStringVar1, 72) + 76;
-    PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gStringVar1, x, 32, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
+    PrintTextOnWindow(PSS_INFO_WINDOW_RIGHT, gSpeciesNames[summary->species2], 47, 19, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
 
-    PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, sText_Type, 8, 48, 0, PSS_COLOR_WHITE_BLACK_SHADOW);
+    PrintTextOnWindow(PSS_INFO_WINDOW_RIGHT, summary->OTName, 47, 49, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
 
-    PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, sText_OTName, 8, 64, 0, PSS_COLOR_WHITE_BLACK_SHADOW);
-    StringCopy(gStringVar1, summary->OTName);
-    x = GetStringCenterAlignXOffset(1, gStringVar1, 72) + 76;
-    if (summary->OTGender == MALE)
-        PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gStringVar1, x, 64, 0, PSS_COLOR_MALE_GENDER_SYMBOL);
-    else
-        PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gStringVar1, x, 64, 0, PSS_COLOR_FEMALE_GENDER_SYMBOL);
-
-    PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, sText_OTID, 8, 80, 0, PSS_COLOR_WHITE_BLACK_SHADOW);
     ConvertIntToDecimalStringN(gStringVar1, (u16)summary->OTID, STR_CONV_MODE_LEADING_ZEROS, 5);
-    x = GetStringCenterAlignXOffset(1, gStringVar1, 72) + 76;
-    PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gStringVar1, x, 80, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
+    PrintTextOnWindow(PSS_INFO_WINDOW_RIGHT, gStringVar1, 47, 64, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
 
-    PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, sText_ExpPoints, 8, 100, 0, PSS_COLOR_WHITE_BLACK_SHADOW);
-    ConvertIntToDecimalStringN(gStringVar1, summary->exp, STR_CONV_MODE_RIGHT_ALIGN, 7);
-    x = GetStringRightAlignXOffset(1, gStringVar1, 42) + 91;
-    PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gStringVar1, x, 100, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
-
-    PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, sText_ToNextLevel, 8, 116, 0, PSS_COLOR_WHITE_BLACK_SHADOW);
-    if (summary->level < MAX_LEVEL)
-        ConvertIntToDecimalStringN(gStringVar1, gExperienceTables[gBaseStats[summary->species].growthRate][summary->level + 1] - summary->exp, STR_CONV_MODE_RIGHT_ALIGN, 6);
+    if (sMonSummaryScreen->summary.item == ITEM_NONE)
+        StringCopy(gStringVar1, sText_None);
     else
-        ConvertIntToDecimalStringN(gStringVar1, 0, STR_CONV_MODE_RIGHT_ALIGN, 6);
-    x = GetStringRightAlignXOffset(1, gStringVar1, 42) + 91;
-    PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gStringVar1, x, 116, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
+        CopyItemName(sMonSummaryScreen->summary.item, gStringVar1);
+    PrintTextOnWindow(PSS_INFO_WINDOW_RIGHT, gStringVar1, 47, 79, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
 
-    if (summary->level < MAX_LEVEL)
-    {
-        u32 expBetweenLevels = gExperienceTables[gBaseStats[summary->species].growthRate][summary->level + 1] - gExperienceTables[gBaseStats[summary->species].growthRate][summary->level];
-        u32 expSinceLastLevel = summary->exp - gExperienceTables[gBaseStats[summary->species].growthRate][summary->level];
-
-        // Calculate the number of 1-pixel "ticks" to illuminate in the experience progress bar.
-        // There are 8 tiles that make up the bar, and each tile has 8 "ticks". Hence, the numerator
-        // is multiplied by 64.
-        numExpProgressBarTicks = expSinceLastLevel * 64 / expBetweenLevels;
-        if (numExpProgressBarTicks == 0 && expSinceLastLevel != 0)
-            numExpProgressBarTicks = 1;
-    }
-    else
-        numExpProgressBarTicks = 0;
-    ScheduleBgCopyTilemapToVram(0);
-    PutWindowTilemap(PSS_LABEL_PANE_RIGHT);
-}
-
-static void PrintMemoPage(void)
-{
-    FillWindowPixelBuffer(PSS_LABEL_PANE_RIGHT, PIXEL_FILL(0));
-
-    if (sMonSummaryScreen->summary.isEgg)
-        BufferEggMemo();
-    else
-        BufferMonTrainerMemo();
-    PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gStringVar4, 8, 16, 0, 0);
+    BufferMonTrainerMemo();
+    PrintTextOnWindow(PSS_INFO_WINDOW_MEMO, gStringVar4, 0, 3, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
 
     ScheduleBgCopyTilemapToVram(0);
-    PutWindowTilemap(PSS_LABEL_PANE_RIGHT);
+    PutWindowTilemap(PSS_INFO_WINDOW_RIGHT);
+    PutWindowTilemap(PSS_INFO_WINDOW_MEMO);
 }
 
 static void BufferMonTrainerMemo(void)
 {
     struct PokeSummary *sum = &sMonSummaryScreen->summary;
-    struct Pokemon *mon = &sMonSummaryScreen->currentMon;
     const u8 *text;
+    u16 metlocation = sum->metLocation;
 
     DynamicPlaceholderTextUtil_Reset();
-    DynamicPlaceholderTextUtil_SetPlaceholderPtr(0, sMemoNatureTextColor);
-    DynamicPlaceholderTextUtil_SetPlaceholderPtr(1, sMemoMiscTextColor);
+    DynamicPlaceholderTextUtil_SetPlaceholderPtr(0, sBlackTextColor);
+    DynamicPlaceholderTextUtil_SetPlaceholderPtr(1, sBlackTextColor);
     BufferNatureString();
-    BufferCharacteristicString();
 
     if (InBattleFactory() == TRUE || InSlateportBattleTent() == TRUE || IsInGamePartnerMon() == TRUE)
     {
@@ -2593,40 +2706,49 @@ static void BufferMonTrainerMemo(void)
     }
     else
     {
+        u16 mapsecShift = MAPSEC_NEW_BARK_TOWN;
+        u16 maxMapsec = MAPSEC_NONE;
         u8 *metLevelString = Alloc(32);
         u8 *metLocationString = Alloc(32);
         GetMetLevelString(metLevelString);
 
-        DynamicPlaceholderTextUtil_SetPlaceholderPtr(5, sRegionString_Unknown);
-        GetMapNameHandleSpecialMaps(metLocationString, sum->metLocation);
-
-        if (!DidMonComeFromGBAGames())
-            StringCopy(metLocationString, sMapName_DistantLand);
-
-        if (sum->metLevel == 0)
-        {
-            DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
-            if (DoesMonOTMatchOwner())
-                text = gText_TrainerMemo_Hatched;
-            else
-                text = gText_TrainerMemo_HatchedUntrusted;
+        if (metlocation >= MAPSEC_NONE)
+        {   // johto location
+            if(sum->locationBit)
+                metlocation += 39;
+            mapsecShift = EMERALD_MAPSEC_START;
+            maxMapsec = MAPSEC_NONE + NUM_NEW_MAPSECS; // should be 0x107 and down
         }
-        else if (sum->metLocation == METLOC_FATEFUL_ENCOUNTER)
-        {
-            DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
-            text = gText_TrainerMemo_Fateful;
+        else
+        {   //mon from vanilla mapsecs
+            mapsecShift = EMERALD_MAPSEC_START;
+            maxMapsec = EMERALD_MAPSEC_END - EMERALD_MAPSEC_START;
         }
-        else if (sum->metLocation != METLOC_IN_GAME_TRADE)
+
+        if (metlocation < maxMapsec)
         {
+            GetMapNameForSummaryScreen(metLocationString, metlocation + mapsecShift);
             DynamicPlaceholderTextUtil_SetPlaceholderPtr(4, metLocationString);
-            if (DoesMonOTMatchOwner())
-                text = gText_TrainerMemo_Standard;
+        }
+
+        if (DoesMonOTMatchOwner() == TRUE)
+        {
+            if (sum->metLevel == 0)
+                text = (metlocation >= maxMapsec) ? gText_XNatureHatchedSomewhereAt : gText_XNatureHatchedAtYZ;
             else
-                text = gText_TrainerMemo_Untrusted;
+                text = (metlocation >= maxMapsec) ? gText_XNatureMetSomewhereAt : gText_XNatureMetAtYZ;
+        }
+        else if (metlocation == METLOC_FATEFUL_ENCOUNTER)
+        {
+            text = gText_XNatureFatefulEncounter;
+        }
+        else if (metlocation != METLOC_IN_GAME_TRADE && DidMonComeFromGBAGames())
+        {
+            text = (metlocation >= maxMapsec) ? gText_XNatureObtainedInTrade : gText_XNatureProbablyMetAt;
         }
         else
         {
-            text = gText_TrainerMemo_Trade;
+            text = gText_XNatureObtainedInTrade;
         }
 
         DynamicPlaceholderTextUtil_ExpandPlaceholders(gStringVar4, text);
@@ -2763,48 +2885,6 @@ static bool8 IsInGamePartnerMon(void)
     return FALSE;
 }
 
-static void BufferEggState(void)
-{
-    const u8 *text;
-    struct PokeSummary *sum = &sMonSummaryScreen->summary;
-
-    if (sMonSummaryScreen->summary.sanity || sum->friendship > 40)
-        text = gText_EggWillTakeALongTime;
-    else if (sum->friendship > 10)
-        text = gText_EggWillTakeSomeTime;
-    else if (sum->friendship > 5)
-        text = gText_EggWillHatchSoon;
-    else
-        text = gText_EggAboutToHatch;
-
-    DynamicPlaceholderTextUtil_SetPlaceholderPtr(2, text);
-}
-
-static void BufferEggMemo(void)
-{
-    const u8 *text;
-    struct PokeSummary *sum = &sMonSummaryScreen->summary;
-
-    DynamicPlaceholderTextUtil_SetPlaceholderPtr(0, sMemoNatureTextColor);
-    DynamicPlaceholderTextUtil_SetPlaceholderPtr(1, sMemoMiscTextColor);
-    BufferEggState();
-
-    if (sMonSummaryScreen->summary.sanity)
-        text = gText_TrainerMemo_BadEgg;
-    else if (sum->metLocation == METLOC_FATEFUL_ENCOUNTER)
-        text = gText_TrainerMemo_EggFateful;
-    else if (!DoesMonOTMatchOwner())
-        text = gText_TrainerMemo_EggTraded;
-    else if (sum->metLocation != METLOC_SPECIAL_EGG)
-        text = gText_TrainerMemo_EggFromDayCare;
-    else if (DidMonComeFromRSE())
-        text = gText_TrainerMemo_EggFromHotSprings;
-    else
-        text = gText_TrainerMemo_EggFromTraveler;
-
-    DynamicPlaceholderTextUtil_ExpandPlaceholders(gStringVar4, text);
-}
-
 static void PrintSkillsPage(void)
 {
     u8 x, i;
@@ -2815,22 +2895,10 @@ static void PrintSkillsPage(void)
 
     FillWindowPixelBuffer(PSS_LABEL_PANE_RIGHT, PIXEL_FILL(0));
 
-    PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gText_HP3, 12, 1, 0, PSS_COLOR_WHITE_BLACK_SHADOW);
-    if (sMonSummaryScreen->currStatIndex == 0)
-    {
-        ConvertIntToDecimalStringN(gStringVar1, summary->currentHP, STR_CONV_MODE_LEFT_ALIGN, 3);
-        StringAppend(gStringVar1, gText_Slash);
-        ConvertIntToDecimalStringN(gStringVar2, summary->maxHP, STR_CONV_MODE_LEFT_ALIGN, 3);
-        StringAppend(gStringVar1, gStringVar2);
-    }
-    else if (sMonSummaryScreen->currStatIndex == 1)
-    {
-        ConvertIntToDecimalStringN(gStringVar1, summary->hpIV, STR_CONV_MODE_LEFT_ALIGN, 2);
-    }
-    else
-    {
-        ConvertIntToDecimalStringN(gStringVar1, summary->hpEV, STR_CONV_MODE_LEFT_ALIGN, 3);
-    }
+    ConvertIntToDecimalStringN(gStringVar1, summary->currentHP, STR_CONV_MODE_LEFT_ALIGN, 3);
+    StringAppend(gStringVar1, gText_Slash);
+    ConvertIntToDecimalStringN(gStringVar2, summary->maxHP, STR_CONV_MODE_LEFT_ALIGN, 3);
+    StringAppend(gStringVar1, gStringVar2);
     x = GetStringCenterAlignXOffset(1, gStringVar1, 72) + 76;
     PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gStringVar1, x, 1, 0, 0);
 
@@ -2838,55 +2906,38 @@ static void PrintSkillsPage(void)
     if (numHPBarTicks == 0 && summary->currentHP != 0)
         numHPBarTicks = 1;
 
-    PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, sText_Attack, 12, 24, 0, 1);
-    if (sMonSummaryScreen->currStatIndex == 0)
-        ConvertIntToDecimalStringN(gStringVar1, summary->atk, STR_CONV_MODE_LEFT_ALIGN, 3);
-    else if (sMonSummaryScreen->currStatIndex == 1)
-        ConvertIntToDecimalStringN(gStringVar1, summary->atkIV, STR_CONV_MODE_LEFT_ALIGN, 2);
-    else
-        ConvertIntToDecimalStringN(gStringVar1, summary->atkEV, STR_CONV_MODE_LEFT_ALIGN, 3);
+    ConvertIntToDecimalStringN(gStringVar1, summary->atk, STR_CONV_MODE_LEFT_ALIGN, 3);
     x = GetStringCenterAlignXOffset(1, gStringVar1, 72) + 76;
     PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gStringVar1, x, 24, 0, 0);
 
-    PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, sText_Defense, 12, 40, 0, 1);
-    if (sMonSummaryScreen->currStatIndex == 0)
-        ConvertIntToDecimalStringN(gStringVar1, summary->def, STR_CONV_MODE_LEFT_ALIGN, 3);
-    else if (sMonSummaryScreen->currStatIndex == 1)
-        ConvertIntToDecimalStringN(gStringVar1, summary->defIV, STR_CONV_MODE_LEFT_ALIGN, 2);
-    else
-        ConvertIntToDecimalStringN(gStringVar1, summary->defEV, STR_CONV_MODE_LEFT_ALIGN, 3);
+    ConvertIntToDecimalStringN(gStringVar1, summary->def, STR_CONV_MODE_LEFT_ALIGN, 3);
     x = GetStringCenterAlignXOffset(1, gStringVar1, 72) + 76;
     PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gStringVar1, x, 40, 0, 0);
 
-    PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, sText_SpecialAttack, 12, 56, 0, PSS_COLOR_WHITE_BLACK_SHADOW);
-    if (sMonSummaryScreen->currStatIndex == 0)
-        ConvertIntToDecimalStringN(gStringVar1, summary->spatk, STR_CONV_MODE_LEFT_ALIGN, 3);
-    else if (sMonSummaryScreen->currStatIndex == 1)
-        ConvertIntToDecimalStringN(gStringVar1, summary->spatkIV, STR_CONV_MODE_LEFT_ALIGN, 2);
-    else
-        ConvertIntToDecimalStringN(gStringVar1, summary->spatkEV, STR_CONV_MODE_LEFT_ALIGN, 3);
+    ConvertIntToDecimalStringN(gStringVar1, summary->spatk, STR_CONV_MODE_LEFT_ALIGN, 3);
     x = GetStringCenterAlignXOffset(1, gStringVar1, 72) + 76;
     PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gStringVar1, x, 56, 0, 0);
 
-    PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, sText_SpecialDefense, 12, 72, 0, 1);
-    if (sMonSummaryScreen->currStatIndex == 0)
-        ConvertIntToDecimalStringN(gStringVar1, summary->spdef, STR_CONV_MODE_LEFT_ALIGN, 3);
-    else if (sMonSummaryScreen->currStatIndex == 1)
-        ConvertIntToDecimalStringN(gStringVar1, summary->spdefIV, STR_CONV_MODE_LEFT_ALIGN, 2);
-    else
-        ConvertIntToDecimalStringN(gStringVar1, summary->spdefEV, STR_CONV_MODE_LEFT_ALIGN, 3);
+    ConvertIntToDecimalStringN(gStringVar1, summary->spdef, STR_CONV_MODE_LEFT_ALIGN, 3);
     x = GetStringCenterAlignXOffset(1, gStringVar1, 72) + 76;
     PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gStringVar1, x, 72, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
 
-    PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, sText_Speed, 12, 88, 0, PSS_COLOR_WHITE_BLACK_SHADOW);
-    if (sMonSummaryScreen->currStatIndex == 0)
-        ConvertIntToDecimalStringN(gStringVar1, summary->speed, STR_CONV_MODE_LEFT_ALIGN, 3);
-    else if (sMonSummaryScreen->currStatIndex == 1)
-        ConvertIntToDecimalStringN(gStringVar1, summary->speedIV, STR_CONV_MODE_LEFT_ALIGN, 2);
-    else
-        ConvertIntToDecimalStringN(gStringVar1, summary->speedEV, STR_CONV_MODE_LEFT_ALIGN, 3);
+    ConvertIntToDecimalStringN(gStringVar1, summary->speed, STR_CONV_MODE_LEFT_ALIGN, 3);
     x = GetStringCenterAlignXOffset(1, gStringVar1, 72) + 76;
     PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gStringVar1, x, 88, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
+
+    PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, sText_ExpPoints, 8, 100, 0, PSS_COLOR_WHITE_BLACK_SHADOW);
+    ConvertIntToDecimalStringN(gStringVar1, summary->exp, STR_CONV_MODE_RIGHT_ALIGN, 7);
+    x = GetStringRightAlignXOffset(1, gStringVar1, 42) + 91;
+    PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gStringVar1, x, 100, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
+
+    PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, sText_NextLevel, 8, 116, 0, PSS_COLOR_WHITE_BLACK_SHADOW);
+    if (summary->level < MAX_LEVEL)
+        ConvertIntToDecimalStringN(gStringVar1, gExperienceTables[gBaseStats[summary->species].growthRate][summary->level + 1] - summary->exp, STR_CONV_MODE_RIGHT_ALIGN, 6);
+    else
+        ConvertIntToDecimalStringN(gStringVar1, 0, STR_CONV_MODE_RIGHT_ALIGN, 6);
+    x = GetStringRightAlignXOffset(1, gStringVar1, 42) + 91;
+    PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gStringVar1, x, 116, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
 
     PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, sText_Ability, 8, 112, 0, PSS_COLOR_WHITE_BLACK_SHADOW);
     StringCopy(gStringVar1, gAbilityNames[GetAbilityBySpecies(sMonSummaryScreen->summary.species, summary->abilityNum)]);
@@ -2946,8 +2997,8 @@ static void PrintMoveNameAndPP(u8 moveIndex)
         if (moveIndex == 3)
         {
             FillWindowPixelBuffer(PSS_LABEL_PANE_RIGHT_BOTTOM, PIXEL_FILL(0));
-            PrintTextOnWindowSigned(PSS_LABEL_PANE_RIGHT_BOTTOM, sText_PP, 80, -4, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
-            PrintTextOnWindowSigned(PSS_LABEL_PANE_RIGHT_BOTTOM, gStringVar1, x, -4, 0, color);
+            PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_BOTTOM, sText_PP, 80, 0, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
+            PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_BOTTOM, gStringVar1, x, 0, 0, color);
         }
     }
     else
@@ -2959,7 +3010,7 @@ static void PrintMoveNameAndPP(u8 moveIndex)
         if (moveIndex == 3)
         {
             FillWindowPixelBuffer(PSS_LABEL_PANE_RIGHT_BOTTOM, PIXEL_FILL(0));
-            PrintTextOnWindowSigned(PSS_LABEL_PANE_RIGHT_BOTTOM, gText_TwoDashes, x, -4, 0, color);
+            PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_BOTTOM, gText_TwoDashes, x, 0, 0, color);
         }
     }
 }
@@ -2983,10 +3034,9 @@ static void PrintMoveDetails(u16 move)
     struct PokeSummary *summary = &sMonSummaryScreen->summary;
 
     SetSpriteInvisibility(SPRITE_ARR_ID_MON, TRUE);
-    SetSpriteInvisibility(SPRITE_ARR_ID_ITEM, TRUE);
     SetSpriteInvisibility(SPRITE_ARR_ID_STATUS, TRUE);
-    sMonSummaryScreen->markingsSprite->x = 257;
-    sMonSummaryScreen->markingsSprite->y = 332;
+    if (CONFIG_CONTEST_MOVES_ENABLED)
+        sMonSummaryScreen->markingsSprite->invisible = TRUE;
     FillWindowPixelBuffer(PSS_LABEL_PANE_LEFT_MOVE, PIXEL_FILL(0));
 
     SetSpriteInvisibility(SPRITE_ARR_ID_MON_ICON, FALSE);
@@ -3140,7 +3190,7 @@ static void HidePageSpecificSprites(void)
     // Keeps Pokémon, caught ball and status sprites visible.
     u8 i;
 
-    for (i = SPRITE_ARR_ID_ORIGIN; i < ARRAY_COUNT(sMonSummaryScreen->spriteIds); i++)
+    for (i = SPRITE_ARR_ID_BEGIN_TRANSIENT; i < ARRAY_COUNT(sMonSummaryScreen->spriteIds); i++)
         if (sMonSummaryScreen->spriteIds[i] != SPRITE_NONE)
             SetSpriteInvisibility(i, TRUE);
 
@@ -3186,15 +3236,23 @@ static void SetMonTypeIcons(void)
 {
     struct PokeSummary *summary = &sMonSummaryScreen->summary;
 
+    if (summary->isEgg)
+    {
+        SetSpriteInvisibility(SPRITE_ARR_ID_TYPE, TRUE);
+        SetSpriteInvisibility(SPRITE_ARR_ID_TYPE + 1, TRUE);
+        return;
+    }
+
+    SetTypeSpritePosAndPal(gBaseStats[summary->species].type1, 167, 49, SPRITE_ARR_ID_TYPE);
+    SetSpriteInvisibility(SPRITE_ARR_ID_TYPE, FALSE);
+
     if (gBaseStats[summary->species].type1 != gBaseStats[summary->species].type2)
     {
-        SetTypeSpritePosAndPal(gBaseStats[summary->species].type1, 167, 65, SPRITE_ARR_ID_TYPE);
-        SetTypeSpritePosAndPal(gBaseStats[summary->species].type2, 201, 65, SPRITE_ARR_ID_TYPE + 1);
+        SetTypeSpritePosAndPal(gBaseStats[summary->species].type2, 203, 49, SPRITE_ARR_ID_TYPE + 1);
         SetSpriteInvisibility(SPRITE_ARR_ID_TYPE + 1, FALSE);
     }
     else
     {
-        SetTypeSpritePosAndPal(gBaseStats[summary->species].type1, 184, 65, SPRITE_ARR_ID_TYPE);
         SetSpriteInvisibility(SPRITE_ARR_ID_TYPE + 1, TRUE);
     }
 }
@@ -3322,7 +3380,7 @@ static void PlayMonCry(void)
 static u8 CreateMonSprite(struct Pokemon *unused)
 {
     struct PokeSummary *summary = &sMonSummaryScreen->summary;
-    u8 spriteId = CreateSprite(&gMultiuseSpriteTemplate, 40, 85, 5);
+    u8 spriteId = CreateSprite(&gMultiuseSpriteTemplate, 60, 65, 5);
     FreeSpriteOamMatrix(&gSprites[spriteId]);
     gSprites[spriteId].data[0] = summary->species2;
     gSprites[spriteId].data[2] = 0;
@@ -3382,15 +3440,20 @@ static void StopPokemonAnimations(void)  // A subtle effect, this function stops
 
 static void CreateMonMarkingsSprite(struct Pokemon *mon)
 {
-    struct Sprite *sprite = CreateMonMarkingAllCombosSprite(TAG_MON_MARKINGS, TAG_MON_MARKINGS, sSummaryMarkingsPalette);
+    struct Sprite *sprite;
+
+    if (sMonSummaryScreen->summary.isEgg)
+        return;
+
+    sprite = CreateMonMarkingAllCombosSprite(TAG_MON_MARKINGS, TAG_MON_MARKINGS, sSummaryMarkingsPalette);
     sMonSummaryScreen->markingsSprite = sprite;
 
-    if (sprite == NULL)
+    if (sprite == NULL || !CONFIG_CONTEST_MOVES_ENABLED)
         return;
 
     StartSpriteAnim(sprite, GetMonData(mon, MON_DATA_MARKINGS));
-    sMonSummaryScreen->markingsSprite->x = 57;
-    sMonSummaryScreen->markingsSprite->y = 132;
+    sMonSummaryScreen->markingsSprite->x = 112;
+    sMonSummaryScreen->markingsSprite->y = 50;
     sMonSummaryScreen->markingsSprite->oam.priority = 1;
 }
 
@@ -3403,30 +3466,11 @@ static void RemoveAndCreateMonMarkingsSprite(struct Pokemon *mon)
 
 static void CreateCaughtBallSprite(struct Pokemon *mon)
 {
-    u8 gfxId = BallIdToGfxId(GetMonData(mon, MON_DATA_POKEBALL));
-
-    LoadBallGfx(gfxId);
-    sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_BALL] = CreateSprite(&gBallSpriteTemplates[gfxId], 0, 0, 0);
+    u8 ball = BallIdToGfxId(GetMonData(mon, MON_DATA_POKEBALL));
+    LoadBallGfx(ball);
+    sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_BALL] = CreateSprite(&gBallSpriteTemplates[ball], 106, 88, 0);
     gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_BALL]].callback = SpriteCallbackDummy;
-    gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_BALL]].oam.priority = 3;
-    gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_BALL]].x = 106;
-    gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_BALL]].y = 88;
-}
-
-static void CreateHeldItemSprite(struct Pokemon *mon)
-{
-    u16 item = GetMonData(mon, MON_DATA_HELD_ITEM);
-
-    if (item == ITEM_NONE)
-        return;
-
-    FreeSpriteTilesByTag(5501);
-    FreeSpritePaletteByTag(5501);
-    sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ITEM] = AddItemIconSprite(5501, 5501, item);
-    gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ITEM]].callback = SpriteCallbackDummy;
-    gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ITEM]].oam.priority = 0;
-    gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ITEM]].x = 16;
-    gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_ITEM]].y = 153;
+    gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_BALL]].oam.priority = 0;
 }
 
 static void CreateSetStatusSprite(void)
@@ -3435,7 +3479,7 @@ static void CreateSetStatusSprite(void)
     u8 statusAnim = GetMonAilment(&sMonSummaryScreen->currentMon);
 
     if (*spriteId == SPRITE_NONE)
-        *spriteId = CreateSprite(&sSpriteTemplate_StatusCondition, 20, 132, 0);
+        *spriteId = CreateSprite(&sSpriteTemplate_StatusCondition, 16, 38, 0);
 
     if (statusAnim != 0)
     {
@@ -3772,7 +3816,7 @@ static void SetExpBarSprites(void)
 {
     u8 i;
 
-    if (sMonSummaryScreen->currPageIndex == PSS_PAGE_INFO)
+    if (sMonSummaryScreen->currPageIndex == PSS_PAGE_SKILLS)
         for (i = 0; i < EXP_BAR_SPRITES_COUNT; i++)
             sExpBar->sprites[i]->invisible = FALSE;
 }
@@ -3780,520 +3824,41 @@ static void SetExpBarSprites(void)
 static void PrintInfoBar(u8 pageIndex, bool8 detailsShown)
 {
     u8 x;
-
     FillWindowPixelBuffer(PSS_LABEL_PANE_TITLE, PIXEL_FILL(0));
 
     switch (pageIndex)
     {
         case PSS_PAGE_INFO:
             StringCopy(gStringVar1, sText_TitleInfo);
-            StringCopy(gStringVar2, sText_TitlePage);
+            if (sMonSummaryScreen->summary.isEgg)
+                StringCopy(gStringVar2, sText_TitleCancel);
+            else
+                StringCopy(gStringVar2, sText_TitlePageCancel);
             break;
         case PSS_PAGE_SKILLS:
-            if (!FlagGet(FLAG_SYS_GAME_CLEAR))
-            {
-                StringCopy(gStringVar1, sText_TitleSkills);
-                StringCopy(gStringVar2, sText_TitlePage);
-            }
-            else if (sMonSummaryScreen->currStatIndex == 0)
-            {
-                StringCopy(gStringVar1, sText_TitleSkills);
-                StringCopy(gStringVar2, sText_TitlePageIVs);
-            }
-            else if (sMonSummaryScreen->currStatIndex == 1)
-            {
-                StringCopy(gStringVar1, sText_TitleIVs);
-                StringCopy(gStringVar2, sText_TitlePageEVs);
-            }
-            else
-            {
-                StringCopy(gStringVar1, sText_TitleEVs);
-                StringCopy(gStringVar2, sText_TitlePageStats);
-            }
-
+            StringCopy(gStringVar1, sText_TitleSkills);
+            StringCopy(gStringVar2, sText_TitlePage);
             break;
         case PSS_PAGE_BATTLE_MOVES:
             StringCopy(gStringVar1, sText_TitleBattleMoves);
-
             if (detailsShown)
                 StringCopy(gStringVar2, sText_TitlePickSwitch);
+            else if (CONFIG_CONTEST_MOVES_ENABLED)
+                StringCopy(gStringVar2, sText_TitlePageDetailLR);
             else
-                StringCopy(gStringVar2, sText_TitlePageDetail);
-
+                StringCopy(gStringVar2, sText_TitlePageDetailL);
             break;
         case PSS_PAGE_CONTEST_MOVES:
             StringCopy(gStringVar1, sText_TitleContestMoves);
-
             if (detailsShown)
                 StringCopy(gStringVar2, sText_TitlePickSwitch);
             else
-                StringCopy(gStringVar2, sText_TitlePageDetail);
-
+                StringCopy(gStringVar2, sText_TitlePageDetailL);
             break;
     }
 
-    PrintTextOnWindow(PSS_LABEL_PANE_TITLE, gStringVar1, 3, 0, 0, PSS_COLOR_WHITE_BLACK_SHADOW);
-    x = GetStringRightAlignXOffset(0, gStringVar2, 150);
+    PrintTextOnWindow(PSS_LABEL_PANE_TITLE, gStringVar1, 4, 1, 0, PSS_COLOR_WHITE_BLACK_SHADOW);
+    x = GetStringRightAlignXOffset(0, gStringVar2, 236);
     AddTextPrinterParameterized4(PSS_LABEL_PANE_TITLE, 0, x, 0, 0, 0, sTextColors[PSS_COLOR_WHITE_BLACK_SHADOW], 0, gStringVar2);
     PutWindowTilemap(PSS_LABEL_PANE_TITLE);
-}
-
-static u8 WhatRegionWasMonCaughtIn(struct Pokemon *mon)
-{
-    u8 originGame = GetMonData(mon, MON_DATA_MET_GAME, 0);
-    u8 metLocation = GetMonData(mon, MON_DATA_MET_LOCATION, 0);
-
-    if (originGame == VERSION_GAMECUBE)
-        return REGION_ORRE;
-    else if ((metLocation >= KANTO_MAPSEC_START && metLocation <= KANTO_MAPSEC_END) || metLocation == MAPSEC_BIRTH_ISLAND || metLocation == MAPSEC_NAVEL_ROCK)
-        return REGION_KANTO;
-    else if (metLocation == MAPSEC_FARAWAY_ISLAND || metLocation == METLOC_FATEFUL_ENCOUNTER || metLocation == METLOC_IN_GAME_TRADE)
-        return REGION_UNKNOWN;
-    else if (originGame == 0 || originGame == 6 || originGame == 9 || originGame == 13 || originGame == 14)
-        return REGION_UNKNOWN;
-    else
-        return REGION_HOENN;
-}
-
-static u8 *GetMapNameHoennKanto(u8 *dest, u16 regionMapId)
-{
-    if (regionMapId < MAPSEC_NONE && gRegionMapEntries[regionMapId].name != 0)
-        StringCopy(dest, gRegionMapEntries[regionMapId].name);
-    else
-        StringCopy(dest, gOrreMapNamePointers[MAPSEC_DISTANT_LAND]);
-}
-
-static u8 *GetMapNameOrre(u8 *dest, u16 regionMapId, bool8 isXD)
-{
-    if (!isXD)
-    {
-        switch (regionMapId)
-        {
-        case 1:
-        case 2:
-        case 200:
-            regionMapId = MAPSEC_OUTSKIRT_STAND;
-            break;
-        case 3:
-        case 4:
-        case 7:
-        case 8:
-        case 9:
-        case 10:
-        case 119:
-        case 128:
-        case 202:
-            regionMapId = MAPSEC_PHENAC_CITY;
-            break;
-        case 5:
-        case 6:
-        case 204:
-            regionMapId = MAPSEC_MAYORS_HOUSE;
-            break;
-        case 11:
-        case 12:
-        case 203:
-            regionMapId = MAPSEC_PRE_GYM;
-            break;
-        case 13:
-        case 14:
-            regionMapId = MAPSEC_PHENAC_STADIUM;
-            break;
-        case 15:
-        case 16:
-        case 17:
-        case 18:
-        case 19:
-        case 20:
-        case 21:
-        case 22:
-        case 23:
-        case 24:
-        case 205:
-            regionMapId = MAPSEC_PYRITE_TOWN;
-            break;
-        case 25:
-        case 26:
-        case 27:
-        case 28:
-        case 207:
-            regionMapId = MAPSEC_PYRITE_BLDG;
-            break;
-        case 29:
-        case 31:
-        case 32:
-        case 33:
-        case 34:
-        case 206:
-            regionMapId = MAPSEC_PYRITE_CAVE;
-            break;
-        case 30:
-            regionMapId = MAPSEC_MIRORS_HIDEOUT;
-            break;
-        case 35:
-        case 120:
-        case 142:
-            regionMapId = MAPSEC_PYRITE_COLOSSEUM;
-            break;
-        case 36:
-        case 39:
-        case 40:
-        case 41:
-        case 42:
-        case 43:
-        case 44:
-        case 45:
-        case 46:
-        case 208:
-        case 209:
-            regionMapId = MAPSEC_AGATE_VILLAGE;
-            break;
-        case 37:
-        case 38:
-        case 210:
-            regionMapId = MAPSEC_RELIC_CAVE;
-            break;
-        case 47:
-        case 48:
-        case 49:
-        case 50:
-        case 51:
-        case 52:
-        case 53:
-        case 54:
-        case 55:
-        case 62:
-        case 122:
-        case 127:
-        case 211:
-        case 212:
-            regionMapId = MAPSEC_THE_UNDER;
-            break;
-        case 57:
-        case 58:
-        case 59:
-        case 60:
-        case 61:
-        case 138:
-        case 139:
-        case 213:
-            regionMapId = MAPSEC_THE_UNDER_SUBWAY;
-            break;
-        case 63:
-        case 121:
-            regionMapId = MAPSEC_UNDER_COLOSSEUM;
-            break;
-        case 64:
-        case 125:
-            regionMapId = MAPSEC_DEEP_COLOSSEUM;
-            break;
-        case 65:
-        case 214:
-            regionMapId = MAPSEC_FRONT_OF_LAB;
-            break;
-        case 66:
-        case 67:
-        case 68:
-        case 69:
-        case 70:
-        case 71:
-        case 72:
-        case 73:
-        case 140:
-        case 141:
-        case 215:
-            regionMapId = MAPSEC_LABORATORY;
-            break;
-        case 74:
-        case 75:
-        case 76:
-        case 77:
-        case 78:
-        case 79:
-        case 80:
-        case 81:
-        case 82:
-        case 83:
-        case 84:
-        case 85:
-        case 86:
-        case 87:
-        case 88:
-        case 89:
-        case 90:
-        case 91:
-        case 92:
-        case 93:
-        case 94:
-        case 216:
-        case 217:
-        case 218:
-        case 219:
-        case 220:
-            regionMapId = MAPSEC_MT_BATTLE;
-            break;
-        case 95:
-        case 228:
-            regionMapId = MAPSEC_MTBTL_COLOSSEUM;
-            break;
-        case 102:
-        case 115:
-        case 116:
-        case 117:
-        case 123:
-        case 124:
-        case 223:
-        case 224:
-            regionMapId = MAPSEC_REALGAM_TOWER;
-            break;
-        case 103:
-        case 104:
-        case 105:
-        case 106:
-        case 107:
-        case 108:
-        case 109:
-        case 110:
-        case 111:
-        case 112:
-        case 113:
-        case 221:
-            regionMapId = MAPSEC_REALGAMTWR_DOME;
-            break;
-        case 114:
-        case 222:
-            regionMapId = MAPSEC_REALGAMTWR_LOBBY;
-            break;
-        case 118:
-        case 227:
-            regionMapId = MAPSEC_TOWER_COLOSSEUM;
-            break;
-        case 126:
-            regionMapId = MAPSEC_ORRE_COLOSSEUM;
-            break;
-        case 129:
-        case 130:
-        case 131:
-        case 132:
-        case 133:
-        case 134:
-        case 135:
-        case 136:
-        case 137:
-        case 201:
-            regionMapId = MAPSEC_SNAGEM_HIDEOUT;
-            break;
-        case 225:
-        case 226:
-            regionMapId = MAPSEC_REALGAM_TOWER_2F;
-            break;
-        default:
-            regionMapId = MAPSEC_DISTANT_LAND;
-        }
-    }
-    else
-    {
-        switch (regionMapId)
-        {
-        case 1:
-        case 7:
-        case 8:
-        case 9:
-        case 10:
-        case 11:
-            regionMapId = MAPSEC_CIPHER_LAB;
-            break;
-        case 12:
-        case 13:
-        case 14:
-        case 15:
-        case 16:
-        case 17:
-        case 18:
-        case 19:
-        case 20:
-        case 21:
-        case 23:
-        case 24:
-        case 25:
-        case 26:
-        case 27:
-        case 28:
-        case 29:
-        case 30:
-        case 31:
-        case 32:
-        case 33:
-        case 34:
-            regionMapId = MAPSEC_MT_BATTLE;
-            break;
-        case 35:
-        case 36:
-        case 37:
-        case 38:
-        case 39:
-        case 40:
-        case 41:
-        case 42:
-        case 43:
-        case 44:
-            regionMapId = MAPSEC_S_S_LIBRA;
-            break;
-        case 45:
-        case 46:
-        case 49:
-        case 50:
-        case 51:
-        case 57:
-        case 58:
-        case 59:
-        case 60:
-        case 61:
-            regionMapId = MAPSEC_REALGAM_TOWER;
-            break;
-        case 64:
-        case 65:
-        case 66:
-        case 67:
-        case 68:
-        case 69:
-        case 70:
-        case 71:
-            regionMapId = MAPSEC_CIPHER_KEY_LAIR;
-            break;
-        case 72:
-        case 73:
-        case 74:
-        case 75:
-        case 76:
-        case 77:
-        case 78:
-        case 79:
-        case 80:
-        case 81:
-        case 82:
-        case 83:
-        case 84:
-        case 85:
-        case 86:
-        case 87:
-        case 88:
-        case 89:
-            regionMapId = MAPSEC_CITADARK_ISLE;
-            break;
-        case 90:
-            regionMapId = MAPSEC_ROCK;
-            break;
-        case 91:
-            regionMapId = MAPSEC_OASIS;
-            break;
-        case 92:
-            regionMapId = MAPSEC_CAVE;
-            break;
-        case 93:
-        case 94:
-        case 95:
-        case 96:
-        case 97:
-        case 98:
-        case 99:
-        case 100:
-        case 101:
-        case 102:
-        case 103:
-        case 104:
-        case 105:
-        case 106:
-        case 107:
-        case 181:
-            regionMapId = MAPSEC_PHENAC_CITY;
-            break;
-        case 108:
-        case 109:
-        case 110:
-        case 111:
-        case 112:
-        case 113:
-        case 115:
-        case 116:
-        case 117:
-        case 118:
-        case 119:
-        case 120:
-        case 121:
-        case 122:
-        case 123:
-            regionMapId = MAPSEC_PYRITE_TOWN;
-            break;
-        case 125:
-        case 126:
-        case 127:
-        case 128:
-        case 129:
-        case 130:
-        case 131:
-        case 132:
-        case 133:
-        case 134:
-        case 135:
-            regionMapId = MAPSEC_AGATE_VILLAGE;
-            break;
-        case 138:
-        case 139:
-        case 140:
-        case 141:
-        case 142:
-        case 143:
-            regionMapId = MAPSEC_POKEMON_HQ_LAB;
-            break;
-        case 144:
-        case 145:
-        case 146:
-        case 147:
-        case 148:
-        case 149:
-        case 150:
-        case 151:
-        case 152:
-        case 153:
-        case 154:
-        case 155:
-        case 156:
-        case 157:
-        case 158:
-        case 159:
-        case 160:
-        case 161:
-        case 162:
-            regionMapId = MAPSEC_GATEON_PORT;
-            break;
-        case 163:
-        case 164:
-            regionMapId = MAPSEC_OUTSKIRT_STAND;
-            break;
-        case 165:
-        case 166:
-        case 167:
-        case 168:
-            regionMapId = MAPSEC_SNAGEM_HIDEOUT;
-            break;
-        case 169:
-        case 170:
-        case 171:
-        case 172:
-        case 173:
-            regionMapId = MAPSEC_KAMINKOS_HOUSE;
-            break;
-        case 174:
-            regionMapId = MAPSEC_ORRE_COLOSSEUM;
-            break;
-        default:
-            regionMapId = MAPSEC_DISTANT_LAND;
-        }
-    }
-
-    if (regionMapId < ORRE_MAPSEC_END && gOrreMapNamePointers[regionMapId] != 0)
-        StringCopy(dest, gOrreMapNamePointers[regionMapId]);
-    else
-        StringCopy(dest, gOrreMapNamePointers[MAPSEC_DISTANT_LAND]);
 }
