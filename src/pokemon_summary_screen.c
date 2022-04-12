@@ -41,6 +41,7 @@
 #include "tv.h"
 #include "window.h"
 #include "constants/items.h"
+#include "constants/layouts.h"
 #include "constants/moves.h"
 #include "constants/party_menu.h"
 #include "constants/region_map_sections.h"
@@ -52,8 +53,7 @@
 #include "battle_interface.h"
 
 // Config options - Note that some config options need external modifications to fully work, such as CONFIG_CAN_FORGET_HM_MOVES, CONFIG_PHYSICAL_SPECIAL_SPLIT, and CONFIG_DECAPITALIZE_MET_LOCATION_STRINGS
-#define CONFIG_CONTEST_MOVES_ENABLED                    TRUE
-#define CONFIG_CAN_SWITCH_PAGES_WHILE_DETAILS_ARE_UP    TRUE
+#define CONFIG_CONTEST_MOVES_ENABLED TRUE
 
 enum {
     PSS_PAGE_INFO,
@@ -446,6 +446,7 @@ static const struct WindowTemplate sSummaryTemplate[] =
         .paletteNum = 8,
         .baseBlock = 253,
     },
+
     [WINDOW_ARR_ID_MOVES_WINDOW_RIGHT] = DUMMY_WIN_TEMPLATE,
     [WINDOW_ARR_ID_MOVES_WINDOW_LEFT] = DUMMY_WIN_TEMPLATE,
     DUMMY_WIN_TEMPLATE
@@ -1049,10 +1050,7 @@ void ShowPokemonSummaryScreen(u8 mode, void *mons, u8 monIndex, u8 maxMonIndex, 
         break;
     case SUMMARY_MODE_SELECT_MOVE:    // Index limiters aren't actually used in this case, but we'll keep them for clarity
         sMonSummaryScreen->trueMinPageIndex = PSS_PAGE_BATTLE_MOVES;
-        if (CONFIG_CAN_SWITCH_PAGES_WHILE_DETAILS_ARE_UP)
-            sMonSummaryScreen->trueMaxPageIndex = PSS_PAGE_CONTEST_MOVES;
-        else
-            sMonSummaryScreen->trueMaxPageIndex = PSS_PAGE_BATTLE_MOVES;
+        sMonSummaryScreen->trueMaxPageIndex = PSS_PAGE_CONTEST_MOVES;
         sMonSummaryScreen->lockMonFlag = TRUE;
         break;
     }
@@ -1497,22 +1495,22 @@ static void BeginCloseSummaryScreen(u8 taskId)
 
 static void CloseSummaryScreen(u8 taskId)
 {
-    if (MenuHelpers_CallLinkSomething() != TRUE && !gPaletteFade.active)
-    {
-        SetMainCallback2(sMonSummaryScreen->callback);
-        gLastViewedMonIndex = sMonSummaryScreen->curMonIndex;
-        SummaryScreen_DestroyAnimDelayTask();
-        DestroyHealthBarSprites();
-        DestroyExpBarSprites();
-        ResetSpriteData();
-        FreeAllSpritePalettes();
-        StopCryAndClearCrySongs();
-        m4aMPlayVolumeControl(&gMPlayInfo_BGM, 0xFFFF, 0x100);
-        if (gMonSpritesGfxPtr == NULL)
-            sub_806F47C(0);
-        FreeSummaryScreen();
-        DestroyTask(taskId);
-    }
+    if (MenuHelpers_CallLinkSomething() || gPaletteFade.active)
+        return;
+
+    SetMainCallback2(sMonSummaryScreen->callback);
+    gLastViewedMonIndex = sMonSummaryScreen->curMonIndex;
+    SummaryScreen_DestroyAnimDelayTask();
+    DestroyHealthBarSprites();
+    DestroyExpBarSprites();
+    ResetSpriteData();
+    FreeAllSpritePalettes();
+    StopCryAndClearCrySongs();
+    m4aMPlayVolumeControl(&gMPlayInfo_BGM, 0xFFFF, 0x100);
+    if (gMonSpritesGfxPtr == NULL)
+        sub_806F47C(0);
+    FreeSummaryScreen();
+    DestroyTask(taskId);
 }
 
 static void Task_HandleInput(u8 taskId)
@@ -1521,44 +1519,44 @@ static void Task_HandleInput(u8 taskId)
 
     data[0] = 0;
 
-    if (MenuHelpers_CallLinkSomething() != TRUE && !gPaletteFade.active)
+    if (MenuHelpers_CallLinkSomething() || gPaletteFade.active)
+        return;
+
+    if (JOY_NEW(DPAD_UP))
     {
-        if (JOY_NEW(DPAD_UP))
-        {
-            ChangeSummaryPokemon(taskId, -1);
-        }
-        else if (JOY_NEW(DPAD_DOWN))
-        {
-            ChangeSummaryPokemon(taskId, 1);
-        }
-        else if ((JOY_NEW(DPAD_LEFT)) || GetLRKeysPressed() == MENU_L_PRESSED)
-        {
-            ChangePage(taskId, -1);
-        }
-        else if ((JOY_NEW(DPAD_RIGHT)) || GetLRKeysPressed() == MENU_R_PRESSED)
-        {
-            ChangePage(taskId, 1);
-        }
-        else if (JOY_NEW(A_BUTTON))
-        {
-            if (sMonSummaryScreen->currPageIndex == PSS_PAGE_INFO)
-            {
-                StopPokemonAnimations();
-                PlaySE(SE_SELECT);
-                BeginCloseSummaryScreen(taskId);
-            }
-            if (sMonSummaryScreen->currPageIndex == PSS_PAGE_BATTLE_MOVES || sMonSummaryScreen->currPageIndex == PSS_PAGE_CONTEST_MOVES)
-            {
-                PlaySE(SE_SELECT);
-                SwitchToMoveSelection(taskId);
-            }
-        }
-        else if (JOY_NEW(B_BUTTON))
+        ChangeSummaryPokemon(taskId, -1);
+    }
+    else if (JOY_NEW(DPAD_DOWN))
+    {
+        ChangeSummaryPokemon(taskId, 1);
+    }
+    else if ((JOY_NEW(DPAD_LEFT)) || GetLRKeysPressed() == MENU_L_PRESSED)
+    {
+        ChangePage(taskId, -1);
+    }
+    else if ((JOY_NEW(DPAD_RIGHT)) || GetLRKeysPressed() == MENU_R_PRESSED)
+    {
+        ChangePage(taskId, 1);
+    }
+    else if (JOY_NEW(A_BUTTON))
+    {
+        if (sMonSummaryScreen->currPageIndex == PSS_PAGE_INFO)
         {
             StopPokemonAnimations();
             PlaySE(SE_SELECT);
             BeginCloseSummaryScreen(taskId);
         }
+        if (sMonSummaryScreen->currPageIndex == PSS_PAGE_BATTLE_MOVES || sMonSummaryScreen->currPageIndex == PSS_PAGE_CONTEST_MOVES)
+        {
+            PlaySE(SE_SELECT);
+            SwitchToMoveSelection(taskId);
+        }
+    }
+    else if (JOY_NEW(B_BUTTON))
+    {
+        StopPokemonAnimations();
+        PlaySE(SE_SELECT);
+        BeginCloseSummaryScreen(taskId);
     }
 }
 
@@ -1570,35 +1568,35 @@ static void ChangeSummaryPokemon(u8 taskId, s8 delta)
     if (sMonSummaryScreen->maxMonIndex == 0)
         return;
 
-    if (!sMonSummaryScreen->lockMonFlag)
-    {
-        if (sMonSummaryScreen->isBoxMon == TRUE)
-        {
-            if (delta == 1)
-                delta = 0;
-            else
-                delta = 2;
-            monId = AdvanceStorageMonIndex(sMonSummaryScreen->monList.boxMons, sMonSummaryScreen->curMonIndex, sMonSummaryScreen->maxMonIndex, delta);
-        }
-        else if (IsMultiBattle() == TRUE)
-        {
-            monId = AdvanceMultiBattleMonIndex(delta);
-        }
-        else
-        {
-            monId = AdvanceMonIndex(delta);
-        }
+    if (sMonSummaryScreen->lockMonFlag)
+        return;
 
-        if (monId != -1)
-        {
-            PlaySE(SE_SELECT);
-            if (sMonSummaryScreen->summary.ailment != AILMENT_NONE)
-                SetSpriteInvisibility(SPRITE_ARR_ID_STATUS, TRUE);
-            sMonSummaryScreen->curMonIndex = monId;
-            gTasks[taskId].data[0] = 0;
-            gTasks[taskId].func = Task_ChangeSummaryMon;
-        }
+    if (sMonSummaryScreen->isBoxMon == TRUE)
+    {
+        if (delta == 1)
+            delta = 0;
+        else
+            delta = 2;
+        monId = AdvanceStorageMonIndex(sMonSummaryScreen->monList.boxMons, sMonSummaryScreen->curMonIndex, sMonSummaryScreen->maxMonIndex, delta);
     }
+    else if (IsMultiBattle() == TRUE)
+    {
+        monId = AdvanceMultiBattleMonIndex(delta);
+    }
+    else
+    {
+        monId = AdvanceMonIndex(delta);
+    }
+
+    if (monId == -1)
+        return;
+
+    PlaySE(SE_SELECT);
+    if (sMonSummaryScreen->summary.ailment != AILMENT_NONE)
+        SetSpriteInvisibility(SPRITE_ARR_ID_STATUS, TRUE);
+    sMonSummaryScreen->curMonIndex = monId;
+    gTasks[taskId].data[0] = 0;
+    gTasks[taskId].func = Task_ChangeSummaryMon;
 }
 
 static void Task_ChangeSummaryMon(u8 taskId)
@@ -1876,56 +1874,56 @@ static void Task_HandleInput_MoveSelect(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
-    if (MenuHelpers_CallLinkSomething() != 1)
-    {
-        if (JOY_NEW(DPAD_UP))
-        {
-            data[0] = 4;
-            ChangeSelectedMove(data, -1, &sMonSummaryScreen->firstMoveIndex);
-        }
-        else if (JOY_NEW(DPAD_DOWN))
-        {
-            data[0] = 4;
-            ChangeSelectedMove(data, 1, &sMonSummaryScreen->firstMoveIndex);
-        }
-        else if (CONFIG_CAN_SWITCH_PAGES_WHILE_DETAILS_ARE_UP && (JOY_NEW(DPAD_LEFT) || GetLRKeysPressed() == MENU_L_PRESSED || JOY_NEW(DPAD_RIGHT) || GetLRKeysPressed() == MENU_R_PRESSED))
-        {
-            if (sMonSummaryScreen->maxPageIndex > PSS_PAGE_BATTLE_MOVES)
-            {
-                if (sMonSummaryScreen->currPageIndex == PSS_PAGE_BATTLE_MOVES)
-                    sMonSummaryScreen->currPageIndex = PSS_PAGE_CONTEST_MOVES;
-                else
-                    sMonSummaryScreen->currPageIndex = PSS_PAGE_BATTLE_MOVES;
+    if (MenuHelpers_CallLinkSomething())
+        return;
 
-                LZDecompressWram(sPageTilemaps[sMonSummaryScreen->currPageIndex], sMonSummaryScreen->bgTilemapBufferPage);
-                PlaySE(SE_SELECT);
-                data[0] = 0;
-                gTasks[taskId].func = Task_SwitchPageInMoveSelect;
-            }
-        }
-        else if (JOY_NEW(A_BUTTON))
+    if (JOY_NEW(DPAD_UP))
+    {
+        data[0] = 4;
+        ChangeSelectedMove(data, -1, &sMonSummaryScreen->firstMoveIndex);
+    }
+    else if (JOY_NEW(DPAD_DOWN))
+    {
+        data[0] = 4;
+        ChangeSelectedMove(data, 1, &sMonSummaryScreen->firstMoveIndex);
+    }
+    else if (JOY_NEW(DPAD_LEFT) || GetLRKeysPressed() == MENU_L_PRESSED || JOY_NEW(DPAD_RIGHT) || GetLRKeysPressed() == MENU_R_PRESSED)
+    {
+        if (sMonSummaryScreen->maxPageIndex > PSS_PAGE_BATTLE_MOVES)
         {
-            if (sMonSummaryScreen->lockMovesFlag == TRUE
-            || (sMonSummaryScreen->newMove == MOVE_NONE && sMonSummaryScreen->firstMoveIndex == MAX_MON_MOVES))
-            {
-                PlaySE(SE_SELECT);
-                CloseMoveSelectMode(taskId);
-            }
-            else if (HasMoreThanOneMove() == TRUE)
-            {
-                PlaySE(SE_SELECT);
-                SwitchToMovePositionSwitchMode(taskId);
-            }
+            if (sMonSummaryScreen->currPageIndex == PSS_PAGE_BATTLE_MOVES)
+                sMonSummaryScreen->currPageIndex = PSS_PAGE_CONTEST_MOVES;
             else
-            {
-                PlaySE(SE_FAILURE);
-            }
+                sMonSummaryScreen->currPageIndex = PSS_PAGE_BATTLE_MOVES;
+
+            LZDecompressWram(sPageTilemaps[sMonSummaryScreen->currPageIndex], sMonSummaryScreen->bgTilemapBufferPage);
+            PlaySE(SE_SELECT);
+            data[0] = 0;
+            gTasks[taskId].func = Task_SwitchPageInMoveSelect;
         }
-        else if (JOY_NEW(B_BUTTON))
+    }
+    else if (JOY_NEW(A_BUTTON))
+    {
+        if (sMonSummaryScreen->lockMovesFlag == TRUE
+        || (sMonSummaryScreen->newMove == MOVE_NONE && sMonSummaryScreen->firstMoveIndex == MAX_MON_MOVES))
         {
             PlaySE(SE_SELECT);
             CloseMoveSelectMode(taskId);
         }
+        else if (HasMoreThanOneMove() == TRUE)
+        {
+            PlaySE(SE_SELECT);
+            SwitchToMovePositionSwitchMode(taskId);
+        }
+        else
+        {
+            PlaySE(SE_FAILURE);
+        }
+    }
+    else if (JOY_NEW(B_BUTTON))
+    {
+        PlaySE(SE_SELECT);
+        CloseMoveSelectMode(taskId);
     }
 }
 void Task_SwitchPageInMoveSelect(u8 taskId)
@@ -2048,7 +2046,6 @@ static void CloseMoveSelectMode(u8 taskId)
     u32 i;
     s16 *data = gTasks[taskId].data;
     data[0] = 0;
-
     gTasks[taskId].func = Task_HandleInput;
     SetTaskFuncWithFollowupFunc(taskId, Task_SwitchFromMoveDetails, gTasks[taskId].func);
 }
@@ -2114,29 +2111,29 @@ static void Task_HandleInput_MovePositionSwitch(u8 taskId)
 {
     s16* data = gTasks[taskId].data;
 
-    if (MenuHelpers_CallLinkSomething() != TRUE)
+    if (MenuHelpers_CallLinkSomething())
+        return;
+
+    if (JOY_NEW(DPAD_UP))
     {
-        if (JOY_NEW(DPAD_UP))
-        {
-            data[0] = 3;
-            ChangeSelectedMove(&data[0], -1, &sMonSummaryScreen->secondMoveIndex);
-        }
-        else if (JOY_NEW(DPAD_DOWN))
-        {
-            data[0] = 3;
-            ChangeSelectedMove(&data[0], 1, &sMonSummaryScreen->secondMoveIndex);
-        }
-        else if (JOY_NEW(A_BUTTON))
-        {
-            if (sMonSummaryScreen->firstMoveIndex == sMonSummaryScreen->secondMoveIndex)
-                ExitMovePositionSwitchMode(taskId, FALSE);
-            else
-                ExitMovePositionSwitchMode(taskId, TRUE);
-        }
-        else if (JOY_NEW(B_BUTTON))
-        {
+        data[0] = 3;
+        ChangeSelectedMove(&data[0], -1, &sMonSummaryScreen->secondMoveIndex);
+    }
+    else if (JOY_NEW(DPAD_DOWN))
+    {
+        data[0] = 3;
+        ChangeSelectedMove(&data[0], 1, &sMonSummaryScreen->secondMoveIndex);
+    }
+    else if (JOY_NEW(A_BUTTON))
+    {
+        if (sMonSummaryScreen->firstMoveIndex == sMonSummaryScreen->secondMoveIndex)
             ExitMovePositionSwitchMode(taskId, FALSE);
-        }
+        else
+            ExitMovePositionSwitchMode(taskId, TRUE);
+    }
+    else if (JOY_NEW(B_BUTTON))
+    {
+        ExitMovePositionSwitchMode(taskId, FALSE);
     }
 }
 
@@ -2148,7 +2145,7 @@ static void ExitMovePositionSwitchMode(u8 taskId, bool8 swapMoves)
     SetMainMoveSelectorColor(0);
     DestroyMoveSelectorSprites(SPRITE_ARR_ID_MOVE_SELECTOR2);
 
-    if (swapMoves == TRUE)
+    if (swapMoves)
     {
         if (!sMonSummaryScreen->isBoxMon)
         {
@@ -2254,61 +2251,58 @@ static void Task_HandleReplaceMoveInput(u8 taskId)
 {
     s16* data = gTasks[taskId].data;
 
-    if (MenuHelpers_CallLinkSomething() != TRUE)
-    {
-        if (gPaletteFade.active != TRUE)
-        {
-            if (JOY_NEW(DPAD_UP))
-            {
-                data[0] = 4;
-                ChangeSelectedMove(data, -1, &sMonSummaryScreen->firstMoveIndex);
-            }
-            else if (JOY_NEW(DPAD_DOWN))
-            {
-                data[0] = 4;
-                ChangeSelectedMove(data, 1, &sMonSummaryScreen->firstMoveIndex);
-            }
-            else if (CONFIG_CAN_SWITCH_PAGES_WHILE_DETAILS_ARE_UP && (JOY_NEW(DPAD_LEFT) || GetLRKeysPressed() == MENU_L_PRESSED || JOY_NEW(DPAD_RIGHT) || GetLRKeysPressed() == MENU_R_PRESSED))
-            {
-                if (sMonSummaryScreen->maxPageIndex > PSS_PAGE_BATTLE_MOVES)
-                {
-                    if (sMonSummaryScreen->currPageIndex == PSS_PAGE_BATTLE_MOVES)
-                        sMonSummaryScreen->currPageIndex = PSS_PAGE_CONTEST_MOVES;
-                    else
-                        sMonSummaryScreen->currPageIndex = PSS_PAGE_BATTLE_MOVES;
+    if (MenuHelpers_CallLinkSomething() || gPaletteFade.active)
+        return;
 
-                    LZDecompressWram(sPageTilemaps[sMonSummaryScreen->currPageIndex], sMonSummaryScreen->bgTilemapBufferPage);
-                    PlaySE(SE_SELECT);
-                    data[0] = 0;
-                    gTasks[taskId].func = Task_SwitchPageInReplaceMove;
-                }
-            }
-            else if (JOY_NEW(A_BUTTON))
-            {
-                if (CanReplaceMove() == TRUE)
-                {
-                    StopPokemonAnimations();
-                    PlaySE(SE_SELECT);
-                    sMoveSlotToReplace = sMonSummaryScreen->firstMoveIndex;
-                    gSpecialVar_0x8005 = sMoveSlotToReplace;
-                    BeginCloseSummaryScreen(taskId);
-                }
-                else
-                {
-                    PlaySE(SE_FAILURE);
-                    ShowCantForgetHMsWindow(taskId);
-                    gTasks[taskId].func = Task_ConfirmHMCantForget;
-                }
-            }
-            else if (JOY_NEW(B_BUTTON))
-            {
-                StopPokemonAnimations();
-                PlaySE(SE_SELECT);
-                sMoveSlotToReplace = MAX_MON_MOVES;
-                gSpecialVar_0x8005 = MAX_MON_MOVES;
-                BeginCloseSummaryScreen(taskId);
-            }
+    if (JOY_NEW(DPAD_UP))
+    {
+        data[0] = 4;
+        ChangeSelectedMove(data, -1, &sMonSummaryScreen->firstMoveIndex);
+    }
+    else if (JOY_NEW(DPAD_DOWN))
+    {
+        data[0] = 4;
+        ChangeSelectedMove(data, 1, &sMonSummaryScreen->firstMoveIndex);
+    }
+    else if (JOY_NEW(DPAD_LEFT) || GetLRKeysPressed() == MENU_L_PRESSED || JOY_NEW(DPAD_RIGHT) || GetLRKeysPressed() == MENU_R_PRESSED)
+    {
+        if (sMonSummaryScreen->maxPageIndex > PSS_PAGE_BATTLE_MOVES)
+        {
+            if (sMonSummaryScreen->currPageIndex == PSS_PAGE_BATTLE_MOVES)
+                sMonSummaryScreen->currPageIndex = PSS_PAGE_CONTEST_MOVES;
+            else
+                sMonSummaryScreen->currPageIndex = PSS_PAGE_BATTLE_MOVES;
+
+            LZDecompressWram(sPageTilemaps[sMonSummaryScreen->currPageIndex], sMonSummaryScreen->bgTilemapBufferPage);
+            PlaySE(SE_SELECT);
+            data[0] = 0;
+            gTasks[taskId].func = Task_SwitchPageInReplaceMove;
         }
+    }
+    else if (JOY_NEW(A_BUTTON))
+    {
+        if (CanReplaceMove())
+        {
+            StopPokemonAnimations();
+            PlaySE(SE_SELECT);
+            sMoveSlotToReplace = sMonSummaryScreen->firstMoveIndex;
+            gSpecialVar_0x8005 = sMoveSlotToReplace;
+            BeginCloseSummaryScreen(taskId);
+        }
+        else
+        {
+            PlaySE(SE_FAILURE);
+            ShowCantForgetHMsWindow(taskId);
+            gTasks[taskId].func = Task_ConfirmHMCantForget;
+        }
+    }
+    else if (JOY_NEW(B_BUTTON))
+    {
+        StopPokemonAnimations();
+        PlaySE(SE_SELECT);
+        sMoveSlotToReplace = MAX_MON_MOVES;
+        gSpecialVar_0x8005 = MAX_MON_MOVES;
+        BeginCloseSummaryScreen(taskId);
     }
 }
 
@@ -2380,22 +2374,19 @@ static void Task_ConfirmHMCantForget(u8 taskId)
 {
     s16* data = gTasks[taskId].data;
 
-    if (MenuHelpers_CallLinkSomething() != TRUE && gPaletteFade.active != TRUE && JOY_NEW(A_BUTTON))
-    {
-        data[0] = 4;
-        ChangeSelectedMove(data, 0, &sMonSummaryScreen->firstMoveIndex);
-        gTasks[taskId].func = Task_HandleReplaceMoveInput;
-    }
+    if (MenuHelpers_CallLinkSomething() || gPaletteFade.active || !JOY_NEW(A_BUTTON))
+        return;
+
+    data[0] = 4;
+    ChangeSelectedMove(data, 0, &sMonSummaryScreen->firstMoveIndex);
+    gTasks[taskId].func = Task_HandleReplaceMoveInput;
 }
 
 static bool8 CanReplaceMove(void)
 {
-    if (sMonSummaryScreen->firstMoveIndex == MAX_MON_MOVES
+    return (sMonSummaryScreen->firstMoveIndex == MAX_MON_MOVES
         || sMonSummaryScreen->newMove == MOVE_NONE
-        || IsMoveHm(sMonSummaryScreen->summary.moves[sMonSummaryScreen->firstMoveIndex]) != TRUE)
-        return TRUE;
-    else
-        return FALSE;
+        || !IsMoveHm(sMonSummaryScreen->summary.moves[sMonSummaryScreen->firstMoveIndex]));
 }
 
 static void PrintTextOnWindow(u8 windowId, const u8 *string, u8 x, u8 y, u8 lineSpacing, u8 colorId)
@@ -2788,7 +2779,7 @@ static bool8 DidMonComeFromFRLG(void)
 
 static bool8 IsInGamePartnerMon(void)
 {
-    if ((gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER) && gMain.inBattle)
+    if ((gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER) && gMain.inBattle && gMapHeader.mapLayoutId != LAYOUT_TEAM_ROCKET_BASE_B2F)
         if (sMonSummaryScreen->curMonIndex == 1 || sMonSummaryScreen->curMonIndex == 4 || sMonSummaryScreen->curMonIndex == 5)
             return TRUE;
     return FALSE;
@@ -3639,22 +3630,15 @@ static void ConfigureExpBarSprites(void)
 {
     u8 numWholeExpBarTiles = 0;
     u8 i;
-    u8 level;
-    u32 exp;
     u32 totalExpToNextLevel;
     u32 curExpToNextLevel;
-    u16 species;
     s64 v0;
     s64 v1;
     u8 animNum;
     struct PokeSummary *summary = &sMonSummaryScreen->summary;
-
-    if (summary->isEgg)
-        return;
-
-    exp = GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_EXP);
-    level = GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_LEVEL);
-    species = GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_SPECIES);
+    u32 exp = GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_EXP);
+    u8 level = GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_LEVEL);
+    u16 species = GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_SPECIES);
 
     if (level < 100)
     {
