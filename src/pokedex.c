@@ -909,8 +909,8 @@ static const struct WindowTemplate sInfoScreen_WindowTemplates[] =
     [WIN_FOOTPRINT] =
     {
         .bg = 2,
-        .tilemapLeft = 27,
-        .tilemapTop = 2,
+        .tilemapLeft = 26,
+        .tilemapTop = 3,
         .width = 2,
         .height = 2,
         .paletteNum = 15,
@@ -1787,7 +1787,7 @@ static void Task_HandlePokedexStartMenuInput(u8 taskId)
 
 static void Task_OpenInfoScreenAfterMonMovement(u8 taskId)
 {
-    if (gSprites[sPokedexView->selectedMonSpriteId].x == 44 && gSprites[sPokedexView->selectedMonSpriteId].y == 40)
+    if (gSprites[sPokedexView->selectedMonSpriteId].x == 44 && gSprites[sPokedexView->selectedMonSpriteId].y == 48)
     {
         sPokedexView->currentPageBackup = sPokedexView->currentPage;
         gTasks[taskId].tTaskId = LoadInfoScreen(&sPokedexView->pokedexList[sPokedexView->selectedPokemon], sPokedexView->selectedMonSpriteId);
@@ -1989,7 +1989,7 @@ static void Task_HandleSearchResultsStartMenuInput(u8 taskId)
 
 static void Task_OpenSearchResultsInfoScreenAfterMonMovement(u8 taskId)
 {
-    if (gSprites[sPokedexView->selectedMonSpriteId].x == 44 && gSprites[sPokedexView->selectedMonSpriteId].y == 40)
+    if (gSprites[sPokedexView->selectedMonSpriteId].x == 44 && gSprites[sPokedexView->selectedMonSpriteId].y == 48)
     {
         sPokedexView->currentPageBackup = sPokedexView->currentPage;
         gTasks[taskId].tTaskId = LoadInfoScreen(&sPokedexView->pokedexList[sPokedexView->selectedPokemon], sPokedexView->selectedMonSpriteId);
@@ -2348,13 +2348,13 @@ static void CreateMonListEntry(u8 position, u16 b, u16 ignored)
                 if (sPokedexView->pokedexList[entryNum].seen)
                 {
                     CreateMonDexNum(entryNum, 0x0D, i * 2, ignored);
-                    CreateCaughtBall(sPokedexView->pokedexList[entryNum].owned, 0x11, i * 2, ignored);
+                    CreateCaughtBall(sPokedexView->pokedexList[entryNum].owned, 0x10, i * 2, ignored);
                     CreateMonName(sPokedexView->pokedexList[entryNum].dexNum, 0x12, i * 2);
                 }
                 else
                 {
                     CreateMonDexNum(entryNum, 0x0D, i * 2, ignored);
-                    CreateCaughtBall(FALSE, 0x11, i * 2, ignored);
+                    CreateCaughtBall(FALSE, 0x10, i * 2, ignored);
                     CreateMonName(0, 0x12, i * 2);
                 }
             }
@@ -2373,13 +2373,13 @@ static void CreateMonListEntry(u8 position, u16 b, u16 ignored)
             if (sPokedexView->pokedexList[entryNum].seen)
             {
                 CreateMonDexNum(entryNum, 13, sPokedexView->listVOffset * 2, ignored);
-                CreateCaughtBall(sPokedexView->pokedexList[entryNum].owned, 0x11, sPokedexView->listVOffset * 2, ignored);
+                CreateCaughtBall(sPokedexView->pokedexList[entryNum].owned, 0x10, sPokedexView->listVOffset * 2, ignored);
                 CreateMonName(sPokedexView->pokedexList[entryNum].dexNum, 0x12, sPokedexView->listVOffset * 2);
             }
             else
             {
                 CreateMonDexNum(entryNum, 13, sPokedexView->listVOffset * 2, ignored);
-                CreateCaughtBall(FALSE, 17, sPokedexView->listVOffset * 2, ignored);
+                CreateCaughtBall(FALSE, 16, sPokedexView->listVOffset * 2, ignored);
                 CreateMonName(0, 0x12, sPokedexView->listVOffset * 2);
             }
         }
@@ -2397,13 +2397,13 @@ static void CreateMonListEntry(u8 position, u16 b, u16 ignored)
             if (sPokedexView->pokedexList[entryNum].seen)
             {
                 CreateMonDexNum(entryNum, 13, vOffset * 2, ignored);
-                CreateCaughtBall(sPokedexView->pokedexList[entryNum].owned, 0x11, vOffset * 2, ignored);
+                CreateCaughtBall(sPokedexView->pokedexList[entryNum].owned, 0x10, vOffset * 2, ignored);
                 CreateMonName(sPokedexView->pokedexList[entryNum].dexNum, 0x12, vOffset * 2);
             }
             else
             {
                 CreateMonDexNum(entryNum, 13, vOffset * 2, ignored);
-                CreateCaughtBall(FALSE, 0x11, vOffset * 2, ignored);
+                CreateCaughtBall(FALSE, 0x10, vOffset * 2, ignored);
                 CreateMonName(0, 0x12, vOffset * 2);
             }
         }
@@ -2430,9 +2430,9 @@ static void CreateMonDexNum(u16 entryNum, u8 left, u8 top, u16 unused)
 static void CreateCaughtBall(bool16 owned, u8 x, u8 y, u16 unused)
 {
     if (owned)
-        BlitBitmapToWindow(0, sCaughtBall_Gfx, x * 8, y * 8, 8, 16);
+        BlitBitmapToWindow(0, sCaughtBall_Gfx, x * 8, y * 8, 16, 16);
     else
-        FillWindowPixelRect(0, PIXEL_FILL(0), x * 8, y * 8, 8, 16);
+        FillWindowPixelRect(0, PIXEL_FILL(0), x * 8, y * 8, 16, 16);
 }
 
 static u8 CreateMonName(u16 num, u8 left, u8 top)
@@ -2479,7 +2479,7 @@ static void CreateMonSpritesAtPos(u16 selectedMon, u16 ignored)
     dexNum = GetPokemonSpriteToDisplay(selectedMon);
     if (dexNum != 0xFFFF)
     {
-        spriteId = CreatePokedexMonSprite(dexNum, 0x2C, 0x38);
+        spriteId = CreatePokedexMonSprite(dexNum, 0x30, 0x38);
         gSprites[spriteId].callback = SpriteCB_PokedexListMonSprite;
         gSprites[spriteId].data[5] = 0;
     }
@@ -2544,7 +2544,7 @@ static void CreateScrollingPokemonSprite(u8 direction, u16 selectedMon)
         dexNum = GetPokemonSpriteToDisplay(selectedMon);
         if (dexNum != 0xFFFF)
         {
-            spriteId = CreatePokedexMonSprite(dexNum, 0x2C, 0x38);
+            spriteId = CreatePokedexMonSprite(dexNum, 0x30, 0x38);
             gSprites[spriteId].callback = SpriteCB_PokedexListMonSprite;
             gSprites[spriteId].data[5] = 0;
         }
@@ -2557,7 +2557,7 @@ static void CreateScrollingPokemonSprite(u8 direction, u16 selectedMon)
         dexNum = GetPokemonSpriteToDisplay(selectedMon);
         if (dexNum != 0xFFFF)
         {
-            spriteId = CreatePokedexMonSprite(dexNum, 0x2C, 0x38);
+            spriteId = CreatePokedexMonSprite(dexNum, 0x30, 0x38);
             gSprites[spriteId].callback = SpriteCB_PokedexListMonSprite;
             gSprites[spriteId].data[5] = 0;
         }
@@ -2991,16 +2991,16 @@ void SpriteCB_MoveMonForInfoScreen(struct Sprite *sprite)
     sprite->oam.affineMode = ST_OAM_AFFINE_OFF;
     sprite->x2 = 0;
     sprite->y2 = 0;
-    if (sprite->x != 44 || sprite->y != 40)
+    if (sprite->x != 44 || sprite->y != 48)
     {
         if (sprite->x > 44)
             sprite->x--;
         if (sprite->x < 44)
             sprite->x++;
 
-        if (sprite->y > 40)
+        if (sprite->y > 48)
             sprite->y--;
-        if (sprite->y < 40)
+        if (sprite->y < 48)
             sprite->y++;
     }
     else
@@ -3153,6 +3153,15 @@ static void PrintInfoScreenText(const u8* str, u8 left, u8 top)
 
     AddTextPrinterParameterized4(0, 2, left, top, 0, 0, color, -1, str);
 }
+static void PrintInfoScreenTextSmall(const u8* str, u8 left, u8 top)
+{
+    u8 color[3];
+    color[0] = TEXT_COLOR_TRANSPARENT;
+    color[1] = 1;
+    color[2] = 4;
+
+    AddTextPrinterParameterized4(0, 0, left, top, 0, 0, color, -1, str);
+}
 
 #define tMonSpriteId data[4]
 
@@ -3252,7 +3261,7 @@ static void Task_LoadInfoScreen(u8 taskId)
     case 5:
         if (gTasks[taskId].data[1] == 0)
         {
-            gTasks[taskId].tMonSpriteId = (u16)CreateMonSpriteFromNationalDexNumber(sPokedexListItem->dexNum, 44, 40, 0);
+            gTasks[taskId].tMonSpriteId = (u16)CreateMonSpriteFromNationalDexNumber(sPokedexListItem->dexNum, 44, 48, 0);
             gSprites[gTasks[taskId].tMonSpriteId].oam.priority = 0;
         }
         gMain.state++;
@@ -3538,8 +3547,8 @@ static void Task_LoadCryScreen(u8 taskId)
         gMain.state++;
         break;
     case 4:
-        PrintInfoScreenText(gText_CryOf, 82, 33);
-        PrintCryScreenSpeciesName(0, sPokedexListItem->dexNum, 82, 49);
+        PrintInfoScreenText(gText_CryOf, 84, 33);
+        PrintCryScreenSpeciesName(0, sPokedexListItem->dexNum, 84, 49);
         gMain.state++;
         break;
     case 5:
@@ -3965,7 +3974,7 @@ static void Task_DisplayCaughtMonDexPage(u8 taskId)
         gTasks[taskId].tState++;
         break;
     case 4:
-        spriteId = CreateMonSpriteFromNationalDexNumber(dexNum, 44, 40, 0);
+        spriteId = CreateMonSpriteFromNationalDexNumber(dexNum, 44, 48, 0);
         gSprites[spriteId].oam.priority = 0;
         BeginNormalPaletteFade(PALETTES_ALL, 0, 0x10, 0, RGB_BLACK);
         SetVBlankCallback(gPokedexVBlankCB);
@@ -4097,7 +4106,7 @@ static void PrintMonInfo(u32 num, u32 value, u32 owned, u32 newEntry)
     else
         value = num;
     ConvertIntToDecimalStringN(StringCopy(str, gText_NumberClear01), value, STR_CONV_MODE_LEADING_ZEROS, 3);
-    PrintInfoScreenText(str, 0x1C, 0x48);
+    PrintInfoScreenTextSmall(str, 0x1E, 0x49);
     natNum = NationalPokedexNumToSpecies(num);
     if (natNum)
         name = gSpeciesNames[natNum];
@@ -4428,7 +4437,7 @@ static void PrintInfoSubMenuText(u8 windowId, const u8 *str, u8 left, u8 top)
     u8 color[3];
     color[0] = TEXT_COLOR_TRANSPARENT;
     color[1] = 1;
-    color[2] = TEXT_COLOR_DARK_GRAY;
+    color[2] = 4;
 
     AddTextPrinterParameterized4(windowId, 2, left, top, 0, 0, color, -1, str);
 }

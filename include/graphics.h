@@ -4223,10 +4223,6 @@ extern const u32 gSummaryHealthBar_Tiles[];
 extern const u32 gSummaryExpBar_Tiles[];
 extern const u16 gExpBarHealthBarPal[];
 
-extern const u16 gSummaryScreen_MoveEffect_Battle_Tilemap[];
-extern const u16 gSummaryScreen_MoveEffect_Contest_Tilemap[];
-extern const u16 gSummaryScreen_MoveEffect_Cancel_Tilemap[];
-
 extern const u32 gMoveTypes_Gfx[];
 extern const u32 gSummaryMoveSelect_Gfx[];
 extern const u32 gSummaryMoveSelect_Pal[];
@@ -5270,9 +5266,7 @@ extern const u32 gSummaryScreenPageMemoTilemap[];
 extern const u32 gSummaryScreenPageSkillsTilemap[];
 extern const u32 gSummaryScreenPageMovesTilemap[];
 extern const u32 gSummaryScreenPageMoveDetailsTilemap[];
-extern const u32 gSummaryScreenPageNewMoveTilemap[];
 extern const u32 gSummaryScreenPageContestMovesTilemap[];
 extern const u32 gSummaryScreenPageContestMoveDetailsTilemap[];
-extern const u32 gSummaryScreenPageContestNewMoveTilemap[];
 
 #endif //GUARD_GRAPHICS_H
