@@ -84,17 +84,11 @@ enum
     WINDOW_ARR_ID_SKILLS_EXP_NEXT_ABILITY_NAME,
     WINDOW_ARR_ID_SKILLS_ABILITY_TEXT,
 
-    WINDOW_ARR_ID_MOVES_WINDOW_RIGHT,
+    WINDOW_ARR_ID_MOVES_WINDOW_TOP_FOUR_MOVES,
+    WINDOW_ARR_ID_MOVES_WINDOW_LAST_MOVE,
     WINDOW_ARR_ID_MOVES_WINDOW_LEFT,
 
-    PSS_LABEL_PANE_LEFT_TOP,
-    PSS_LABEL_PANE_LEFT_BOTTOM,
-    PSS_LABEL_PANE_LEFT_MOVE,
-    PSS_LABEL_PANE_RIGHT,
-    PSS_LABEL_PANE_RIGHT_HP,
-    PSS_LABEL_PANE_RIGHT_SMALL,
-    PSS_LABEL_PANE_RIGHT_BOTTOM,
-    PSS_LABEL_WINDOW_END
+    WINDOW_ARR_ID_COUNT
 };
 
 #define MOVE_SELECTOR_SPRITES_COUNT 15
@@ -127,7 +121,7 @@ enum
 #define TILE_FILLED_JAM_HEART      127
 #define TILE_FILLED_JAM_HEART_2    143
 
-#define POWER_AND_ACCURACY_Y    25
+#define POWER_AND_ACCURACY_Y    9
 #define POWER_AND_ACCURACY_Y_2  POWER_AND_ACCURACY_Y + 14
 
 static EWRAM_DATA struct PokemonSummaryScreenData
@@ -215,6 +209,7 @@ static EWRAM_DATA struct PokemonSummaryScreenData
     bool8 unk40EF;
     s16 switchCounter; // Used for various switch statement cases that decompress/load graphics or pokemon data
 } *sMonSummaryScreen = NULL;
+
 EWRAM_DATA u8 gLastViewedMonIndex = 0;
 static EWRAM_DATA u8 sMoveSlotToReplace = 0;
 ALIGNED(4) static EWRAM_DATA u8 sAnimDelayTaskId = 0;
@@ -268,9 +263,8 @@ static void SwapBoxMonMoves(struct BoxPokemon *mon, u8 moveIndex1, u8 moveIndex2
 static void Task_SetHandleReplaceMoveInput(u8 taskId);
 static void Task_HandleReplaceMoveInput(u8 taskId);
 static void Task_SwitchPageInReplaceMove(u8 taskId);
-static void Task_ConfirmHMCantForget(u8 taskId);
 static bool8 CanReplaceMove(void);
-static void ShowCantForgetHMsWindow(u8 taskId);
+static void ShowCantForgetHMs(u8 taskId);
 static void DrawPagination(bool8 currentPagePressed);
 static void SetMonPicBackgroundPalette(bool8 isMonShiny);
 static void SetSmallMonPicBackgroundPalette(void);
@@ -449,114 +443,35 @@ static const struct WindowTemplate sSummaryTemplate[] =
         .baseBlock = 253,
     },
 
-    [WINDOW_ARR_ID_MOVES_WINDOW_RIGHT] = DUMMY_WIN_TEMPLATE,
-    [WINDOW_ARR_ID_MOVES_WINDOW_LEFT] = DUMMY_WIN_TEMPLATE,
-    DUMMY_WIN_TEMPLATE
-};
-
-static const struct WindowTemplate xsSummaryTemplate[] =
-{
-    [WINDOW_ARR_ID_TITLE_BAR] = {
+    [WINDOW_ARR_ID_MOVES_WINDOW_TOP_FOUR_MOVES] = {
         .bg = 0,
-        .tilemapLeft = 0,
-        .tilemapTop = 0,
-        .width = 30,
-        .height = 2,
-        .paletteNum = 15,
-        .baseBlock = 1,
-    },
-    [WINDOW_ARR_ID_LVL_NICK_GENDER] = {
-        .bg = 0,
-        .tilemapLeft = 0,
+        .tilemapLeft = 20,
         .tilemapTop = 2,
-        .width = 15,
-        .height = 2,
-        .paletteNum = 15,
-        .baseBlock = 61,
-    },
-    [WINDOW_ARR_ID_INFO_RIGHT] = {
-        .bg = 0,
-        .tilemapLeft = 15,
-        .tilemapTop = 2,
-        .width = 15,
-        .height = 12,
+        .width = 10,
+        .height = 14,
         .paletteNum = 8,
         .baseBlock = 91,
     },
-    [WINDOW_ARR_ID_INFO_MEMO] = {
+    [WINDOW_ARR_ID_MOVES_WINDOW_LAST_MOVE] = {
         .bg = 0,
-        .tilemapLeft = 1,
-        .tilemapTop = 14,
-        .width = 28,
-        .height = 6,
+        .tilemapLeft = 20,
+        .tilemapTop = 16,
+        .width = 10,
+        .height = 4,
+        .paletteNum = 8,
+        .baseBlock = 231,
+    },
+    [WINDOW_ARR_ID_MOVES_WINDOW_LEFT] = {
+        .bg = 0,
+        .tilemapLeft = 0,
+        .tilemapTop = 6,
+        .width = 16,
+        .height = 14,
         .paletteNum = 8,
         .baseBlock = 271,
     },
 
-    [PSS_LABEL_PANE_LEFT_TOP] = {
-        .bg = 0,
-        .tilemapLeft = 0,
-        .tilemapTop = 0,
-        .width = 10,
-        .height = 4,
-        .paletteNum = 5,
-        .baseBlock = 1,
-    },
-    [PSS_LABEL_PANE_LEFT_BOTTOM] = {
-        .bg = 0,
-        .tilemapLeft = 3,
-        .tilemapTop = 16,
-        .width = 8,
-        .height = 5,
-        .paletteNum = 8,
-        .baseBlock = 44,
-    },
-    [PSS_LABEL_PANE_LEFT_MOVE] = {
-        .bg = 0,
-        .tilemapLeft = 0,
-        .tilemapTop = 4,
-        .width = 14,
-        .height = 16,
-        .paletteNum = 8,
-        .baseBlock = 418,
-    },
-    [PSS_LABEL_PANE_RIGHT] = {
-        .bg = 0,
-        .tilemapLeft = 11,
-        .tilemapTop = 2,
-        .width = 19,
-        .height = 18,
-        .paletteNum = 8,
-        .baseBlock = 76,
-    },
-    [PSS_LABEL_PANE_RIGHT_HP] = {
-        .bg = 0,
-        .tilemapLeft = 11,
-        .tilemapTop = 2,
-        .width = 19,
-        .height = 3,
-        .paletteNum = 8,
-        .baseBlock = 76,
-    },
-    [PSS_LABEL_PANE_RIGHT_SMALL] = {
-        .bg = 0,
-        .tilemapLeft = 11,
-        .tilemapTop = 5,
-        .width = 19,
-        .height = 15,
-        .paletteNum = 8,
-        .baseBlock = 152,
-    },
-    [PSS_LABEL_PANE_RIGHT_BOTTOM] = {
-        .bg = 0,
-        .tilemapLeft = 11,
-        .tilemapTop = 15,
-        .width = 19,
-        .height = 6,
-        .paletteNum = 8,
-        .baseBlock = 684,
-    },
-    [PSS_LABEL_WINDOW_END] = DUMMY_WIN_TEMPLATE
+    [WINDOW_ARR_ID_COUNT] = DUMMY_WIN_TEMPLATE
 };
 
 enum
@@ -567,7 +482,6 @@ enum
     PSS_COLOR_BLACK_GRAY_SHADOW,
     PSS_COLOR_SHINY_STARS,
     PSS_COLOR_POKERUS_CURED,
-    PSS_COLOR_FATEFUL_TRIANGLE,
     PSS_COLOR_ORANGE,
     PSS_COLOR_LIGHT_RED
 };
@@ -580,7 +494,6 @@ static const u8 sTextColors[][3] =
     [PSS_COLOR_BLACK_GRAY_SHADOW]       = {0, 7, 8},
     [PSS_COLOR_SHINY_STARS]             = {0, 5, 5},
     [PSS_COLOR_POKERUS_CURED]           = {0, 9, 9},
-    [PSS_COLOR_FATEFUL_TRIANGLE]        = {0, 10, 10},
     [PSS_COLOR_ORANGE]                  = {0, 1, 2},
     [PSS_COLOR_LIGHT_RED]               = {0, 3, 4}
 };
@@ -595,13 +508,13 @@ static void (*const sTextPrinterFunctions[])(void) =
 
 static const u8 sBlackTextColor[] = _("{COLOR 7}{SHADOW 8}");
 
-#define TAG_MOVE_SELECTOR   30000
-#define TAG_MON_STATUS      30001
-#define TAG_MOVE_TYPES      30002
-#define TAG_MON_MARKINGS    30003
-#define TAG_SPLIT_ICONS     30004
-#define TAG_HEALTH_BAR      30005
-#define TAG_EXP_BAR         30006
+#define TAG_MOVE_SELECTOR 30000
+#define TAG_MON_STATUS    30001
+#define TAG_MOVE_TYPES    30002
+#define TAG_MON_MARKINGS  30003
+#define TAG_SPLIT_ICONS   30004
+#define TAG_HEALTH_BAR    30005
+#define TAG_EXP_BAR       30006
 
 static const struct OamData sOamData_MoveTypes =
 {
@@ -1242,7 +1155,7 @@ static bool8 LoadGraphics(void)
             DoScheduledBgTilemapCopiesToVram();
             PrintTitleBar(sMonSummaryScreen->currPageIndex, TRUE);
             PrintNewMoveDetailsOrCancelText();
-            PutWindowTilemap(PSS_LABEL_PANE_RIGHT_BOTTOM);
+            PutWindowTilemap(WINDOW_ARR_ID_MOVES_WINDOW_LAST_MOVE);
             PrintMoveDetails(sMonSummaryScreen->summary.moves[sMonSummaryScreen->firstMoveIndex]);
             ChangeBgX(1, 0, 0);
             CreateTask(Task_SetHandleReplaceMoveInput, 0);
@@ -1777,7 +1690,7 @@ static void ChangePage(u8 taskId, s8 delta)
     else
         sMonSummaryScreen->currPageIndex += delta;
 
-    for (i = WINDOW_ARR_ID_BEGIN_TRANSIENT; i <= WINDOW_ARR_ID_MOVES_WINDOW_LEFT; i++)
+    for (i = WINDOW_ARR_ID_BEGIN_TRANSIENT; i < WINDOW_ARR_ID_COUNT; i++)
         ClearWindowTilemap(i);
 
     if (sMonSummaryScreen->currPageIndex == PSS_PAGE_BATTLE_MOVES)
@@ -1857,13 +1770,13 @@ static void Task_SwitchToMoveDetails(u8 taskId)
             SetSpriteInvisibility(SPRITE_ARR_ID_STATUS, TRUE);
             StopPokemonAnimations();
             sMonSummaryScreen->markingsSprite->invisible = TRUE;
-            ClearWindowTilemap(PSS_LABEL_PANE_LEFT_MOVE);
+            ClearWindowTilemap(WINDOW_ARR_ID_MOVES_WINDOW_LEFT);
             ScheduleBgCopyTilemapToVram(0);
             data[0]++;
             break;
         case 1:
             PrintNewMoveDetailsOrCancelText();
-            PutWindowTilemap(PSS_LABEL_PANE_RIGHT_BOTTOM);
+            PutWindowTilemap(WINDOW_ARR_ID_MOVES_WINDOW_LAST_MOVE);
             SetNewMoveTypeIcon();
             PrintTitleBar(sMonSummaryScreen->currPageIndex, TRUE);
             CreateMoveSelectorSprites(SPRITE_ARR_ID_MOVE_SELECTOR1);
@@ -1874,7 +1787,7 @@ static void Task_SwitchToMoveDetails(u8 taskId)
             ChangeBgX(1, 0, 0);
             PrintMoveDetails(data[1]);
             PrintMonInfo(TRUE);
-            PutWindowTilemap(PSS_LABEL_PANE_LEFT_MOVE);
+            PutWindowTilemap(WINDOW_ARR_ID_MOVES_WINDOW_LEFT);
             data[0]++;
             break;
         case 3:
@@ -1949,8 +1862,8 @@ void Task_SwitchPageInMoveSelect(u8 taskId)
     switch (data[0])
     {
         case 0:
-            ClearWindowTilemap(PSS_LABEL_PANE_RIGHT);
-            ClearWindowTilemap(PSS_LABEL_PANE_LEFT_MOVE);
+            ClearWindowTilemap(WINDOW_ARR_ID_MOVES_WINDOW_TOP_FOUR_MOVES);
+            ClearWindowTilemap(WINDOW_ARR_ID_MOVES_WINDOW_LEFT);
             ScheduleBgCopyTilemapToVram(0);
             data[0]++;
             break;
@@ -1981,7 +1894,7 @@ void Task_SwitchPageInMoveSelect(u8 taskId)
             break;
         case 3:
             PrintNewMoveDetailsOrCancelText();
-            PutWindowTilemap(PSS_LABEL_PANE_RIGHT_BOTTOM);
+            PutWindowTilemap(WINDOW_ARR_ID_MOVES_WINDOW_LAST_MOVE);
             SetTypeIcons();
             PrintTitleBar(sMonSummaryScreen->currPageIndex, TRUE);
             data[0]++;
@@ -1991,7 +1904,7 @@ void Task_SwitchPageInMoveSelect(u8 taskId)
                 PrintMoveDetails(sMonSummaryScreen->newMove);
             else
                 PrintMoveDetails(sMonSummaryScreen->summary.moves[sMonSummaryScreen->firstMoveIndex]);
-            PutWindowTilemap(PSS_LABEL_PANE_LEFT_MOVE);
+            PutWindowTilemap(WINDOW_ARR_ID_MOVES_WINDOW_LEFT);
             data[0]++;
             break;
         case 5:
@@ -2081,9 +1994,7 @@ static void Task_SwitchFromMoveDetails(u8 taskId)
             break;
         case 2:
             DrawPagination(FALSE);
-            PutWindowTilemap(PSS_LABEL_PANE_LEFT_TOP);
-            PutWindowTilemap(PSS_LABEL_PANE_LEFT_BOTTOM);
-            PutWindowTilemap(PSS_LABEL_PANE_RIGHT);
+            ClearWindowTilemap(WINDOW_ARR_ID_MOVES_WINDOW_LAST_MOVE);
             SetSpriteInvisibility(SPRITE_ARR_ID_MON, FALSE);
             PrintMonInfo(FALSE);
             gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].oam.affineMode = ST_OAM_AFFINE_NORMAL;
@@ -2098,7 +2009,8 @@ static void Task_SwitchFromMoveDetails(u8 taskId)
             gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].oam.x = gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].x + gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].centerToCornerVecX;
             gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].oam.y = gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].y + gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].centerToCornerVecY;
             CreateSetStatusSprite();
-            sMonSummaryScreen->markingsSprite->invisible = FALSE;
+            if (GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_MARKINGS) != 0)
+                sMonSummaryScreen->markingsSprite->invisible = FALSE;
             PrintTitleBar(sMonSummaryScreen->currPageIndex, FALSE);
             data[0]++;
             break;
@@ -2306,8 +2218,7 @@ static void Task_HandleReplaceMoveInput(u8 taskId)
         else
         {
             PlaySE(SE_FAILURE);
-            ShowCantForgetHMsWindow(taskId);
-            gTasks[taskId].func = Task_ConfirmHMCantForget;
+            ShowCantForgetHMs(taskId);
         }
     }
     else if (JOY_NEW(B_BUTTON))
@@ -2327,8 +2238,8 @@ static void Task_SwitchPageInReplaceMove(u8 taskId)
     switch (data[0])
     {
         case 0:
-            ClearWindowTilemap(PSS_LABEL_PANE_RIGHT);
-            ClearWindowTilemap(PSS_LABEL_PANE_LEFT_MOVE);
+            ClearWindowTilemap(WINDOW_ARR_ID_MOVES_WINDOW_TOP_FOUR_MOVES);
+            ClearWindowTilemap(WINDOW_ARR_ID_MOVES_WINDOW_LEFT);
             ScheduleBgCopyTilemapToVram(0);
             data[0]++;
             break;
@@ -2359,7 +2270,7 @@ static void Task_SwitchPageInReplaceMove(u8 taskId)
             break;
         case 3:
             PrintNewMoveDetailsOrCancelText();
-            PutWindowTilemap(PSS_LABEL_PANE_RIGHT_BOTTOM);
+            PutWindowTilemap(WINDOW_ARR_ID_MOVES_WINDOW_LAST_MOVE);
             SetTypeIcons();
             PrintTitleBar(sMonSummaryScreen->currPageIndex, TRUE);
             data[0]++;
@@ -2369,7 +2280,7 @@ static void Task_SwitchPageInReplaceMove(u8 taskId)
                 PrintMoveDetails(sMonSummaryScreen->newMove);
             else
                 PrintMoveDetails(sMonSummaryScreen->summary.moves[sMonSummaryScreen->firstMoveIndex]);
-            PutWindowTilemap(PSS_LABEL_PANE_LEFT_MOVE);
+            PutWindowTilemap(WINDOW_ARR_ID_MOVES_WINDOW_LEFT);
             data[0]++;
             break;
         case 5:
@@ -2378,18 +2289,6 @@ static void Task_SwitchPageInReplaceMove(u8 taskId)
             gTasks[taskId].func = Task_HandleReplaceMoveInput;
             break;
     }
-}
-
-static void Task_ConfirmHMCantForget(u8 taskId)
-{
-    s16* data = gTasks[taskId].data;
-
-    if (MenuHelpers_CallLinkSomething() || gPaletteFade.active || !JOY_NEW(A_BUTTON))
-        return;
-
-    data[0] = 4;
-    ChangeSelectedMove(data, 0, &sMonSummaryScreen->firstMoveIndex);
-    gTasks[taskId].func = Task_HandleReplaceMoveInput;
 }
 
 static bool8 CanReplaceMove(void)
@@ -2466,13 +2365,11 @@ static void PrintMonInfo(bool8 smallWindow)
     PutWindowTilemap(WINDOW_ARR_ID_LVL_NICK_GENDER);
 }
 
-static void ShowCantForgetHMsWindow(u8 taskId)
+static void ShowCantForgetHMs(u8 taskId)
 {
-    if (sMonSummaryScreen->currPageIndex == PSS_PAGE_BATTLE_MOVES)
-    {
-        FillWindowPixelBuffer(PSS_LABEL_PANE_LEFT_MOVE, PIXEL_FILL(0));
-    }
-    else
+    FillWindowPixelBuffer(WINDOW_ARR_ID_MOVES_WINDOW_LEFT, PIXEL_FILL(0));
+	
+    if (sMonSummaryScreen->currPageIndex == PSS_PAGE_CONTEST_MOVES)
     {
         FillBgTilemapBufferRect(1, TILE_EMPTY_HEART, 6, 7, 8, 1, 5);
         FillBgTilemapBufferRect(1, TILE_EMPTY_HEART_2, 6, 8, 8, 1, 5);
@@ -2481,8 +2378,8 @@ static void ShowCantForgetHMsWindow(u8 taskId)
         CopyBgTilemapBufferToVram(1);
     }
 
-    PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gText_HMMovesCantBeForgotten2, 2, 64, 0, 0);
-    PutWindowTilemap(PSS_LABEL_PANE_LEFT_MOVE);
+    PrintTextOnWindow(WINDOW_ARR_ID_MOVES_WINDOW_LEFT, gText_HMMovesCantBeForgotten2, 7, 50, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
+    PutWindowTilemap(WINDOW_ARR_ID_MOVES_WINDOW_LEFT);
 }
 
 u8 GetMoveSlotToReplace(void)
@@ -2885,13 +2782,13 @@ static void PrintSkillsPage(void)
 static void PrintBattleMoves(void)
 {
     u32 i;
-    FillWindowPixelBuffer(PSS_LABEL_PANE_RIGHT, PIXEL_FILL(0));
+    FillWindowPixelBuffer(WINDOW_ARR_ID_MOVES_WINDOW_TOP_FOUR_MOVES, PIXEL_FILL(0));
 
     for (i = 0; i < MAX_MON_MOVES; i++)
         PrintMoveNameAndPP(i);
 
     ScheduleBgCopyTilemapToVram(0);
-    PutWindowTilemap(PSS_LABEL_PANE_RIGHT);
+    PutWindowTilemap(WINDOW_ARR_ID_MOVES_WINDOW_TOP_FOUR_MOVES);
 }
 
 static void PrintMoveNameAndPP(u8 moveIndex)
@@ -2903,9 +2800,9 @@ static void PrintMoveNameAndPP(u8 moveIndex)
     if (summary->moves[moveIndex] != MOVE_NONE)
     {
         pp = CalculatePPWithBonus(summary->moves[moveIndex], summary->ppBonuses, moveIndex);
-        PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gMoveNames[summary->moves[moveIndex]], 3, moveIndex * 28 + 5, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
-        ConvertIntToDecimalStringN(gStringVar1, summary->pp[moveIndex], STR_CONV_MODE_LEFT_ALIGN, 2);
-        ConvertIntToDecimalStringN(gStringVar2, pp, STR_CONV_MODE_LEFT_ALIGN, 2);
+        PrintTextOnWindow(WINDOW_ARR_ID_MOVES_WINDOW_TOP_FOUR_MOVES, gMoveNames[summary->moves[moveIndex]], 3, moveIndex * 28 + 5, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
+        ConvertIntToDecimalStringN(gStringVar1, summary->pp[moveIndex], STR_CONV_MODE_RIGHT_ALIGN, 2);
+        ConvertIntToDecimalStringN(gStringVar2, pp, STR_CONV_MODE_RIGHT_ALIGN, 2);
         StringAppend(gStringVar1, gText_Slash);
         StringAppend(gStringVar1, gStringVar2);
         switch (GetCurrentPpToMaxPpState(summary->pp[moveIndex], pp))
@@ -2923,53 +2820,41 @@ static void PrintMoveNameAndPP(u8 moveIndex)
                 color = PSS_COLOR_BLACK_GRAY_SHADOW;
                 break;
         }
-        x = GetStringCenterAlignXOffset(1, gStringVar1, 32) + 45;
-        PrintTextOnWindowSmall(PSS_LABEL_PANE_RIGHT, sText_PP, 36, moveIndex * 28 + 16, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
-        PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gStringVar1, x, moveIndex * 28 + 16, 0, color);
 
-        if (moveIndex == 3)
-        {
-            FillWindowPixelBuffer(PSS_LABEL_PANE_RIGHT_BOTTOM, PIXEL_FILL(0));
-            PrintTextOnWindowSmall(PSS_LABEL_PANE_RIGHT_BOTTOM, sText_PP, 34, 0, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
-            PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_BOTTOM, gStringVar1, x, 0, 0, color);
-        }
+        PrintTextOnWindowSmall(WINDOW_ARR_ID_MOVES_WINDOW_TOP_FOUR_MOVES, sText_PP, 36, moveIndex * 28 + 16, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
+        PrintTextOnWindow(WINDOW_ARR_ID_MOVES_WINDOW_TOP_FOUR_MOVES, gStringVar1, 46, moveIndex * 28 + 16, 0, color);
     }
     else
     {
-        PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gText_OneDash, 2, moveIndex * 28 + 5, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
-        x = GetStringCenterAlignXOffset(1, gText_TwoDashes, 32) + 45;
-        PrintTextOnWindow(PSS_LABEL_PANE_RIGHT, gText_TwoDashes, x, moveIndex * 28 + 16, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
+        PrintTextOnWindow(WINDOW_ARR_ID_MOVES_WINDOW_TOP_FOUR_MOVES, gText_OneDash, 3, moveIndex * 28 + 5, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
 
-        if (moveIndex == 3)
-        {
-            FillWindowPixelBuffer(PSS_LABEL_PANE_RIGHT_BOTTOM, PIXEL_FILL(0));
-            PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_BOTTOM, gText_TwoDashes, x, 0, 0, color);
-        }
+        PrintTextOnWindowSmall(WINDOW_ARR_ID_MOVES_WINDOW_TOP_FOUR_MOVES, sText_PP, 36, moveIndex * 28 + 16, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
+        PrintTextOnWindow(WINDOW_ARR_ID_MOVES_WINDOW_TOP_FOUR_MOVES, gText_TwoDashes, 46, moveIndex * 28 + 16, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
     }
 }
 
 static void PrintContestMoves(void)
 {
     u32 i;
-    FillWindowPixelBuffer(PSS_LABEL_PANE_RIGHT, PIXEL_FILL(0));
+    FillWindowPixelBuffer(WINDOW_ARR_ID_MOVES_WINDOW_TOP_FOUR_MOVES, PIXEL_FILL(0));
 
     for (i = 0; i < MAX_MON_MOVES; i++)
         PrintMoveNameAndPP(i);
 
     ScheduleBgCopyTilemapToVram(0);
-    PutWindowTilemap(PSS_LABEL_PANE_RIGHT);
+    PutWindowTilemap(WINDOW_ARR_ID_MOVES_WINDOW_TOP_FOUR_MOVES);
 }
 
 static void PrintMoveDetails(u16 move)
 {
-    u32 heartRow1, heartRow2;
+    u32 appealCount, jamCount;
     struct Pokemon *mon = &sMonSummaryScreen->currentMon;
     struct PokeSummary *summary = &sMonSummaryScreen->summary;
 
     SetSpriteInvisibility(SPRITE_ARR_ID_MON, TRUE);
     SetSpriteInvisibility(SPRITE_ARR_ID_STATUS, TRUE);
     sMonSummaryScreen->markingsSprite->invisible = TRUE;
-    FillWindowPixelBuffer(PSS_LABEL_PANE_LEFT_MOVE, PIXEL_FILL(0));
+    FillWindowPixelBuffer(WINDOW_ARR_ID_MOVES_WINDOW_LEFT, PIXEL_FILL(0));
 
     SetSpriteInvisibility(SPRITE_ARR_ID_MON_ICON, FALSE);
     SetTypeSpritePosAndPal(gBaseStats[summary->species].type1, 48, 33, SPRITE_ARR_ID_TYPE);
@@ -2993,16 +2878,16 @@ static void PrintMoveDetails(u16 move)
             else
                 ConvertIntToDecimalStringN(gStringVar1, gBattleMoves[move].power, STR_CONV_MODE_RIGHT_ALIGN, 3);
 
-            PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gStringVar1, 57, POWER_AND_ACCURACY_Y, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
+            PrintTextOnWindow(WINDOW_ARR_ID_MOVES_WINDOW_LEFT, gStringVar1, 57, POWER_AND_ACCURACY_Y, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
 
             if (gBattleMoves[move].accuracy == 0)
                 StringCopy(gStringVar1, gText_ThreeDashes);
             else
                 ConvertIntToDecimalStringN(gStringVar1, gBattleMoves[move].accuracy, STR_CONV_MODE_RIGHT_ALIGN, 3);
 
-            PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gStringVar1, 57, POWER_AND_ACCURACY_Y_2, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
+            PrintTextOnWindow(WINDOW_ARR_ID_MOVES_WINDOW_LEFT, gStringVar1, 57, POWER_AND_ACCURACY_Y_2, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
 
-            PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gMoveDescriptionPointers[move - 1], 7, 66, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
+            PrintTextOnWindow(WINDOW_ARR_ID_MOVES_WINDOW_LEFT, gMoveDescriptionPointers[move - 1], 7, 50, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
         }
         else
         {
@@ -3011,29 +2896,19 @@ static void PrintMoveDetails(u16 move)
             FillBgTilemapBufferRect(1, TILE_EMPTY_HEART_3, 6, 9, 8, 1, 5);
             FillBgTilemapBufferRect(1, TILE_EMPTY_HEART_4, 6, 10, 8, 1, 5);
 
-            heartRow1 = gContestEffects[gContestMoves[move].effect].appeal / 10;
-            heartRow2 = gContestEffects[gContestMoves[move].effect].appeal / 10;
-            FillBgTilemapBufferRect(1, TILE_FILLED_APPEAL_HEART, 6, 7, heartRow1, 1, 5);
-            FillBgTilemapBufferRect(1, TILE_FILLED_APPEAL_HEART_2, 6, 8, heartRow2, 1, 5);
+            appealCount = gContestEffects[gContestMoves[move].effect].appeal / 10;
+            FillBgTilemapBufferRect(1, TILE_FILLED_APPEAL_HEART, 6, 7, appealCount, 1, 5);
+            FillBgTilemapBufferRect(1, TILE_FILLED_APPEAL_HEART_2, 6, 8, appealCount, 1, 5);
 
-            if (gContestEffects[gContestMoves[move].effect].jam / 10 > 4)
-            {
-                heartRow1 = 4;
-                heartRow2 = gContestEffects[gContestMoves[move].effect].jam / 10 - 4;
-            }
-            else
-            {
-                heartRow1 = gContestEffects[gContestMoves[move].effect].jam / 10;
-                heartRow2 = 0;
-            }
-            FillBgTilemapBufferRect(1, TILE_FILLED_JAM_HEART, 6, 9, heartRow1, 1, 5);
-            FillBgTilemapBufferRect(1, TILE_FILLED_JAM_HEART_2, 6, 10, heartRow2, 1, 5);
+            jamCount = gContestEffects[gContestMoves[move].effect].jam / 10;
+            FillBgTilemapBufferRect(1, TILE_FILLED_JAM_HEART, 6, 9, jamCount, 1, 5);
+            FillBgTilemapBufferRect(1, TILE_FILLED_JAM_HEART_2, 6, 10, jamCount, 1, 5);
+
+            PrintTextOnWindow(WINDOW_ARR_ID_MOVES_WINDOW_LEFT, gContestEffectDescriptionPointers[gContestMoves[move].effect], 7, 50, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
             CopyBgTilemapBufferToVram(1);
-
-            PrintTextOnWindow(PSS_LABEL_PANE_LEFT_MOVE, gContestEffectDescriptionPointers[gContestMoves[move].effect], 7, 66, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
         }
 
-        PutWindowTilemap(PSS_LABEL_PANE_LEFT_MOVE);
+        PutWindowTilemap(WINDOW_ARR_ID_MOVES_WINDOW_LEFT);
     }
     else
     {
@@ -3046,7 +2921,7 @@ static void PrintMoveDetails(u16 move)
             CopyBgTilemapBufferToVram(1);
         }
 
-        ClearWindowTilemap(PSS_LABEL_PANE_LEFT_MOVE);
+        ClearWindowTilemap(WINDOW_ARR_ID_MOVES_WINDOW_LEFT);
     }
 
     ScheduleBgCopyTilemapToVram(0);
@@ -3055,29 +2930,29 @@ static void PrintMoveDetails(u16 move)
 static void PrintNewMoveDetailsOrCancelText(void)
 {
     u32 pp, x;
+    FillWindowPixelBuffer(WINDOW_ARR_ID_MOVES_WINDOW_LAST_MOVE, PIXEL_FILL(0));
 
     if (sMonSummaryScreen->newMove != MOVE_NONE)
     {
         pp = gBattleMoves[sMonSummaryScreen->newMove].pp;
-        PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_BOTTOM, gMoveNames[sMonSummaryScreen->newMove], 64, 12, 0, 1);
-        ConvertIntToDecimalStringN(gStringVar1, pp, STR_CONV_MODE_LEFT_ALIGN, 2);
-        ConvertIntToDecimalStringN(gStringVar2, pp, STR_CONV_MODE_LEFT_ALIGN, 2);
+        PrintTextOnWindow(WINDOW_ARR_ID_MOVES_WINDOW_LAST_MOVE, gMoveNames[sMonSummaryScreen->newMove], 3, 5, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
+        ConvertIntToDecimalStringN(gStringVar1, pp, STR_CONV_MODE_RIGHT_ALIGN, 2);
+        ConvertIntToDecimalStringN(gStringVar2, pp, STR_CONV_MODE_RIGHT_ALIGN, 2);
         StringAppend(gStringVar1, gText_Slash);
         StringAppend(gStringVar1, gStringVar2);
-        x = GetStringCenterAlignXOffset(1, gStringVar1, 32) + 113;
-        PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_BOTTOM, sText_PP, 80, 25, 0, 0);
-        PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_BOTTOM, gStringVar1, x, 25, 0, 0);
+        PrintTextOnWindowSmall(WINDOW_ARR_ID_MOVES_WINDOW_LAST_MOVE, sText_PP, 36, 16, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
+        PrintTextOnWindow(WINDOW_ARR_ID_MOVES_WINDOW_LAST_MOVE, gStringVar1, 46, 16, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
     }
     else
     {
-        PrintTextOnWindow(PSS_LABEL_PANE_RIGHT_BOTTOM, gText_Cancel, 75, 13, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
+        PrintTextOnWindow(WINDOW_ARR_ID_MOVES_WINDOW_LAST_MOVE, gText_Cancel, 3, 5, 0, PSS_COLOR_BLACK_GRAY_SHADOW);
     }
 }
 
 static void SwapMovesNamesPP(u8 moveIndex1, u8 moveIndex2)
 {
     u32 i;
-    FillWindowPixelBuffer(PSS_LABEL_PANE_RIGHT, PIXEL_FILL(0));
+    FillWindowPixelBuffer(WINDOW_ARR_ID_MOVES_WINDOW_TOP_FOUR_MOVES, PIXEL_FILL(0));
 
     for (i = 0; i < MAX_MON_MOVES; i++)
         PrintMoveNameAndPP(i);
@@ -3214,9 +3089,9 @@ static void SetNewMoveTypeIcon(void)
     if (sMonSummaryScreen->newMove == MOVE_NONE)
         SetSpriteInvisibility(SPRITE_ARR_ID_TYPE + 6, TRUE);
     else if (sMonSummaryScreen->currPageIndex == PSS_PAGE_BATTLE_MOVES)
-        SetTypeSpritePosAndPal(gBattleMoves[sMonSummaryScreen->newMove].type, 116, 136, SPRITE_ARR_ID_TYPE + 6);
+        SetTypeSpritePosAndPal(gBattleMoves[sMonSummaryScreen->newMove].type, 123, 131, SPRITE_ARR_ID_TYPE + 6);
     else
-        SetTypeSpritePosAndPal(NUMBER_OF_MON_TYPES + gContestMoves[sMonSummaryScreen->newMove].contestCategory, 116, 136, SPRITE_ARR_ID_TYPE + 6);
+        SetTypeSpritePosAndPal(NUMBER_OF_MON_TYPES + gContestMoves[sMonSummaryScreen->newMove].contestCategory, 123, 131, SPRITE_ARR_ID_TYPE + 6);
 }
 
 static void SwapMovesTypeSprites(u8 moveIndex1, u8 moveIndex2)
