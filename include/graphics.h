@@ -4221,7 +4221,10 @@ extern const u32 gStatusScreenBitmap[];
 
 extern const u32 gSummaryHealthBar_Tiles[];
 extern const u32 gSummaryExpBar_Tiles[];
-extern const u16 gExpBarHealthBarPal[];
+extern const u16 gExpBarHealthBar_Pal[];
+
+extern const u32 gShinyIcon_Gfx[];
+extern const u16 gShinyIcon_Pal[];
 
 extern const u32 gMoveTypes_Gfx[];
 extern const u32 gSummaryMoveSelect_Gfx[];

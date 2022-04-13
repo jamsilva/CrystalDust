@@ -1152,7 +1152,10 @@ const u32 gUnknown_08D98CC8[] = INCBIN_U32("graphics/interface/status_tilemap0.b
 
 const u32 gSummaryExpBar_Tiles[] = INCBIN_U32("graphics/summary_screen/exp_bar.4bpp.lz");
 const u32 gSummaryHealthBar_Tiles[] = INCBIN_U32("graphics/summary_screen/hp_bar.4bpp.lz");
-const u16 gExpBarHealthBarPal[] = INCBIN_U16("graphics/summary_screen/exp_hp_bar.gbapal");
+const u16 gExpBarHealthBar_Pal[] = INCBIN_U16("graphics/summary_screen/exp_hp_bar.gbapal");
+
+const u32 gShinyIcon_Gfx[] = INCBIN_U32("graphics/summary_screen/shiny_icon.4bpp.lz");
+const u16 gShinyIcon_Pal[] = INCBIN_U16("graphics/summary_screen/shiny_icon.gbapal");
 
 const u32 gBagMaleTiles[] = INCBIN_U32("graphics/item_menu/bag_male.4bpp.lz");
 const u32 gBagFemaleTiles[] = INCBIN_U32("graphics/item_menu/bag_female.4bpp.lz");

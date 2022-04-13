@@ -317,6 +317,8 @@ static void DestroyMoveSelectorSprites(u8 firstArrayId);
 static void SetMainMoveSelectorColor(u8 whichColor);
 static void KeepMoveSelectorVisible(u8 firstSpriteId);
 static void SummaryScreen_DestroyAnimDelayTask(void);
+static void CreateUpdateShinyIconSprite(bool8 smallWindow);
+static void DestroyShinyIconSprite(void);
 static void CreateHealthBarSprites(u16 tileTag, u16 palTag);
 static void ConfigureHealthBarSprites(void);
 static void DestroyHealthBarSprites(void);
@@ -508,13 +510,17 @@ static void (*const sTextPrinterFunctions[])(void) =
 
 static const u8 sBlackTextColor[] = _("{COLOR 7}{SHADOW 8}");
 
-#define TAG_MOVE_SELECTOR 30000
-#define TAG_MON_STATUS    30001
-#define TAG_MOVE_TYPES    30002
-#define TAG_MON_MARKINGS  30003
-#define TAG_SPLIT_ICONS   30004
-#define TAG_HEALTH_BAR    30005
-#define TAG_EXP_BAR       30006
+enum
+{
+    TAG_MOVE_SELECTOR = 30000,
+    TAG_MON_STATUS,
+    TAG_SHINY_ICON,
+    TAG_MOVE_TYPES,
+    TAG_MON_MARKINGS,
+    TAG_SPLIT_ICONS,
+    TAG_HEALTH_BAR,
+    TAG_EXP_BAR
+};
 
 static const struct OamData sOamData_MoveTypes =
 {
@@ -649,7 +655,6 @@ static const union AnimCmd *const sSpriteAnimTable_MoveTypes[NUMBER_OF_MON_TYPES
     sSpriteAnim_CategorySmart,
     sSpriteAnim_CategoryTough,
 };
-
 static const struct CompressedSpriteSheet sSpriteSheet_MoveTypes =
 {
     .data = gMoveTypes_Gfx,
@@ -735,6 +740,7 @@ static const struct SpriteTemplate sMoveSelectorSpriteTemplate =
     .affineAnims = gDummySpriteAffineAnimTable,
     .callback = SpriteCallbackDummy
 };
+
 static const struct OamData sOamData_StatusCondition =
 {
     .y = 0,
@@ -809,7 +815,47 @@ static const struct SpriteTemplate sSpriteTemplate_StatusCondition =
     .affineAnims = gDummySpriteAffineAnimTable,
     .callback = SpriteCallbackDummy
 };
-static const u16 sSummaryMarkingsPalette[] = INCBIN_U16("graphics/summary_screen/markings.gbapal");
+
+static const struct OamData sOamData_ShinyIcon =
+{
+    .y = 0,
+    .affineMode = ST_OAM_AFFINE_OFF,
+    .objMode = ST_OAM_OBJ_NORMAL,
+    .mosaic = FALSE,
+    .bpp = ST_OAM_4BPP,
+    .shape = SPRITE_SHAPE(8x8),
+    .x = 0,
+    .matrixNum = 0,
+    .size = SPRITE_SIZE(8x8),
+    .tileNum = 0,
+    .priority = 0,
+    .paletteNum = 0
+};
+static const union AnimCmd sSpriteAnim_ShinyIcon[] =
+{
+    ANIMCMD_FRAME(1, 20),
+    ANIMCMD_JUMP(0),
+};
+static const union AnimCmd *const sSpriteAnimTable_ShinyIcon[] =
+{
+    sSpriteAnim_ShinyIcon
+};
+static const struct SpritePalette sShinyIconSpritePalette =
+{
+    .data = gShinyIcon_Pal,
+    .tag = TAG_SHINY_ICON
+};
+static const struct SpriteTemplate sSpriteTemplate_ShinyIcon = {
+    .tileTag = TAG_SHINY_ICON,
+    .paletteTag = TAG_SHINY_ICON,
+    .oam = &sOamData_ShinyIcon,
+    .anims = sSpriteAnimTable_ShinyIcon,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = SpriteCallbackDummy,
+};
+
+static const u16 sSummaryMarkings_Pal[] = INCBIN_U16("graphics/summary_screen/markings.gbapal");
 
 static const struct OamData sOamData_ExpHealthBars = {
     .y = 0,
@@ -1100,33 +1146,37 @@ static bool8 LoadGraphics(void)
         gMain.state++;
         break;
     case 17:
-        CreateCaughtBallSprite(&sMonSummaryScreen->currentMon);
+        CreateUpdateShinyIconSprite(sMonSummaryScreen->mode == SUMMARY_MODE_SELECT_MOVE);
         gMain.state++;
         break;
     case 18:
-        CreateSetStatusSprite();
+        CreateCaughtBallSprite(&sMonSummaryScreen->currentMon);
         gMain.state++;
         break;
     case 19:
+        CreateSetStatusSprite();
+        gMain.state++;
+        break;
+    case 20:
         LoadMonIconPalette(sMonSummaryScreen->summary.species2);
         sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON] = CreateMonIcon(sMonSummaryScreen->summary.species2, SpriteCB_MonIcon, 24, 32, 1, sMonSummaryScreen->summary.pid, TRUE);
         gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON]].hFlip = !IsMonSpriteNotFlipped(sMonSummaryScreen->summary.species2);
         SetSpriteInvisibility(SPRITE_ARR_ID_MON_ICON, TRUE);
         gMain.state++;
         break;
-    case 20:
+    case 21:
         CreateHealthBarSprites(TAG_HEALTH_BAR, TAG_HEALTH_BAR);
         gMain.state++;
         break;
-    case 21:
+    case 22:
         CreateExpBarSprites(TAG_EXP_BAR, TAG_HEALTH_BAR);
         gMain.state++;
         break;
-    case 22:
+    case 23:
         SetTypeIcons();
         gMain.state++;
         break;
-    case 23:
+    case 24:
         if (sMonSummaryScreen->mode == SUMMARY_MODE_SELECT_MOVE)
         {
             SetSpriteInvisibility(SPRITE_ARR_ID_MON, TRUE);
@@ -1136,7 +1186,7 @@ static bool8 LoadGraphics(void)
         }
         gMain.state++;
         break;
-    case 24:
+    case 25:
         if (sMonSummaryScreen->mode != SUMMARY_MODE_SELECT_MOVE)
         {
             if (sMonSummaryScreen->summary.isEgg)
@@ -1162,11 +1212,11 @@ static bool8 LoadGraphics(void)
         }
         gMain.state++;
         break;
-    case 25:
+    case 26:
         BlendPalettes(PALETTES_ALL, 16, 0);
         gMain.state++;
         break;
-    case 26:
+    case 27:
         BeginNormalPaletteFade(PALETTES_ALL, 0, 16, 0, RGB_BLACK);
         gPaletteFade.bufferTransferDisabled = 0;
         gMain.state++;
@@ -1555,46 +1605,49 @@ static void Task_ChangeSummaryMon(u8 taskId)
         RemoveAndCreateMonMarkingsSprite(&sMonSummaryScreen->currentMon);
         break;
     case 8:
-        CreateCaughtBallSprite(&sMonSummaryScreen->currentMon);
-        break;
-    case 9:
         CreateSetStatusSprite();
         break;
+    case 9:
+        CreateCaughtBallSprite(&sMonSummaryScreen->currentMon);
+        break;
     case 10:
+        CreateUpdateShinyIconSprite(sMonSummaryScreen->mode == SUMMARY_MODE_SELECT_MOVE);
+        break;
+    case 11:
         FreeMonIconPalettes();
         LoadMonIconPalette(sMonSummaryScreen->summary.species2);
         sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON] = CreateMonIcon(sMonSummaryScreen->summary.species2, SpriteCB_MonIcon, 24, 32, 1, sMonSummaryScreen->summary.pid, TRUE);
         gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON]].hFlip = !IsMonSpriteNotFlipped(sMonSummaryScreen->summary.species2);
         SetSpriteInvisibility(SPRITE_ARR_ID_MON_ICON, TRUE);
         break;
-    case 11:
+    case 12:
         SetSmallMonPicBackgroundPalette();
         ScheduleBgCopyTilemapToVram(1);
         data[1] = 0;
         break;
-    case 12:
+    case 13:
         sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON] = LoadMonGfxAndSprite(&sMonSummaryScreen->currentMon, &data[1]);
         if (sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON] == SPRITE_NONE)
             return;
         gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].data[2] = 1;
         data[1] = 0;
         break;
-    case 13:
+    case 14:
         ConfigureHealthBarSprites();
         break;
-    case 14:
+    case 15:
         ConfigureExpBarSprites();
         break;
-    case 15:
+    case 16:
         SetTypeIcons();
         break;
-    case 16:
+    case 17:
         PrintMonInfo(FALSE);
         break;
-    case 17:
+    case 18:
         PrintPageSpecificText(sMonSummaryScreen->currPageIndex);
         break;
-    case 18:
+    case 19:
         gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].data[2] = 0;
         break;
     default:
@@ -1791,6 +1844,7 @@ static void Task_SwitchToMoveDetails(u8 taskId)
             data[0]++;
             break;
         case 3:
+            CreateUpdateShinyIconSprite(TRUE);
             data[0] = 0;
             SwitchTaskToFollowupFunc(taskId);
             break;
@@ -2015,6 +2069,7 @@ static void Task_SwitchFromMoveDetails(u8 taskId)
             data[0]++;
             break;
         case 3:
+            CreateUpdateShinyIconSprite(FALSE);
             ScheduleBgCopyTilemapToVram(0);
             SetSmallMonPicBackgroundPalette();
             ScheduleBgCopyTilemapToVram(1);
@@ -2368,7 +2423,7 @@ static void PrintMonInfo(bool8 smallWindow)
 static void ShowCantForgetHMs(u8 taskId)
 {
     FillWindowPixelBuffer(WINDOW_ARR_ID_MOVES_WINDOW_LEFT, PIXEL_FILL(0));
-	
+
     if (sMonSummaryScreen->currPageIndex == PSS_PAGE_CONTEST_MOVES)
     {
         FillBgTilemapBufferRect(1, TILE_EMPTY_HEART, 6, 7, 8, 1, 5);
@@ -3239,7 +3294,7 @@ static void CreateMonMarkingsSprite(struct Pokemon *mon)
     if (sMonSummaryScreen->summary.isEgg)
         return;
 
-    sprite = CreateMonMarkingAllCombosSprite(TAG_MON_MARKINGS, TAG_MON_MARKINGS, sSummaryMarkingsPalette);
+    sprite = CreateMonMarkingAllCombosSprite(TAG_MON_MARKINGS, TAG_MON_MARKINGS, sSummaryMarkings_Pal);
     sMonSummaryScreen->markingsSprite = sprite;
 
     if (sprite == NULL)
@@ -3369,6 +3424,66 @@ static void KeepMoveSelectorVisible(u8 firstSpriteId)
     }
 }
 
+static void WhenShinyShowStarIcon(bool8 smallWindow)
+{
+    struct Sprite *sprite = &gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_SHINY_ICON]];
+
+    if (!sMonSummaryScreen->summary.isEgg && IsMonShiny(&sMonSummaryScreen->currentMon))
+        sprite->invisible = FALSE;
+    else
+        sprite->invisible = TRUE;
+
+    if (smallWindow)
+    {
+        sprite->x = 8;
+        sprite->y = 24;
+    }
+    else
+    {
+        sprite->x = 106;
+        sprite->y = 40;
+    }
+}
+
+static void CreateUpdateShinyIconSprite(bool8 smallWindow)
+{
+    u16 spriteId;
+    struct Sprite *sprite;
+    void *gfxBufferPtr;
+
+    if (sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_SHINY_ICON] == SPRITE_NONE)
+    {
+        gfxBufferPtr = AllocZeroed(0x20 * 2);
+
+        struct SpriteSheet spritesheet = {
+            .data = gfxBufferPtr,
+            .size = 0x20 * 2,
+            .tag = TAG_SHINY_ICON
+        };
+
+        LZ77UnCompWram(gShinyIcon_Gfx, gfxBufferPtr);
+        LoadSpriteSheet(&spritesheet);
+        LoadSpritePalette(&sShinyIconSpritePalette);
+        sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_SHINY_ICON] = CreateSprite(&sSpriteTemplate_ShinyIcon, 106, 40, 0);
+        sprite = &gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_SHINY_ICON]];
+        sprite->oam.priority = 1;
+    }
+
+    WhenShinyShowStarIcon(smallWindow);
+
+    if (gfxBufferPtr != NULL)
+        FREE_AND_SET_NULL(gfxBufferPtr);
+}
+
+static void DestroyShinyIconSprite(void)
+{
+    if (sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_SHINY_ICON] == SPRITE_NONE)
+        return;
+
+    DestroySpriteAndFreeResources(&gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_SHINY_ICON]]);
+    sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_SHINY_ICON] == SPRITE_NONE;
+}
+
 static void CreateHealthBarSprites(u16 tileTag, u16 palTag)
 {
     u8 i;
@@ -3387,7 +3502,7 @@ static void CreateHealthBarSprites(u16 tileTag, u16 palTag)
             .tag = tileTag
         };
 
-        struct SpritePalette palette = {.data = gExpBarHealthBarPal, .tag = palTag};
+        struct SpritePalette palette = {.data = gExpBarHealthBar_Pal, .tag = palTag};
         LoadSpriteSheet(&sheet);
         LoadSpritePalette(&palette);
     }
@@ -3510,7 +3625,7 @@ static void CreateExpBarSprites(u16 tileTag, u16 palTag)
             .tag = tileTag
         };
 
-        struct SpritePalette palette = {.data = gExpBarHealthBarPal, .tag = palTag};
+        struct SpritePalette palette = {.data = gExpBarHealthBar_Pal, .tag = palTag};
         LoadSpriteSheet(&sheet);
         LoadSpritePalette(&palette);
     }
