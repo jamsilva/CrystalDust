@@ -1110,17 +1110,17 @@ static bool8 LoadGraphics(void)
             gMain.state++;
         break;
     case 10:
+        PrintMonInfo(sMonSummaryScreen->mode == SUMMARY_MODE_SELECT_MOVE);
+        gMain.state++;
+        break;
+    case 11:
         SetSmallMonPicBackgroundPalette();
         ScheduleBgCopyTilemapToVram(1);
         gMain.state++;
         break;
-    case 11:
+    case 12:
         DrawPagination(sMonSummaryScreen->mode == SUMMARY_MODE_SELECT_MOVE);
         UpdateInfoPageType();
-        gMain.state++;
-        break;
-    case 12:
-        PrintMonInfo(sMonSummaryScreen->mode == SUMMARY_MODE_SELECT_MOVE);
         gMain.state++;
         break;
     case 13:
@@ -1599,50 +1599,50 @@ static void Task_ChangeSummaryMon(u8 taskId)
             return;
         break;
     case 6:
-        UpdateInfoPageType();
+        PrintMonInfo(FALSE);
         break;
     case 7:
-        RemoveAndCreateMonMarkingsSprite(&sMonSummaryScreen->currentMon);
+        UpdateInfoPageType();
         break;
     case 8:
-        CreateSetStatusSprite();
+        RemoveAndCreateMonMarkingsSprite(&sMonSummaryScreen->currentMon);
         break;
     case 9:
-        CreateCaughtBallSprite(&sMonSummaryScreen->currentMon);
+        CreateSetStatusSprite();
         break;
     case 10:
-        CreateUpdateShinyIconSprite(sMonSummaryScreen->mode == SUMMARY_MODE_SELECT_MOVE);
+        CreateCaughtBallSprite(&sMonSummaryScreen->currentMon);
         break;
     case 11:
+        CreateUpdateShinyIconSprite(sMonSummaryScreen->mode == SUMMARY_MODE_SELECT_MOVE);
+        break;
+    case 12:
         FreeMonIconPalettes();
         LoadMonIconPalette(sMonSummaryScreen->summary.species2);
         sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON] = CreateMonIcon(sMonSummaryScreen->summary.species2, SpriteCB_MonIcon, 24, 32, 1, sMonSummaryScreen->summary.pid, TRUE);
         gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON_ICON]].hFlip = !IsMonSpriteNotFlipped(sMonSummaryScreen->summary.species2);
         SetSpriteInvisibility(SPRITE_ARR_ID_MON_ICON, TRUE);
         break;
-    case 12:
+    case 13:
         SetSmallMonPicBackgroundPalette();
         ScheduleBgCopyTilemapToVram(1);
         data[1] = 0;
         break;
-    case 13:
+    case 14:
         sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON] = LoadMonGfxAndSprite(&sMonSummaryScreen->currentMon, &data[1]);
         if (sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON] == SPRITE_NONE)
             return;
         gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MON]].data[2] = 1;
         data[1] = 0;
         break;
-    case 14:
+    case 15:
         ConfigureHealthBarSprites();
         break;
-    case 15:
+    case 16:
         ConfigureExpBarSprites();
         break;
-    case 16:
-        SetTypeIcons();
-        break;
     case 17:
-        PrintMonInfo(FALSE);
+        SetTypeIcons();
         break;
     case 18:
         PrintPageSpecificText(sMonSummaryScreen->currPageIndex);
@@ -2365,8 +2365,29 @@ static void PrintTextOnWindowSmall(u8 windowId, const u8 *string, u8 x, u8 y, u8
 
 static void SetSmallMonPicBackgroundPalette(void)
 {
-    u8 pal = IsMonShiny(&sMonSummaryScreen->currentMon) ? 7 : 0;
-    SetBgTilemapPalette(1, 0, 2, 91, 2, pal);
+    u8 i;
+    u16 left = 0x13;
+    u16 middle = 0xA9;
+    u16 right = 0xAA;
+    bool8 shiny = IsMonShiny(&sMonSummaryScreen->currentMon);
+    u8 topPal = shiny ? 7 : 0;
+    u8 bottomPal = (sMonSummaryScreen->currPageIndex == PSS_PAGE_BATTLE_MOVES) ? 4 : 5;
+    SetBgTilemapPalette(1, 0, 2, 80, 2, topPal);
+
+    if (shiny)
+    {
+        left = 0x17C;
+        middle = 0x18C;
+        right = 0x19C;
+    }
+
+    FillBgTilemapBufferRect(1, left, 0, 6, 1, 1, bottomPal);
+
+    for (i = 1; i < 14; i++)
+        FillBgTilemapBufferRect(1, middle, i, 6, 1, 1, bottomPal);
+
+    FillBgTilemapBufferRect(1, right, 14, 6, 1, 1, bottomPal);
+    ScheduleBgCopyTilemapToVram(1);
 }
 
 static void SetMonPicBackgroundPalette(bool8 isMonShiny)
@@ -2384,6 +2405,13 @@ static void PrintMonInfo(bool8 smallWindow)
     struct Pokemon *mon = &sMonSummaryScreen->currentMon;
     struct PokeSummary *summary = &sMonSummaryScreen->summary;
     FillWindowPixelBuffer(WINDOW_ARR_ID_LVL_NICK_GENDER, PIXEL_FILL(0));
+
+    if (CheckPartyPokerus(mon, 0) || !CheckPartyHasHadPokerus(mon, 0))
+        FillBgTilemapBufferRect(3, 0x1BF, 14, 11, 1, 1, 5);
+    else
+        FillBgTilemapBufferRect(3, 0x198, 14, 11, 1, 1, 5);
+
+    CopyBgTilemapBufferToVram(3);
     SetMonPicBackgroundPalette(!summary->isEgg && IsMonShiny(mon));
 
     if (summary->isEgg)
@@ -3302,7 +3330,7 @@ static void CreateMonMarkingsSprite(struct Pokemon *mon)
 
     StartSpriteAnim(sprite, GetMonData(mon, MON_DATA_MARKINGS));
     sMonSummaryScreen->markingsSprite->x = 20;
-    sMonSummaryScreen->markingsSprite->y = 88;
+    sMonSummaryScreen->markingsSprite->y = 91;
     sMonSummaryScreen->markingsSprite->oam.priority = 1;
 
     if (GetMonData(mon, MON_DATA_MARKINGS) == 0)
