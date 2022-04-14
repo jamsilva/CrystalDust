@@ -394,7 +394,7 @@ static const struct WindowTemplate sSummaryTemplate[] =
         .tilemapTop = 2,
         .width = 15,
         .height = 2,
-        .paletteNum = 15,
+        .paletteNum = 2,
         .baseBlock = 61,
     },
 
@@ -404,7 +404,7 @@ static const struct WindowTemplate sSummaryTemplate[] =
         .tilemapTop = 2,
         .width = 15,
         .height = 12,
-        .paletteNum = 8,
+        .paletteNum = 4,
         .baseBlock = 91,
     },
     [WINDOW_ARR_ID_INFO_MEMO] = {
@@ -413,7 +413,7 @@ static const struct WindowTemplate sSummaryTemplate[] =
         .tilemapTop = 14,
         .width = 28,
         .height = 6,
-        .paletteNum = 8,
+        .paletteNum = 4,
         .baseBlock = 271,
     },
 
@@ -423,7 +423,7 @@ static const struct WindowTemplate sSummaryTemplate[] =
         .tilemapTop = 2,
         .width = 9,
         .height = 14,
-        .paletteNum = 8,
+        .paletteNum = 4,
         .baseBlock = 91,
     },
     [WINDOW_ARR_ID_SKILLS_EXP_NEXT_ABILITY_NAME] = {
@@ -432,7 +432,7 @@ static const struct WindowTemplate sSummaryTemplate[] =
         .tilemapTop = 12,
         .width = 9,
         .height = 4,
-        .paletteNum = 8,
+        .paletteNum = 4,
         .baseBlock = 217,
     },
     [WINDOW_ARR_ID_SKILLS_ABILITY_TEXT] = {
@@ -441,7 +441,7 @@ static const struct WindowTemplate sSummaryTemplate[] =
         .tilemapTop = 16,
         .width = 30,
         .height = 4,
-        .paletteNum = 8,
+        .paletteNum = 4,
         .baseBlock = 253,
     },
 
@@ -451,7 +451,7 @@ static const struct WindowTemplate sSummaryTemplate[] =
         .tilemapTop = 2,
         .width = 10,
         .height = 14,
-        .paletteNum = 8,
+        .paletteNum = 4,
         .baseBlock = 91,
     },
     [WINDOW_ARR_ID_MOVES_WINDOW_LAST_MOVE] = {
@@ -460,7 +460,7 @@ static const struct WindowTemplate sSummaryTemplate[] =
         .tilemapTop = 16,
         .width = 10,
         .height = 4,
-        .paletteNum = 8,
+        .paletteNum = 4,
         .baseBlock = 231,
     },
     [WINDOW_ARR_ID_MOVES_WINDOW_LEFT] = {
@@ -469,7 +469,7 @@ static const struct WindowTemplate sSummaryTemplate[] =
         .tilemapTop = 6,
         .width = 16,
         .height = 14,
-        .paletteNum = 8,
+        .paletteNum = 4,
         .baseBlock = 271,
     },
 
@@ -478,6 +478,7 @@ static const struct WindowTemplate sSummaryTemplate[] =
 
 enum
 {
+    PSS_COLOR_WHITE_BLACK_SHADOW_TITLE,
     PSS_COLOR_WHITE_BLACK_SHADOW,
     PSS_COLOR_MALE_GENDER_SYMBOL,
     PSS_COLOR_FEMALE_GENDER_SYMBOL,
@@ -490,14 +491,15 @@ enum
 
 static const u8 sTextColors[][3] =
 {
-    [PSS_COLOR_WHITE_BLACK_SHADOW]      = {0, 1, 2},
-    [PSS_COLOR_MALE_GENDER_SYMBOL]      = {0, 9, 8},
-    [PSS_COLOR_FEMALE_GENDER_SYMBOL]    = {0, 5, 4},
-    [PSS_COLOR_BLACK_GRAY_SHADOW]       = {0, 7, 8},
-    [PSS_COLOR_SHINY_STARS]             = {0, 5, 5},
-    [PSS_COLOR_POKERUS_CURED]           = {0, 9, 9},
-    [PSS_COLOR_ORANGE]                  = {0, 1, 2},
-    [PSS_COLOR_LIGHT_RED]               = {0, 3, 4}
+    [PSS_COLOR_WHITE_BLACK_SHADOW_TITLE] = {0, 1, 2},
+    [PSS_COLOR_WHITE_BLACK_SHADOW]       = {0, 14, 15},
+    [PSS_COLOR_MALE_GENDER_SYMBOL]       = {0, 10, 11},
+    [PSS_COLOR_FEMALE_GENDER_SYMBOL]     = {0, 8, 9},
+    [PSS_COLOR_BLACK_GRAY_SHADOW]        = {0, 10, 11},
+    [PSS_COLOR_SHINY_STARS]              = {0, 5, 5},
+    [PSS_COLOR_POKERUS_CURED]            = {0, 9, 9},
+    [PSS_COLOR_ORANGE]                   = {0, 1, 2},
+    [PSS_COLOR_LIGHT_RED]                = {0, 3, 4}
 };
 
 static void (*const sTextPrinterFunctions[])(void) =
@@ -508,7 +510,7 @@ static void (*const sTextPrinterFunctions[])(void) =
     [PSS_PAGE_CONTEST_MOVES] = PrintContestMoves
 };
 
-static const u8 sBlackTextColor[] = _("{COLOR 7}{SHADOW 8}");
+static const u8 sBlackTextColor[] = _("{COLOR 10}{SHADOW 11}");
 
 enum
 {
@@ -3797,8 +3799,8 @@ static void PrintTitleBar(u8 pageIndex, bool8 detailsShown)
             break;
     }
 
-    PrintTextOnWindow(WINDOW_ARR_ID_TITLE_BAR, gStringVar1, 4, 1, 0, PSS_COLOR_WHITE_BLACK_SHADOW);
+    PrintTextOnWindow(WINDOW_ARR_ID_TITLE_BAR, gStringVar1, 4, 1, 0, PSS_COLOR_WHITE_BLACK_SHADOW_TITLE);
     x = GetStringRightAlignXOffset(0, gStringVar2, 236);
-    PrintTextOnWindowSmall(WINDOW_ARR_ID_TITLE_BAR, gStringVar2, x, 0, 0, PSS_COLOR_WHITE_BLACK_SHADOW);
+    PrintTextOnWindowSmall(WINDOW_ARR_ID_TITLE_BAR, gStringVar2, x, 0, 0, PSS_COLOR_WHITE_BLACK_SHADOW_TITLE);
     PutWindowTilemap(WINDOW_ARR_ID_TITLE_BAR);
 }
