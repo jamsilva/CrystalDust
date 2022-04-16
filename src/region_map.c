@@ -556,6 +556,22 @@ void ShowRegionMapForPokedexAreaScreen(struct RegionMap *regionMap)
     gRegionMap->playerIconSpritePosY = gRegionMap->cursorPosY;
 }
 
+bool8 ChangeDecompressedRegionMapGfx(u16* ptr, bool8* permissions)
+{
+    u8 x, y;
+
+    if (permissions[MAPPERM_SWITCH])
+    {
+        ptr[25 + 17 * 32] = 0x90F4;
+    }
+    else if (!permissions[MAPPERM_CLOSE])
+    {
+        for (y = 16; y < 19; y++)
+            for (x = 24; x < 27; x++)
+                ptr[x + y * 32] = 0x9096;
+    }
+}
+
 bool8 LoadRegionMapGfx(bool8 shouldBuffer)
 {
     const u8 *regionTilemap;
@@ -589,23 +605,8 @@ bool8 LoadRegionMapGfx(bool8 shouldBuffer)
             }*/
             {
                 u32 size;
-                u8 x, y;
                 u16 *ptr = malloc_and_decompress(GetRegionMapTilemap(gRegionMap->currentRegion), &size);
-
-                if (gRegionMap->permissions[MAPPERM_SWITCH])
-                {
-                    ptr[25 + 17 * 32] = 0x90F4;
-                }
-                else if (!gRegionMap->permissions[MAPPERM_CLOSE])
-                {
-                    for (y = 16; y < 19; y++)
-                    {
-                        for (x = 24; x < 27; x++)
-                        {
-                            ptr[x + y * 32] = 0x9096;
-                        }
-                    }
-                }
+                ChangeDecompressedRegionMapGfx(ptr, gRegionMap->permissions);
 
                 if (shouldBuffer)
                 {

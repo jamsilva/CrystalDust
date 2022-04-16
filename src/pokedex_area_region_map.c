@@ -9,11 +9,16 @@
 
 static EWRAM_DATA u8 *sPokedexAreaMapBgNum = NULL;
 
-void LoadPokedexAreaMapGfx(const struct PokedexAreaMapTemplate *template)
+void LoadPokedexAreaMapGfx(const struct PokedexAreaMapTemplate *template, bool8* permissions)
 {
+    u32 size;
+    void *ptr;
     sPokedexAreaMapBgNum = Alloc(4);
     DecompressAndCopyTileDataToVram(template->bg, GetRegionMapTileset(), 0, template->offset, 0);
-    sub_8199D3C(DecompressAndCopyTileDataToVram(template->bg, GetRegionMapTilemap(GetCurrentRegion()), 0, 0, 1), template->offset, 64, 64, TRUE);
+    ptr = malloc_and_decompress(GetRegionMapTilemap(GetCurrentRegion()), &size);
+    ChangeDecompressedRegionMapGfx(ptr, permissions);
+    copy_decompressed_tile_data_to_vram(template->bg, ptr, size, 0, 1);
+    sub_8199D3C(ptr, template->offset, 64, 64, TRUE);
     CpuCopy32(GetRegionMapPalette(), &gPlttBufferUnfaded[0x70], 0x60);
     *sPokedexAreaMapBgNum = template->bg;
 }

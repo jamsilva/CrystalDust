@@ -658,6 +658,8 @@ void ShowPokedexAreaScreen(u16 species, u8 *screenSwitchState)
     screenSwitchState[0] = 0;
     sPokedexAreaScreen->regionMap.yOffset = -2;
     sPokedexAreaScreen->regionMap.currentRegion = GetCurrentRegion();
+    sPokedexAreaScreen->regionMap.permissions[MAPPERM_SWITCH] = FALSE;
+    sPokedexAreaScreen->regionMap.permissions[MAPPERM_CLOSE] = FALSE;
     taskId = CreateTask(Task_ShowPokedexAreaScreen, 0);
     gTasks[taskId].tState = 0;
 }
@@ -675,7 +677,7 @@ static void Task_ShowPokedexAreaScreen(u8 taskId)
             break;
         case 1:
             SetBgAttribute(3, BG_ATTR_CHARBASEINDEX, 3);
-            LoadPokedexAreaMapGfx(&sPokedexAreaMapTemplate);
+            LoadPokedexAreaMapGfx(&sPokedexAreaMapTemplate, sPokedexAreaScreen->regionMap.permissions);
             StringFill(sPokedexAreaScreen->charBuffer, CHAR_SPACE, 16);
             break;
         case 2:
