@@ -1050,7 +1050,7 @@ static u8 GetMapSecIdAt(s16 x, s16 y, u8 region, bool8 secondary)
     {
         return MAPSEC_NONE;
     }
-    return layouts[gRegionMap->currentRegion][secondary][x + y * MAP_WIDTH];
+    return layouts[region][secondary][x + y * MAP_WIDTH];
 }
 
 static void InitMapBasedOnPlayerLocation(void)
@@ -1333,10 +1333,9 @@ static u8 GetMapsecType(u16 mapSecId)
     return mapSecStatus;
 }
 
-u16 GetRegionMapSectionIdAt(u16 x, u16 y)
+u16 GetRegionMapSectionIdAt(u16 x, u16 y, u8 region)
 {
-    // TODO: Region
-    return GetMapSecIdAt(x, y, REGION_JOHTO, FALSE);
+    return GetMapSecIdAt(x, y, region, FALSE);
 }
 
 static u16 CorrectSpecialMapSecId_Internal(u16 mapSecId)
@@ -2281,9 +2280,14 @@ static void CB_ExitFlyMap(void)
     }
 }
 
+u8 GetMapRegion(u16 mapSectionId)
+{
+    return sMapSecToRegion[mapSectionId];
+}
+
 u8 GetCurrentRegion(void)
 {
-    return sMapSecToRegion[gMapHeader.regionMapSectionId];
+    return GetMapRegion(gMapHeader.regionMapSectionId);
 }
 
 static bool32 SelectedMapsecSEEnabled(void)

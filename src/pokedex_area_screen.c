@@ -406,7 +406,7 @@ static void SetAreaHasMon(u16 mapGroup, u16 mapNum)
     {
         sPokedexAreaScreen->overworldAreasWithMons[sPokedexAreaScreen->numOverworldAreas].mapGroup = mapGroup;
         sPokedexAreaScreen->overworldAreasWithMons[sPokedexAreaScreen->numOverworldAreas].mapNum = mapNum;
-        sPokedexAreaScreen->overworldAreasWithMons[sPokedexAreaScreen->numOverworldAreas].regionMapSectionId = CorrectSpecialMapSecId(Overworld_GetMapHeaderByGroupAndId(mapGroup, mapNum)->regionMapSectionId);
+        sPokedexAreaScreen->overworldAreasWithMons[sPokedexAreaScreen->numOverworldAreas].regionMapSectionId = CorrectSpecialMapSecId(GetRegionMapSectionId(mapGroup, mapNum));
         sPokedexAreaScreen->numOverworldAreas++;
     }
 }
@@ -418,6 +418,10 @@ static void SetSpecialMapHasMon(u16 mapGroup, u16 mapNum)
     if (sPokedexAreaScreen->numSpecialAreas < 0x20)
     {
         u16 regionMapSectionId = GetRegionMapSectionId(mapGroup, mapNum);
+
+        if (GetCurrentRegion() != GetMapRegion(regionMapSectionId))
+            return;
+
         if (regionMapSectionId < MAPSEC_NONE)
         {
             for (i = 0; i < ARRAY_COUNT(sMovingRegionMapSections); i++)
@@ -454,7 +458,9 @@ static u16 GetRegionMapSectionId(u8 mapGroup, u8 mapNum)
 
 static bool8 MapHasMon(const struct WildPokemonHeader *info, u16 species)
 {
-    if (GetRegionMapSectionId(info->mapGroup, info->mapNum) == MAPSEC_ALTERING_CAVE)
+    u16 regionMapSectionId = GetRegionMapSectionId(info->mapGroup, info->mapNum);
+
+    if (regionMapSectionId == MAPSEC_ALTERING_CAVE)
     {
         sPokedexAreaScreen->unk6E2++;
         if (sPokedexAreaScreen->unk6E2 != sPokedexAreaScreen->unk6E4 + 1)
@@ -494,6 +500,7 @@ static bool8 MonListHasMon(const struct WildPokemonInfo *info, u16 species, u16 
 static void BuildAreaGlowTilemap(void)
 {
     u16 i, y, x, j;
+    u8 currentRegion = GetCurrentRegion();
 
     for (i = 0; i < ARRAY_COUNT(sPokedexAreaScreen->areaGlowTilemap); i++)
         sPokedexAreaScreen->areaGlowTilemap[i] = 0;
@@ -505,7 +512,7 @@ static void BuildAreaGlowTilemap(void)
         {
             for (x = 0; x < AREA_SCREEN_WIDTH; x++)
             {
-                if (GetRegionMapSectionIdAt(x, y) == sPokedexAreaScreen->overworldAreasWithMons[i].regionMapSectionId)
+                if (GetRegionMapSectionIdAt(x, y, currentRegion) == sPokedexAreaScreen->overworldAreasWithMons[i].regionMapSectionId)
                     sPokedexAreaScreen->areaGlowTilemap[j] = GLOW_TILE_FULL;
 
                 j++;
