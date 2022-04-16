@@ -1583,6 +1583,42 @@ void CreateRegionMapPlayerIcon(u16 tileTag, u16 paletteTag)
         sprite->callback = SpriteCB_ShipIcon;
 }
 
+void CreatePokedexMapPlayerIcon(u16 tileTag, u16 paletteTag) //duplicate of the above with a different Y value for the Pokedex Area Map
+{
+    struct Sprite *sprite;
+    struct SpriteSheet sheet = {sRegionMapPlayerIcon_GoldGfx, 0x80, tileTag};
+    struct SpritePalette palette = {sRegionMapPlayerIcon_GoldPal, paletteTag};
+    struct SpriteTemplate template = {tileTag, paletteTag, &sRegionMapPlayerIconOam, gDummySpriteAnimTable, NULL, gDummySpriteAffineAnimTable, SpriteCallbackDummy};
+
+    if (IsEventIslandMapSecId(gMapHeader.regionMapSectionId))
+    {
+        gRegionMap->spriteIds[1] = 0xFF;
+        return;
+    }
+    if (gSaveBlock2Ptr->playerGender == FEMALE)
+    {
+        sheet.data = sRegionMapPlayerIcon_KrisGfx;
+        palette.data = sRegionMapPlayerIcon_KrisPal;
+    }
+    if (gMapHeader.regionMapSectionId == MAPSEC_FAST_SHIP)
+    {
+        sheet.data = sRegionMapPlayerIcon_ShipGfx;
+        sheet.size = 0x200;
+        palette.data = sRegionMapPlayerIcon_ShipPal;
+        template.oam = &sRegionMapShipIconOam;
+    }
+    LoadSpriteSheet(&sheet);
+    LoadSpritePalette(&palette);
+    gRegionMap->spriteIds[1] = CreateSprite(&template, 0, 0, 2);
+    sprite = &gSprites[gRegionMap->spriteIds[1]];
+    sprite->x = (gRegionMap->playerIconSpritePosX + gRegionMap->xOffset + MAPCURSOR_X_MIN) * 8 + 4;
+    sprite->y = (gRegionMap->playerIconSpritePosY + MAPCURSOR_Y_MIN) * 8 - 12;
+    if(FlagGet(FLAG_FAST_SHIP_DESTINATION_OLIVINE) && gMapHeader.regionMapSectionId == MAPSEC_FAST_SHIP)
+        sprite->oam.matrixNum |= ST_OAM_HFLIP;
+    if(gMapHeader.regionMapSectionId == MAPSEC_FAST_SHIP)
+        sprite->callback = SpriteCB_ShipIcon;
+}
+
 static void HideRegionMapPlayerIcon(void)
 {
     if (gRegionMap->spriteIds[1] != 0xFF)

@@ -1141,18 +1141,23 @@ const u32 gMoveTypes_Pal[] = INCBIN_U32("graphics/types/move_types.gbapal.lz");
 const u32 gSummaryMoveSelect_Gfx[] = INCBIN_U32("graphics/summary_screen/move_select.4bpp.lz");
 const u32 gSummaryMoveSelect_Pal[] = INCBIN_U32("graphics/summary_screen/move_select.gbapal.lz");
 
-const u32 gStatusScreenBitmap[] = INCBIN_U32("graphics/interface_fr/trainer_memo.4bpp.lz");
-const u32 gStatusScreenPalette[] = INCBIN_U32("graphics/interface_fr/trainer_memo_pal1.gbapal.lz");
-const u32 gPageBGTilemap[] = INCBIN_U32("graphics/interface_fr/trainer_memo_bg.bin.lz");
-const u32 gPageInfoTilemap[] = INCBIN_U32("graphics/interface_fr/trainer_memo.bin.lz");
-const u32 gPageSkillsTilemap[] = INCBIN_U32("graphics/interface_fr/trainer_memo_2.bin.lz");
-const u32 gPageBattleMovesTilemap[] = INCBIN_U32("graphics/interface_fr/trainer_memo_3.bin.lz");
-const u32 gPageContestMovesTilemap[] = INCBIN_U32("graphics/interface_fr/trainer_memo_4.bin.lz");
-const u32 gUnknown_08D98CC8[] = INCBIN_U32("graphics/interface/status_tilemap0.bin.lz");
+const u32 gSummaryScreenTiles[] = INCBIN_U32("graphics/summary_screen/tiles.4bpp.lz");
+const u32 gSummaryScreenBackgroundTilemap[] = INCBIN_U32("graphics/summary_screen/background.bin.lz");
+const u32 gSummaryScreenPalette[] = INCBIN_U32("graphics/summary_screen/tiles.gbapal.lz");
+const u32 gSummaryScreenPageInfoTilemap[] = INCBIN_U32("graphics/summary_screen/page_info.bin.lz");
+const u32 gSummaryScreenPageInfoEggTilemap[] = INCBIN_U32("graphics/summary_screen/page_info_egg.bin.lz");
+const u32 gSummaryScreenPageSkillsTilemap[] = INCBIN_U32("graphics/summary_screen/page_skills.bin.lz");
+const u32 gSummaryScreenPageMovesTilemap[] = INCBIN_U32("graphics/summary_screen/page_moves.bin.lz");
+const u32 gSummaryScreenPageMoveDetailsTilemap[] = INCBIN_U32("graphics/summary_screen/page_moves_selected.bin.lz");
+const u32 gSummaryScreenPageContestMovesTilemap[] = INCBIN_U32("graphics/summary_screen/page_moves_contest.bin.lz");
+const u32 gSummaryScreenPageContestMoveDetailsTilemap[] = INCBIN_U32("graphics/summary_screen/page_moves_contest_selected.bin.lz");
 
 const u32 gSummaryExpBar_Tiles[] = INCBIN_U32("graphics/summary_screen/exp_bar.4bpp.lz");
 const u32 gSummaryHealthBar_Tiles[] = INCBIN_U32("graphics/summary_screen/hp_bar.4bpp.lz");
-const u16 gExpBarHealthBarPal[] = INCBIN_U16("graphics/summary_screen/exp_hp_bar.gbapal");
+const u16 gExpBarHealthBar_Pal[] = INCBIN_U16("graphics/summary_screen/exp_hp_bar.gbapal");
+
+const u32 gShinyIcon_Gfx[] = INCBIN_U32("graphics/summary_screen/shiny_icon.4bpp.lz");
+const u16 gShinyIcon_Pal[] = INCBIN_U16("graphics/summary_screen/shiny_icon.gbapal");
 
 const u32 gBagMaleTiles[] = INCBIN_U32("graphics/item_menu/bag_male.4bpp.lz");
 const u32 gBagFemaleTiles[] = INCBIN_U32("graphics/item_menu/bag_female.4bpp.lz");
@@ -1567,25 +1572,3 @@ static const u8 sUnused2[]       = {0x02};
 static const u8 sEmpty5[0x3242]  = {0};
 static const u8 sUnused3[]       = {0x40};
 static const u8 sEmpty6[0x13]    = {0};
-
-// NEW Summary Screen
-const u32 gSummaryScreenTiles[] = INCBIN_U32("graphics/summary_screen/tiles.4bpp.lz");
-const u32 gSummaryScreenBackgroundTilemap[] = INCBIN_U32("graphics/summary_screen/background.bin.lz");
-const u32 gSummaryScreenPalette[] = INCBIN_U32("graphics/summary_screen/tiles_alt.gbapal.lz");
-
-//Original Palette
-//const u32 gSummaryScreenPalette[] = INCBIN_U32("graphics/summary_screen/tiles.gbapal.lz");
-// 1 - Info
-
-const u32 gSummaryScreenPageInfoTilemap[] = INCBIN_U32("graphics/summary_screen/page_info.bin.lz");
-const u32 gSummaryScreenPageInfoEggTilemap[] = INCBIN_U32("graphics/summary_screen/page_info_egg.bin.lz");
-// 2 - Skills
-const u32 gSummaryScreenPageSkillsTilemap[] = INCBIN_U32("graphics/summary_screen/page_skills.bin.lz");
-// 3 - Battle Moves
-const u32 gSummaryScreenPageMovesTilemap[] = INCBIN_U32("graphics/summary_screen/page_moves.bin.lz");
-const u32 gSummaryScreenPageMoveDetailsTilemap[] = INCBIN_U32("graphics/summary_screen/page_moves_selected.bin.lz");
-const u32 gSummaryScreenPageNewMoveTilemap[] = INCBIN_U32("graphics/summary_screen/page_new_move.bin.lz");
-// 4 - Contest Moves
-const u32 gSummaryScreenPageContestMovesTilemap[] = INCBIN_U32("graphics/summary_screen/page_moves_contest.bin.lz");
-const u32 gSummaryScreenPageContestMoveDetailsTilemap[] = INCBIN_U32("graphics/summary_screen/page_moves_contest_selected.bin.lz");
-const u32 gSummaryScreenPageContestNewMoveTilemap[] = INCBIN_U32("graphics/summary_screen/page_new_move_contest.bin.lz");

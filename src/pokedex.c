@@ -2424,7 +2424,7 @@ static void CreateMonDexNum(u16 entryNum, u8 left, u8 top, u16 unused)
     text[2] = CHAR_0 + dexNum / 100;
     text[3] = CHAR_0 + (dexNum % 100) / 10;
     text[4] = CHAR_0 + (dexNum % 100) % 10;
-    PrintMonDexNumAndName(0, 7, text, left, top);
+    PrintMonDexNumAndName(0, 0, text, left, top);
 }
 
 static void CreateCaughtBall(bool16 owned, u8 x, u8 y, u16 unused)
@@ -2444,7 +2444,7 @@ static u8 CreateMonName(u16 num, u8 left, u8 top)
         str = gSpeciesNames[num];
     else
         str = sText_TenDashes;
-    PrintMonDexNumAndName(0, 1, str, left, top);
+    PrintMonDexNumAndName(0, 2, str, left, top);
     return StringLength(str);
 }
 
@@ -2766,7 +2766,7 @@ static void CreateInterfaceSprites(u8 page)
     gSprites[spriteId].sIsDownArrow = TRUE;
     gSprites[spriteId].vFlip = TRUE;
 
-    CreateSprite(&sScrollBarSpriteTemplate, 230, 20, 0);
+    CreateSprite(&sScrollBarSpriteTemplate, 236, 20, 0);
     // Start button
     CreateSprite(&sInterfaceTextSpriteTemplate, 16, 152, 0);
     // Menu text
@@ -2800,14 +2800,14 @@ static void CreateInterfaceSprites(u8 page)
         if (!IsNationalPokedexEnabled())
         {
             // Seen text
-            CreateSprite(&sSeenOwnTextSpriteTemplate, 24, 120, 1);
+            CreateSprite(&sSeenOwnTextSpriteTemplate, 28, 120, 1);
             // Own text
-            spriteId = CreateSprite(&sSeenOwnTextSpriteTemplate, 64, 120, 1);
+            spriteId = CreateSprite(&sSeenOwnTextSpriteTemplate, 69, 120, 1);
             StartSpriteAnim(&gSprites[spriteId], 1);
 
             // Seen value - 100s
             drawNextDigit = FALSE;
-            spriteId = CreateSprite(&sHoennDexSeenOwnNumberSpriteTemplate, 20, 128, 1);
+            spriteId = CreateSprite(&sHoennDexSeenOwnNumberSpriteTemplate, 24, 126, 1);
             digitNum = sPokedexView->seenCount / 100;
             StartSpriteAnim(&gSprites[spriteId], digitNum);
             if (digitNum != 0)
@@ -2816,7 +2816,7 @@ static void CreateInterfaceSprites(u8 page)
                 gSprites[spriteId].invisible = TRUE;
 
             // Seen value - 10s
-            spriteId = CreateSprite(&sHoennDexSeenOwnNumberSpriteTemplate, 28, 128, 1);
+            spriteId = CreateSprite(&sHoennDexSeenOwnNumberSpriteTemplate, 32, 126, 1);
             digitNum = (sPokedexView->seenCount % 100) / 10;
             if (digitNum != 0 || drawNextDigit)
                 StartSpriteAnim(&gSprites[spriteId], digitNum);
@@ -2824,13 +2824,13 @@ static void CreateInterfaceSprites(u8 page)
                 gSprites[spriteId].invisible = TRUE;
 
             // Seen value - 1s
-            spriteId = CreateSprite(&sHoennDexSeenOwnNumberSpriteTemplate, 36, 128, 1);
+            spriteId = CreateSprite(&sHoennDexSeenOwnNumberSpriteTemplate, 40, 126, 1);
             digitNum = (sPokedexView->seenCount % 100) % 10;
             StartSpriteAnim(&gSprites[spriteId], digitNum);
 
             // Owned value - 100s
             drawNextDigit = FALSE;
-            spriteId = CreateSprite(&sHoennDexSeenOwnNumberSpriteTemplate, 60, 128, 1);
+            spriteId = CreateSprite(&sHoennDexSeenOwnNumberSpriteTemplate, 64, 126, 1);
             digitNum = sPokedexView->ownCount / 100;
             StartSpriteAnim(&gSprites[spriteId], digitNum);
             if (digitNum != 0)
@@ -2839,7 +2839,7 @@ static void CreateInterfaceSprites(u8 page)
                 gSprites[spriteId].invisible = TRUE;
 
             // Owned value - 10s
-            spriteId = CreateSprite(&sHoennDexSeenOwnNumberSpriteTemplate, 68, 128, 1);
+            spriteId = CreateSprite(&sHoennDexSeenOwnNumberSpriteTemplate, 72, 126, 1);
             digitNum = (sPokedexView->ownCount % 100) / 10;
             if (digitNum != 0 || drawNextDigit)
                 StartSpriteAnim(&gSprites[spriteId], digitNum);
@@ -2847,7 +2847,7 @@ static void CreateInterfaceSprites(u8 page)
                 gSprites[spriteId].invisible = TRUE;
 
             // Owned value - 1s
-            spriteId = CreateSprite(&sHoennDexSeenOwnNumberSpriteTemplate, 76, 128, 1);
+            spriteId = CreateSprite(&sHoennDexSeenOwnNumberSpriteTemplate, 80, 126, 1);
             digitNum = (sPokedexView->ownCount % 100) % 10;
             StartSpriteAnim(&gSprites[spriteId], digitNum);
         }
@@ -2856,9 +2856,9 @@ static void CreateInterfaceSprites(u8 page)
             u16 seenOwnedCount;
 
             // Seen text
-            CreateSprite(&sSeenOwnTextSpriteTemplate, 44, 120, 1);
+            CreateSprite(&sSeenOwnTextSpriteTemplate, 48, 120, 1);
             // Own text
-            spriteId = CreateSprite(&sSeenOwnTextSpriteTemplate, 74, 120, 1);
+            spriteId = CreateSprite(&sSeenOwnTextSpriteTemplate, 79, 120, 1);
             StartSpriteAnim(&gSprites[spriteId], 1);
 
             // Hoenn text 
@@ -3697,9 +3697,9 @@ static void LoadPlayArrowPalette(bool8 cryPlaying)
     u16 color;
 
     if (cryPlaying)
-        color = RGB(18, 28, 0);
+        color = RGB(31, 0, 10);
     else
-        color = RGB(15, 21, 0);
+        color = RGB(23, 0, 0);
     LoadPalette(&color, 0x5D, 2);
 }
 

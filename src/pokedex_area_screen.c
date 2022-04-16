@@ -316,7 +316,8 @@ static bool8 DrawAreaGlow(void)
         }
         return TRUE;
     case 4:
-        ChangeBgY(2, -0x800, 0);
+        ChangeBgX(2, -0x2000, 0);
+        ChangeBgY(2, -0x1000, 0);
         break;
     default:
         return FALSE;
@@ -672,7 +673,6 @@ static void Task_ShowPokedexAreaScreen(u8 taskId)
         case 2:
             if (sub_81C4E90() == TRUE)
                 return;
-            PokedexAreaMapChangeBgY(-8);
             break;
         case 3:
             ResetDrawAreaGlowState();
@@ -683,7 +683,7 @@ static void Task_ShowPokedexAreaScreen(u8 taskId)
             break;
         case 5:
             ShowRegionMapForPokedexAreaScreen(&sPokedexAreaScreen->regionMap);
-            CreateRegionMapPlayerIcon(1, 1);
+            CreatePokedexMapPlayerIcon(1, 1);
             PokedexAreaScreen_UpdateRegionMapVariablesAndVideoRegs(0, -8);
             break;
         case 6:
@@ -779,8 +779,8 @@ static void CreateAreaMarkerSprites(void)
     for (i = 0; i < sPokedexAreaScreen->numSpecialAreas; i++)
     {
         mapSecId = sPokedexAreaScreen->specialAreaRegionMapSectionIds[i];
-        x = 8 * (gRegionMapEntries[mapSecId].x + 1) + 4;
-        y = 8 * (gRegionMapEntries[mapSecId].y) + 28;
+        x = 8 * (gRegionMapEntries[mapSecId].x + 4) + 4;
+        y = 8 * (gRegionMapEntries[mapSecId].y) + 20;
         x += 4 * (gRegionMapEntries[mapSecId].width - 1);
         y += 4 * (gRegionMapEntries[mapSecId].height - 1);
         spriteId = CreateSprite(&sAreaMarkerSpriteTemplate, x, y, 0);
@@ -837,7 +837,7 @@ static void CreateAreaUnknownSprites(void)
     {
         for (i = 0; i < 3; i++)
         {
-            spriteId = CreateSprite(&sAreaUnknownSpriteTemplate, i * 32 + 0xa0, 0x8c, 0);
+            spriteId = CreateSprite(&sAreaUnknownSpriteTemplate, i * 32 + 0x9C, 0x80, 0);
             if (spriteId != MAX_SPRITES)
             {
                 gSprites[spriteId].oam.tileNum += i * 16;

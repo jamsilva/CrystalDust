@@ -132,6 +132,7 @@ u8 DoRegionMapInputCallback(void);
 bool8 UpdateRegionMapZoom(void);
 void FreeRegionMapResources(void);
 u16 GetRegionMapSectionIdAt(u16 x, u16 y);
+void CreatePokedexMapPlayerIcon(u16 x, u16 y);
 void CreateRegionMapPlayerIcon(u16 x, u16 y);
 void CreateRegionMapCursor(u16 tileTag, u16 paletteTag, bool8 visible);
 bool32 IsEventIslandMapSecId(u8 mapSecId);
