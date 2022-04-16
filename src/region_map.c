@@ -123,7 +123,6 @@ static void LoadSecondaryLayerMapSec(void);
 static void SetupShadowBoxes(u8 layerNum, const struct WindowCoords *coords);
 static u8 GetMapSecStatusByLayer(u8 layer);
 static void SetShadowBoxState(u8 offset, bool8 hide);
-static const u32 *GetRegionMapTilemap(u8 region);
 
 // .rodata
 static const u16 sRegionMapCursorPal[] = INCBIN_U16("graphics/region_map/cursor.gbapal");
@@ -511,7 +510,7 @@ void InitRegionMap(struct RegionMap *regionMap, u8 mode, s8 xOffset)
 void InitRegionMapData(struct RegionMap *regionMap, const struct BgTemplate *template, u8 mapMode, s8 xOffset)
 {
     u8 i;
-    
+
     gRegionMap = regionMap;
     gRegionMap->initStep = 0;
     gRegionMap->xOffset = xOffset;
@@ -526,7 +525,7 @@ void InitRegionMapData(struct RegionMap *regionMap, const struct BgTemplate *tem
 
     //TODO: Make conditional on visiting Kanto once
     gRegionMap->permissions[MAPPERM_SWITCH] = FALSE;
-    
+
     for (i = 0; i < sizeof(gRegionMap->spriteIds); i++)
     {
         gRegionMap->spriteIds[i] = 0xFF;
@@ -591,7 +590,7 @@ bool8 LoadRegionMapGfx(bool8 shouldBuffer)
                 u32 size;
                 u8 x, y;
                 u16 *ptr = malloc_and_decompress(GetRegionMapTilemap(gRegionMap->currentRegion), &size);
-                
+
                 if (gRegionMap->permissions[MAPPERM_SWITCH])
                 {
                     ptr[25 + 17 * 32] = 0x90F4;
@@ -689,7 +688,7 @@ bool8 LoadRegionMapGfx_Pt2(void)
 
             if (gRegionMap->secondaryMapSecId != MAPSEC_NONE)
                 SetShadowBoxState(1, FALSE);
-            
+
             if(gMapHeader.regionMapSectionId == MAPSEC_FAST_SHIP)
             {
                 gRegionMap->playerIconSpritePosX = 21;
@@ -724,7 +723,20 @@ bool8 LoadRegionMapGfx_Pt2(void)
     return TRUE;
 }
 
-static const u32 *GetRegionMapTilemap(u8 region)
+const u16 *GetRegionMapPalette(void)
+{
+    if (gSaveBlock2Ptr->playerGender == MALE)
+        return sRegionMapPal;
+    else
+        return sRegionMapGirlPal;
+}
+
+const u32 *GetRegionMapTileset(void)
+{
+    return sRegionMapTileset;
+}
+
+const u32 *GetRegionMapTilemap(u8 region)
 {
     const u32 *const tilemaps[] = {
         sRegionMapJohtoTilemap,
@@ -777,10 +789,10 @@ void FreeRegionMapResources(void)
             DestroySprite(&gSprites[gRegionMap->spriteIds[i]]);
         }
     }
-    
+
     FreeSpriteTilesByTag(gRegionMap->dotsTileTag);
     FreeSpritePaletteByTag(gRegionMap->miscSpritesPaletteTag);
-    
+
     FillWindowPixelBuffer(gRegionMap->primaryWindowId, 0);
     ClearWindowTilemap(gRegionMap->primaryWindowId);
     CopyWindowToVram(gRegionMap->primaryWindowId, 2);
@@ -920,7 +932,7 @@ static u8 MoveRegionMapCursor_Full(void)
     }
 
     LoadMapLayersFromPosition(gRegionMap->cursorPosX, gRegionMap->cursorPosY);
-    
+
     if (gRegionMap->primaryMapSecStatus != MAPSECTYPE_NONE)
     {
         GetPositionOfCursorWithinMapSec();
@@ -1680,7 +1692,7 @@ void CreateRegionMapName(u16 tileTagCurve, u16 tileTagMain)
     LoadSpriteSheet(&curveSheet);
     gRegionMap->spriteIds[2] = CreateSprite(&template, 180 + gRegionMap->xOffset * 8, 20, 0);
     gRegionMap->regionNameCurveTileTag = tileTagCurve;
-    
+
     template = sRegionMapNameSpriteTemplate;
     template.tileTag = tileTagMain;
     template.paletteTag = gRegionMap->miscSpritesPaletteTag;
@@ -1719,7 +1731,7 @@ void CreateSecondaryLayerDots(u16 tileTag, u16 paletteTag)
         for (x = 0; x < MAP_WIDTH; x++)
         {
             u8 secondaryMapSec = GetMapSecIdAt(x, y, gRegionMap->currentRegion, TRUE);
-            
+
             if (secondaryMapSec != MAPSEC_NONE)
             {
                 u8 spriteId;
@@ -1759,7 +1771,7 @@ void CreateSecondaryLayerDots(u16 tileTag, u16 paletteTag)
                 }
 
                 gRegionMap->spriteIds[i++ + 4] = spriteId;
-                
+
                 if (i + 4 > sizeof(gRegionMap->spriteIds))
                 {
                     return;
@@ -2286,7 +2298,7 @@ void PlaySEForSelectedMapsec(void)
 {
     if (SelectedMapsecSEEnabled())
     {
-        if ((gRegionMap->primaryMapSecStatus != MAPSECTYPE_ROUTE && gRegionMap->primaryMapSecStatus != MAPSECTYPE_NONE) 
+        if ((gRegionMap->primaryMapSecStatus != MAPSECTYPE_ROUTE && gRegionMap->primaryMapSecStatus != MAPSECTYPE_NONE)
          || (gRegionMap->secondaryMapSecStatus != MAPSECTYPE_ROUTE && gRegionMap->secondaryMapSecStatus != MAPSECTYPE_NONE && gRegionMap->enteredSecondary))
             PlaySE(SE_DEX_SCROLL);
         else if ((gRegionMap->permissions[MAPPERM_CLOSE] || gRegionMap->permissions[MAPPERM_SWITCH]) &&

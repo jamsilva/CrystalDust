@@ -229,8 +229,7 @@ static const struct PokedexAreaMapTemplate sPokedexAreaMapTemplate =
 {
     .bg = 3,
     .offset = 0,
-    .mode = 0,
-    .unk = 2,
+    .unused = 0,
 };
 
 static const u8 sAreaMarkerTiles[];
@@ -533,7 +532,7 @@ static void BuildAreaGlowTilemap(void)
                     sPokedexAreaScreen->areaGlowTilemap[j - AREA_SCREEN_WIDTH] |= GLOW_TILE_BOTTOM;
                 if (y != AREA_SCREEN_HEIGHT - 1 && sPokedexAreaScreen->areaGlowTilemap[j + AREA_SCREEN_WIDTH] != GLOW_TILE_FULL)
                     sPokedexAreaScreen->areaGlowTilemap[j + AREA_SCREEN_WIDTH] |= GLOW_TILE_TOP;
-                
+
                 // Diagonals
                 if (x != 0 && y != 0 && sPokedexAreaScreen->areaGlowTilemap[j - AREA_SCREEN_WIDTH - 1] != GLOW_TILE_FULL)
                     sPokedexAreaScreen->areaGlowTilemap[j - AREA_SCREEN_WIDTH - 1] |= GLOW_TILE_BOTTOM_RIGHT;
@@ -673,6 +672,7 @@ static void Task_ShowPokedexAreaScreen(u8 taskId)
         case 2:
             if (sub_81C4E90() == TRUE)
                 return;
+            PokedexAreaMapChangeBgY(16);
             break;
         case 3:
             ResetDrawAreaGlowState();

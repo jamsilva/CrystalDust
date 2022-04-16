@@ -41,7 +41,7 @@ GAME_CODE   := BPEE
 MAKER_CODE  := 01
 REVISION    := 0
 MODERN      ?= 1
-DEBUG       ?= 0
+DEBUG       ?= 1
 RELEASE_ID  ?= 0
 
 ifeq (classic,$(MAKECMDGOALS))

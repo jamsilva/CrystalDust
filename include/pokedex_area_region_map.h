@@ -5,8 +5,7 @@ struct PokedexAreaMapTemplate
 {
     u32 bg:2;
     u32 offset:8;
-    u32 mode:2;
-    u32 unk:20; // never read
+    u32 unused:22;
 };
 
 void LoadPokedexAreaMapGfx(const struct PokedexAreaMapTemplate *);
