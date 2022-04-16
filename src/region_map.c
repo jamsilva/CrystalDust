@@ -500,20 +500,21 @@ static const bool8 sRegionMapPermissions[3][4] = {
 
 // .text
 
-void InitRegionMap(struct RegionMap *regionMap, u8 mode, s8 xOffset)
+void InitRegionMap(struct RegionMap *regionMap, u8 mode, s8 xOffset, s8 yOffset)
 {
-    InitRegionMapData(regionMap, NULL, mode, xOffset);
+    InitRegionMapData(regionMap, NULL, mode, xOffset, yOffset);
     while (LoadRegionMapGfx(gRegionMap->bgManaged));
     while (LoadRegionMapGfx_Pt2());
 }
 
-void InitRegionMapData(struct RegionMap *regionMap, const struct BgTemplate *template, u8 mapMode, s8 xOffset)
+void InitRegionMapData(struct RegionMap *regionMap, const struct BgTemplate *template, u8 mapMode, s8 xOffset, s8 yOffset)
 {
     u8 i;
 
     gRegionMap = regionMap;
     gRegionMap->initStep = 0;
     gRegionMap->xOffset = xOffset;
+    gRegionMap->yOffset = yOffset;
     gRegionMap->currentRegion = GetCurrentRegion();
     gRegionMap->mapMode = mapMode;
     gRegionMap->inputCallback = ProcessRegionMapInput_Full;
@@ -674,10 +675,12 @@ bool8 LoadRegionMapGfx_Pt2(void)
 
             window = layerTemplates[0];
             window.tilemapLeft += gRegionMap->xOffset;
+            window.tilemapTop +=  gRegionMap->yOffset;
             gRegionMap->primaryWindowId = AddWindow(&window);
 
             window = layerTemplates[1];
             window.tilemapLeft += gRegionMap->xOffset;
+            window.tilemapTop += gRegionMap->yOffset;
             gRegionMap->secondaryWindowId = AddWindow(&window);
         case 4:
             LZ77UnCompWram(sRegionMapCursorGfxLZ, gRegionMap->cursorImage);
@@ -1503,7 +1506,7 @@ void CreateRegionMapCursor(u16 tileTag, u16 paletteTag, bool8 visible)
         if (visible)
         {
             sprite->x = (gRegionMap->cursorPosX + gRegionMap->xOffset + MAPCURSOR_X_MIN) * 8 + 4;
-            sprite->y = (gRegionMap->cursorPosY + MAPCURSOR_Y_MIN) * 8 + 4;
+            sprite->y = (gRegionMap->cursorPosY + gRegionMap->yOffset + MAPCURSOR_Y_MIN) * 8 + 4;
         }
         else
         {
@@ -1524,7 +1527,7 @@ void ShowRegionMapCursorSprite(void)
         struct Sprite *sprite = &gSprites[gRegionMap->spriteIds[0]];
 
         sprite->x = (gRegionMap->cursorPosX + gRegionMap->xOffset + MAPCURSOR_X_MIN) * 8 + 4;
-        sprite->y = (gRegionMap->cursorPosY + MAPCURSOR_Y_MIN) * 8 + 4;
+        sprite->y = (gRegionMap->cursorPosY + gRegionMap->yOffset + MAPCURSOR_Y_MIN) * 8 + 4;
         sprite->callback = SpriteCB_CursorMapFull;
         StartSpriteAnim(sprite, 0);
         sprite->invisible = FALSE;
@@ -1587,43 +1590,7 @@ void CreateRegionMapPlayerIcon(u16 tileTag, u16 paletteTag)
     gRegionMap->spriteIds[1] = CreateSprite(&template, 0, 0, 2);
     sprite = &gSprites[gRegionMap->spriteIds[1]];
     sprite->x = (gRegionMap->playerIconSpritePosX + gRegionMap->xOffset + MAPCURSOR_X_MIN) * 8 + 4;
-    sprite->y = (gRegionMap->playerIconSpritePosY + MAPCURSOR_Y_MIN) * 8 + 4;
-    if(FlagGet(FLAG_FAST_SHIP_DESTINATION_OLIVINE) && gMapHeader.regionMapSectionId == MAPSEC_FAST_SHIP)
-        sprite->oam.matrixNum |= ST_OAM_HFLIP;
-    if(gMapHeader.regionMapSectionId == MAPSEC_FAST_SHIP)
-        sprite->callback = SpriteCB_ShipIcon;
-}
-
-void CreatePokedexMapPlayerIcon(u16 tileTag, u16 paletteTag) //duplicate of the above with a different Y value for the Pokedex Area Map
-{
-    struct Sprite *sprite;
-    struct SpriteSheet sheet = {sRegionMapPlayerIcon_GoldGfx, 0x80, tileTag};
-    struct SpritePalette palette = {sRegionMapPlayerIcon_GoldPal, paletteTag};
-    struct SpriteTemplate template = {tileTag, paletteTag, &sRegionMapPlayerIconOam, gDummySpriteAnimTable, NULL, gDummySpriteAffineAnimTable, SpriteCallbackDummy};
-
-    if (IsEventIslandMapSecId(gMapHeader.regionMapSectionId))
-    {
-        gRegionMap->spriteIds[1] = 0xFF;
-        return;
-    }
-    if (gSaveBlock2Ptr->playerGender == FEMALE)
-    {
-        sheet.data = sRegionMapPlayerIcon_KrisGfx;
-        palette.data = sRegionMapPlayerIcon_KrisPal;
-    }
-    if (gMapHeader.regionMapSectionId == MAPSEC_FAST_SHIP)
-    {
-        sheet.data = sRegionMapPlayerIcon_ShipGfx;
-        sheet.size = 0x200;
-        palette.data = sRegionMapPlayerIcon_ShipPal;
-        template.oam = &sRegionMapShipIconOam;
-    }
-    LoadSpriteSheet(&sheet);
-    LoadSpritePalette(&palette);
-    gRegionMap->spriteIds[1] = CreateSprite(&template, 0, 0, 2);
-    sprite = &gSprites[gRegionMap->spriteIds[1]];
-    sprite->x = (gRegionMap->playerIconSpritePosX + gRegionMap->xOffset + MAPCURSOR_X_MIN) * 8 + 4;
-    sprite->y = (gRegionMap->playerIconSpritePosY + MAPCURSOR_Y_MIN) * 8 - 12;
+    sprite->y = (gRegionMap->playerIconSpritePosY + gRegionMap->yOffset + MAPCURSOR_Y_MIN) * 8 + 4;
     if(FlagGet(FLAG_FAST_SHIP_DESTINATION_OLIVINE) && gMapHeader.regionMapSectionId == MAPSEC_FAST_SHIP)
         sprite->oam.matrixNum |= ST_OAM_HFLIP;
     if(gMapHeader.regionMapSectionId == MAPSEC_FAST_SHIP)
@@ -1648,7 +1615,7 @@ static void UnhideRegionMapPlayerIcon(void)
         struct Sprite *sprite = &gSprites[gRegionMap->spriteIds[1]];
 
         sprite->x = (gRegionMap->playerIconSpritePosX + gRegionMap->xOffset + MAPCURSOR_X_MIN) * 8 + 4;
-        sprite->y = (gRegionMap->playerIconSpritePosY + MAPCURSOR_Y_MIN) * 8 + 4;
+        sprite->y = (gRegionMap->playerIconSpritePosY + gRegionMap->yOffset + MAPCURSOR_Y_MIN) * 8 + 4;
         sprite->x2 = 0;
         sprite->y2 = 0;
         sprite->invisible = FALSE;
@@ -1668,7 +1635,6 @@ static void SpriteCB_ShipIcon(struct Sprite *sprite)
         else
             sprite->y--;
     }
-
 }
 
 void TrySetPlayerIconBlink(void)
@@ -1689,14 +1655,14 @@ void CreateRegionMapName(u16 tileTagCurve, u16 tileTagMain)
     template.tileTag = tileTagCurve;
     template.paletteTag = gRegionMap->miscSpritesPaletteTag;
     LoadSpriteSheet(&curveSheet);
-    gRegionMap->spriteIds[2] = CreateSprite(&template, 180 + gRegionMap->xOffset * 8, 20, 0);
+    gRegionMap->spriteIds[2] = CreateSprite(&template, 180 + gRegionMap->xOffset * 8, 20 + gRegionMap->yOffset * 8, 0);
     gRegionMap->regionNameCurveTileTag = tileTagCurve;
 
     template = sRegionMapNameSpriteTemplate;
     template.tileTag = tileTagMain;
     template.paletteTag = gRegionMap->miscSpritesPaletteTag;
     LoadSpriteSheet(&mainSheet);
-    gRegionMap->spriteIds[3] = CreateSprite(&template, 200 + gRegionMap->xOffset * 8, 20, 0);
+    gRegionMap->spriteIds[3] = CreateSprite(&template, 200 + gRegionMap->xOffset * 8, 20 + gRegionMap->yOffset * 8, 0);
     gRegionMap->regionNameMainTileTag = tileTagMain;
 
     if (gRegionMap->currentRegion >= REGION_SEVII1)
@@ -1740,7 +1706,7 @@ void CreateSecondaryLayerDots(u16 tileTag, u16 paletteTag)
                     if (x == gRegionMapEntries[secondaryMapSec].x && y == gRegionMapEntries[secondaryMapSec].y)
                     {
                         newX = (gRegionMapEntries[secondaryMapSec].width * 8) / 2 + (gRegionMapEntries[secondaryMapSec].x + MAPCURSOR_X_MIN + gRegionMap->xOffset) * 8;
-                        newY = (gRegionMapEntries[secondaryMapSec].height * 8) / 2 + (gRegionMapEntries[secondaryMapSec].y + MAPCURSOR_Y_MIN) * 8;
+                        newY = (gRegionMapEntries[secondaryMapSec].height * 8) / 2 + (gRegionMapEntries[secondaryMapSec].y + MAPCURSOR_Y_MIN + gRegionMap->yOffset) * 8;
                         spriteId = CreateSprite(&template, newX, newY, 3);
                     }
                     else
@@ -1761,7 +1727,7 @@ void CreateSecondaryLayerDots(u16 tileTag, u16 paletteTag)
                             offset = 2;
                     }
 
-                    spriteId = CreateSprite(&template, (x + MAPCURSOR_X_MIN + gRegionMap->xOffset) * 8 + offset + 4, (y + MAPCURSOR_Y_MIN) * 8 + offset + 4, 3);
+                    spriteId = CreateSprite(&template, (x + MAPCURSOR_X_MIN + gRegionMap->xOffset) * 8 + offset + 4, (y + MAPCURSOR_Y_MIN + gRegionMap->yOffset) * 8 + offset + 4, 3);
                 }
 
                 if (GetMapsecType(secondaryMapSec) == MAPSECTYPE_VISITED)
@@ -1963,7 +1929,7 @@ void CB2_OpenFlyMap(void)
         gMain.state++;
         break;
     case 4:
-        InitRegionMap(&sFlyMap->regionMap, MAPMODE_FLY, 0);
+        InitRegionMap(&sFlyMap->regionMap, MAPMODE_FLY, 0, 0);
         CreateRegionMapCursor(0, 0, TRUE);
         CreateRegionMapPlayerIcon(1, 1);
         CreateSecondaryLayerDots(2, 2);
@@ -2079,7 +2045,7 @@ static void CreateFlyDestIcons(void)
         {
             if (GetMapsecType(GetMapSecIdAt(x, y, gRegionMap->currentRegion, FALSE)) == MAPSECTYPE_VISITED)
             {
-                spriteId = CreateSprite(&template, (x + MAPCURSOR_X_MIN + gRegionMap->xOffset) * 8 + 4, (y + MAPCURSOR_Y_MIN) * 8 + 4, 1);
+                spriteId = CreateSprite(&template, (x + MAPCURSOR_X_MIN + gRegionMap->xOffset) * 8 + 4, (y + MAPCURSOR_Y_MIN + gRegionMap->yOffset) * 8 + 4, 1);
             }
         }
     }

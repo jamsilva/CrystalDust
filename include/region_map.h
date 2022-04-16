@@ -107,6 +107,7 @@ struct RegionMap {
     u8 mapBaseIdx;
     bool8 bgManaged;
     s8 xOffset;
+    s8 yOffset;
     bool8 onButton;
     u8 ALIGNED(4) cursorImage[0x100];
 }; // size = 0x884
@@ -123,16 +124,15 @@ struct RegionMapLocation
 // Exported RAM declarations
 
 // Exported ROM declarations
-void InitRegionMapData(struct RegionMap *regionMap, const struct BgTemplate *template, u8 mapMode, s8 xOffset);
+void InitRegionMapData(struct RegionMap *regionMap, const struct BgTemplate *template, u8 mapMode, s8 xOffset, s8 yOffset);
 bool8 LoadRegionMapGfx(bool8 shouldBuffer);
 bool8 LoadRegionMapGfx_Pt2(void);
 void UpdateRegionMapVideoRegs(void);
-void InitRegionMap(struct RegionMap *regionMap, u8 mode, s8 xOffset);
+void InitRegionMap(struct RegionMap *regionMap, u8 mode, s8 xOffset, s8 yOffset);
 u8 DoRegionMapInputCallback(void);
 bool8 UpdateRegionMapZoom(void);
 void FreeRegionMapResources(void);
 u16 GetRegionMapSectionIdAt(u16 x, u16 y, u8 region);
-void CreatePokedexMapPlayerIcon(u16 x, u16 y);
 void CreateRegionMapPlayerIcon(u16 x, u16 y);
 void CreateRegionMapCursor(u16 tileTag, u16 paletteTag, bool8 visible);
 bool32 IsEventIslandMapSecId(u8 mapSecId);

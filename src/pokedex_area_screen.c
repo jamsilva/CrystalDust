@@ -656,6 +656,8 @@ void ShowPokedexAreaScreen(u16 species, u8 *screenSwitchState)
     sPokedexAreaScreen->species = species;
     sPokedexAreaScreen->screenSwitchState = screenSwitchState;
     screenSwitchState[0] = 0;
+    sPokedexAreaScreen->regionMap.yOffset = -2;
+    sPokedexAreaScreen->regionMap.currentRegion = GetCurrentRegion();
     taskId = CreateTask(Task_ShowPokedexAreaScreen, 0);
     gTasks[taskId].tState = 0;
 }
@@ -690,7 +692,9 @@ static void Task_ShowPokedexAreaScreen(u8 taskId)
             break;
         case 5:
             ShowRegionMapForPokedexAreaScreen(&sPokedexAreaScreen->regionMap);
-            CreatePokedexMapPlayerIcon(1, 1);
+            CreateRegionMapPlayerIcon(1, 1);
+            CreateSecondaryLayerDots(2, 2);
+            CreateRegionMapName(3, 4);
             PokedexAreaScreen_UpdateRegionMapVariablesAndVideoRegs(0, -8);
             break;
         case 6:
