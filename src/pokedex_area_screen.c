@@ -693,8 +693,8 @@ static void Task_ShowPokedexAreaScreen(u8 taskId)
         case 5:
             ShowRegionMapForPokedexAreaScreen(&sPokedexAreaScreen->regionMap);
             CreateRegionMapPlayerIcon(1, 1);
-            CreateSecondaryLayerDots(2, 2);
-            CreateRegionMapName(3, 4);
+            CreateSecondaryLayerDots(5, 5);
+            CreateRegionMapName(6, 4);
             PokedexAreaScreen_UpdateRegionMapVariablesAndVideoRegs(0, -8);
             break;
         case 6:
