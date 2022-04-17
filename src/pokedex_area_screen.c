@@ -733,6 +733,57 @@ static void Task_ShowPokedexAreaScreen(u8 taskId)
     gTasks[taskId].tState++;
 }
 
+static bool8 NextRegion()
+{
+    u16 previousRegion = sPokedexAreaScreen->regionMap.currentRegion;
+
+    while (TRUE)
+    {
+        switch (sPokedexAreaScreen->regionMap.currentRegion)
+        {
+            case REGION_JOHTO:
+                sPokedexAreaScreen->regionMap.currentRegion = REGION_KANTO;
+                break;
+            case REGION_KANTO:
+                sPokedexAreaScreen->regionMap.currentRegion = REGION_SEVII1;
+                break;
+            case REGION_SEVII1:
+                sPokedexAreaScreen->regionMap.currentRegion = REGION_SEVII2;
+                break;
+            case REGION_SEVII2:
+                sPokedexAreaScreen->regionMap.currentRegion = REGION_SEVII3;
+                break;
+            case REGION_SEVII3:
+                sPokedexAreaScreen->regionMap.currentRegion = REGION_JOHTO;
+                break;
+        }
+
+        switch (sPokedexAreaScreen->regionMap.currentRegion)
+        {
+            case REGION_JOHTO:
+                break;
+            case REGION_KANTO:
+                if (GetCurrentRegion() == REGION_KANTO || MapsecWasVisited(MAPSEC_INDIGO_PLATEAU))
+                    break;
+                continue;
+            case REGION_SEVII1:
+                if (GetCurrentRegion() == REGION_SEVII1 /*|| MapsecWasVisited(...) */)
+                    break;
+                continue;
+            case REGION_SEVII2:
+                if (GetCurrentRegion() == REGION_SEVII2 /*|| MapsecWasVisited(...) */)
+                    break;
+                continue;
+            case REGION_SEVII3:
+                if (GetCurrentRegion() == REGION_SEVII3 /*|| MapsecWasVisited(...) */)
+                    break;
+                continue;
+        }
+
+        return previousRegion != sPokedexAreaScreen->regionMap.currentRegion;
+    }
+}
+
 static void Task_HandlePokedexAreaScreenInput(u8 taskId)
 {
     DoAreaGlow();
@@ -758,13 +809,11 @@ static void Task_HandlePokedexAreaScreenInput(u8 taskId)
         }
         else if (JOY_NEW(SELECT_BUTTON))
         {
-            if (sPokedexAreaScreen->regionMap.currentRegion == REGION_JOHTO)
-                sPokedexAreaScreen->regionMap.currentRegion = REGION_KANTO;
-            else if (sPokedexAreaScreen->regionMap.currentRegion = REGION_KANTO)
-                sPokedexAreaScreen->regionMap.currentRegion = REGION_JOHTO;
-
-            gTasks[taskId].func = Task_ShowPokedexAreaScreen;
-            gTasks[taskId].tState = 0;
+            if (NextRegion())
+            {
+                gTasks[taskId].func = Task_ShowPokedexAreaScreen;
+                gTasks[taskId].tState = 0;
+            }
             return;
         }
         else

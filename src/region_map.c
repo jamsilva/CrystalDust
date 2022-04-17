@@ -1331,6 +1331,11 @@ static u8 GetMapsecType(u16 mapSecId)
     return mapSecStatus;
 }
 
+bool8 MapsecWasVisited(u16 mapSecId)
+{
+    return GetMapsecType(mapSecId) == MAPSECTYPE_VISITED;
+}
+
 u16 GetRegionMapSectionIdAt(u16 x, u16 y, u8 region)
 {
     return GetMapSecIdAt(x, y, region, FALSE);
