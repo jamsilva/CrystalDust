@@ -330,12 +330,6 @@ static const u8 sMapSecIdsOffMap[] =
     MAPSEC_NAVEL_ROCK
 };
 
-const u16 gRegionMapFramePal[] = INCBIN_U16("graphics/region_map/map_frame.gbapal");
-
-const u32 gRegionMapFrameGfxLZ[] = INCBIN_U32("graphics/region_map/map_frame.4bpp.lz");
-
-const u32 gRegionMapFrameTilemapLZ[] = INCBIN_U32("graphics/region_map/map_frame.bin.lz");
-
 static const u32 sFlyTargetIcons_Gfx[] = INCBIN_U32("graphics/region_map/fly_target_icon.4bpp.lz");
 
 static const u8 sMapHealLocations[][3] = {
@@ -1941,31 +1935,18 @@ void CB2_OpenFlyMap(void)
         gMain.state++;
         break;
     case 5:
-        LZ77UnCompVram(gRegionMapFrameGfxLZ, (u16 *)BG_CHAR_ADDR(3));
-        gMain.state++;
-        break;
-    case 6:
-        LZ77UnCompVram(gRegionMapFrameTilemapLZ, (u16 *)BG_SCREEN_ADDR(28));
-        gMain.state++;
-        break;
-    case 7:
-        LoadPalette(gRegionMapFramePal, 0x10, 0x20);
-        gMain.state++;
-        break;
-    case 8:
         LoadFlyDestIcons();
         gMain.state++;
         break;
-    case 9:
+    case 6:
         BlendPalettes(PALETTES_ALL, 16, 0);
         SetVBlankCallback(VBlankCB_FlyMap);
         gMain.state++;
         break;
-    case 10:
+    case 7:
         SetGpuRegBits(REG_OFFSET_DISPCNT, DISPCNT_OBJ_1D_MAP | DISPCNT_OBJ_ON);
         ShowBg(0);
         ShowBg(2);
-        ShowBg(3);
         SetFlyMapCallback(CB_FadeInFlyMap);
         SetMainCallback2(CB2_FlyMap);
         gMain.state++;

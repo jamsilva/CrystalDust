@@ -19,6 +19,7 @@ void LoadPokedexAreaMapGfx(const struct PokedexAreaMapTemplate *template, bool8*
     ChangeDecompressedRegionMapGfx(ptr, permissions);
     copy_decompressed_tile_data_to_vram(template->bg, ptr, size, 0, 1);
     sub_8199D3C(ptr, template->offset, 64, 64, TRUE);
+    Free(ptr);
     CpuCopy32(GetRegionMapPalette(), &gPlttBufferUnfaded[0x70], 0x60);
     *sPokedexAreaMapBgNum = template->bg;
 }
