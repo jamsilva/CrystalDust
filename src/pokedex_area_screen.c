@@ -512,7 +512,12 @@ static void BuildAreaGlowTilemap(void)
         {
             for (x = 0; x < AREA_SCREEN_WIDTH; x++)
             {
-                if (GetRegionMapSectionIdAt(x, y, currentRegion) == sPokedexAreaScreen->overworldAreasWithMons[i].regionMapSectionId)
+                u16 sectionId = GetRegionMapSectionIdAt(x, y, currentRegion);
+
+                if (sectionId == MAPSEC_ROUTE_32_FLYDUP)
+                    sectionId = MAPSEC_ROUTE_32;
+
+                if (sectionId == sPokedexAreaScreen->overworldAreasWithMons[i].regionMapSectionId)
                     sPokedexAreaScreen->areaGlowTilemap[j] = GLOW_TILE_FULL;
 
                 j++;

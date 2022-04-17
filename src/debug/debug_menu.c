@@ -20,6 +20,7 @@
 #include "main.h"
 #include "money.h"
 #include "overworld.h"
+#include "pokedex.h"
 #include "pokemon.h"
 #include "pokemon_storage_system.h"
 #include "region_map.h"
@@ -107,6 +108,7 @@ static void DebugMenu_ToggleOverride(u8 taskId);
 static void DebugMenu_CraftDNTint(u8 taskId);
 static void DebugMenu_CraftDNTint_ProcessInput(u8 taskId);
 static void DebugMenu_Pokedex_ToggleNationalDex(u8 taskId);
+static void DebugMenu_Pokedex_CompletePokedex(u8 taskId);
 static void DebugMenu_Pokedex_ProfOakRating(u8 taskId);
 static void DebugMenu_Pokedex_ProfOakRating_ProcessInput(u8 taskId);
 static void DebugMenu_Pokegear(u8 taskId);
@@ -176,6 +178,7 @@ static const u8 sText_DNTimeCycle[] = _("Time cycle");
 static const u8 sText_ToggleDNPalOverride[] = _("Toggle pal override");
 static const u8 sText_CraftDNTintColor[] = _("Craft new tint color");
 static const u8 sText_ToggleNationalDex[] = _("Toggle national dex");
+static const u8 sText_CompletePokedex[] = _("Complete Pokédex");
 static const u8 sText_ProfOakRating[] = _("Prof. Oak rating");
 static const u8 sText_EnableMapCard[] = _("Enable map card");
 static const u8 sText_EnableRadioCard[] = _("Enable radio card");
@@ -222,7 +225,7 @@ static const struct DebugMenuAction sDebugMenu_MainActions[] =
 
 CREATE_EXIT_BOUNCER(MainActions);
 
-static const struct DebugMenuAction sDebugMenu_PlayerInfoActions[] = 
+static const struct DebugMenuAction sDebugMenu_PlayerInfoActions[] =
 {
     { sText_SetFlag, DebugMenu_SetFlag, NULL },
     { sText_SetVar, DebugMenu_SetVar, NULL },
@@ -249,6 +252,7 @@ CREATE_BOUNCER(DNActions, MainActions);
 static const struct DebugMenuAction sDebugMenu_PokedexActions[] =
 {
     { sText_ToggleNationalDex, DebugMenu_Pokedex_ToggleNationalDex, NULL },
+    { sText_CompletePokedex, DebugMenu_Pokedex_CompletePokedex, NULL },
     { sText_ProfOakRating, DebugMenu_Pokedex_ProfOakRating, NULL },
 };
 
@@ -284,7 +288,7 @@ static const struct DebugMenuAction sDebugMenu_BattleActions[] =
 
 CREATE_BOUNCER(BattleActions, MainActions);
 
-static const struct DebugMenuAction sDebugMenu_PositionalActions[] = 
+static const struct DebugMenuAction sDebugMenu_PositionalActions[] =
 {
     { sText_FlyTo, DebugMenu_FlyMenu, NULL },
     { sText_SetRespawn, DebugMenu_SetRespawn, NULL },
@@ -302,7 +306,7 @@ static const struct DebugMenuAction sDebugMenu_MiscActions[] =
 
 CREATE_BOUNCER(MiscActions, MainActions);
 
-static const struct WindowTemplate sDebugMenu_Window_SetFlag = 
+static const struct WindowTemplate sDebugMenu_Window_SetFlag =
 {
     .bg = 0,
     .tilemapLeft = 1,
@@ -313,7 +317,7 @@ static const struct WindowTemplate sDebugMenu_Window_SetFlag =
     .baseBlock = 0x120
 };
 
-static const struct WindowTemplate sDebugMenu_Window_AddItem = 
+static const struct WindowTemplate sDebugMenu_Window_AddItem =
 {
     .bg = 0,
     .tilemapLeft = 1,
@@ -324,7 +328,7 @@ static const struct WindowTemplate sDebugMenu_Window_AddItem =
     .baseBlock = 0x120
 };
 
-static const struct WindowTemplate sDebugMenu_Window_SetVar = 
+static const struct WindowTemplate sDebugMenu_Window_SetVar =
 {
     .bg = 0,
     .tilemapLeft = 1,
@@ -335,7 +339,7 @@ static const struct WindowTemplate sDebugMenu_Window_SetVar =
     .baseBlock = 0x120
 };
 
-static const struct WindowTemplate sDebugMenu_Window_SetDexCount = 
+static const struct WindowTemplate sDebugMenu_Window_SetDexCount =
 {
     .bg = 0,
     .tilemapLeft = 1,
@@ -346,7 +350,7 @@ static const struct WindowTemplate sDebugMenu_Window_SetDexCount =
     .baseBlock = 0x120
 };
 
-static const struct WindowTemplate sDebugMenu_Window_TimeCycle = 
+static const struct WindowTemplate sDebugMenu_Window_TimeCycle =
 {
     .bg = 0,
     .tilemapLeft = 1,
@@ -357,7 +361,7 @@ static const struct WindowTemplate sDebugMenu_Window_TimeCycle =
     .baseBlock = 0x120
 };
 
-static const struct WindowTemplate sDebugMenu_Window_CraftDNTint = 
+static const struct WindowTemplate sDebugMenu_Window_CraftDNTint =
 {
     .bg = 0,
     .tilemapLeft = 1,
@@ -368,7 +372,7 @@ static const struct WindowTemplate sDebugMenu_Window_CraftDNTint =
     .baseBlock = 0x120
 };
 
-static const struct WindowTemplate sDebugMenu_Window_SetRespawn = 
+static const struct WindowTemplate sDebugMenu_Window_SetRespawn =
 {
     .bg = 0,
     .tilemapLeft = 1,
@@ -379,7 +383,7 @@ static const struct WindowTemplate sDebugMenu_Window_SetRespawn =
     .baseBlock = 0x120
 };
 
-static const struct WindowTemplate sDebugMenu_Window_LottoNum = 
+static const struct WindowTemplate sDebugMenu_Window_LottoNum =
 {
     .bg = 0,
     .tilemapLeft = 1,
@@ -390,7 +394,7 @@ static const struct WindowTemplate sDebugMenu_Window_LottoNum =
     .baseBlock = 0x120
 };
 
-static const struct WindowTemplate sDebugMenu_Window_BattleTerrain = 
+static const struct WindowTemplate sDebugMenu_Window_BattleTerrain =
 {
     .bg = 0,
     .tilemapLeft = 1,
@@ -459,7 +463,7 @@ static void DebugMenu_InitNewSubmenu(u8 taskId, const struct DebugMenuBouncer *b
         .tilemapTop = 1,
         .width = 0,
         .height = 0,
-        .paletteNum = 15, 
+        .paletteNum = 15,
         .baseBlock = 1
     };
 
@@ -847,7 +851,7 @@ static void DebugMenu_AddItem_ProcessInputNum(u8 taskId)
         temp = (tItemNum % powersOfTen[tWhichDigit]) + ((tItemNum / powersOfTen[tWhichDigit + 1]) * powersOfTen[tWhichDigit + 1]);
         temp2 = ((tItemNum - temp) / shifter) + 1;
         temp += (temp2 > 9) ? 0 : temp2 * shifter;
-        
+
         if (temp <= ITEMS_COUNT)
         {
             PlaySE(SE_SELECT);
@@ -863,7 +867,7 @@ static void DebugMenu_AddItem_ProcessInputNum(u8 taskId)
         temp = (tItemNum % powersOfTen[tWhichDigit]) + ((tItemNum / powersOfTen[tWhichDigit + 1]) * powersOfTen[tWhichDigit + 1]);
         temp2 = ((tItemNum - temp) / shifter) - 1;
         temp += (temp2 > 9) ? 9 * shifter : temp2 * shifter;
-        
+
         if (temp <= ITEMS_COUNT)
         {
             PlaySE(SE_SELECT);
@@ -1181,7 +1185,7 @@ static void DebugMenu_LottoNumber_ProcessInput(u8 taskId)
         temp = (lottoNum % powersOfTen[tWhichDigit]) + ((lottoNum / powersOfTen[tWhichDigit + 1]) * powersOfTen[tWhichDigit + 1]);
         temp2 = ((lottoNum - temp) / shifter) + 1;
         temp += (temp2 > 9) ? 0 : temp2 * shifter;
-        
+
         if (temp >= 0 && temp <= 99999)
         {
             PlaySE(SE_SELECT);
@@ -1198,7 +1202,7 @@ static void DebugMenu_LottoNumber_ProcessInput(u8 taskId)
         temp = (lottoNum % powersOfTen[tWhichDigit]) + ((lottoNum / powersOfTen[tWhichDigit + 1]) * powersOfTen[tWhichDigit + 1]);
         temp2 = ((lottoNum - temp) / shifter) - 1;
         temp += (temp2 > 9) ? 0 : temp2 * shifter;
-        
+
         if (temp >= 0 && temp <= 99999)
         {
             PlaySE(SE_SELECT);
@@ -1374,7 +1378,7 @@ static void DebugMenu_CraftDNTint(u8 taskId)
     DebugMenu_RemoveMenu(taskId);
     tWindowId = AddWindow(&sDebugMenu_Window_CraftDNTint);
     SetStandardWindowBorderStyle(tWindowId, FALSE);
-    
+
     DebugMenu_CraftDNTint_PrintStatus(tWindowId, TINT_R, TINT_G, TINT_B);
     ScheduleBgCopyTilemapToVram(0);
     gTasks[taskId].func = DebugMenu_CraftDNTint_ProcessInput;
@@ -1441,6 +1445,23 @@ static void DebugMenu_Pokedex_ToggleNationalDex(u8 taskId)
         EnableNationalPokedex();
 }
 
+static void DebugMenu_Pokedex_CompletePokedex(u8 taskId)
+{
+    u16 i;
+
+    for (i = SPECIES_BULBASAUR; i <= SPECIES_CELEBI; i++)
+    {
+        GetSetPokedexFlag(i, FLAG_SET_SEEN);
+        GetSetPokedexFlag(i, FLAG_SET_CAUGHT);
+    }
+
+    for (i = SPECIES_TREECKO; i <= SPECIES_DEOXYS; i++)
+    {
+        GetSetPokedexFlag(i, FLAG_SET_SEEN);
+        GetSetPokedexFlag(i, FLAG_SET_CAUGHT);
+    }
+}
+
 static void DebugMenu_Pokedex_ProfOakRating_PrintStatus(u8 windowId, u16 flagId)
 {
     FillWindowPixelBuffer(windowId, 0x11);
@@ -1490,7 +1511,7 @@ static void DebugMenu_Pokedex_ProfOakRating_ProcessInput(u8 taskId)
         temp = (tDexCount % powersOfTen[tWhichDigit]) + ((tDexCount / powersOfTen[tWhichDigit + 1]) * powersOfTen[tWhichDigit + 1]);
         temp2 = ((tDexCount - temp) / shifter) + 1;
         temp += (temp2 > 9) ? 0 : temp2 * shifter;
-        
+
         if (temp >= 1 && temp <= JOHTO_DEX_COUNT)
         {
             PlaySE(SE_SELECT);
@@ -1506,7 +1527,7 @@ static void DebugMenu_Pokedex_ProfOakRating_ProcessInput(u8 taskId)
         temp = (tDexCount % powersOfTen[tWhichDigit]) + ((tDexCount / powersOfTen[tWhichDigit + 1]) * powersOfTen[tWhichDigit + 1]);
         temp2 = ((tDexCount - temp) / shifter) - 1;
         temp += (temp2 > 9) ? 9 * shifter : temp2 * shifter;
-        
+
         if (temp >= 1 && temp <= JOHTO_DEX_COUNT)
         {
             PlaySE(SE_SELECT);
