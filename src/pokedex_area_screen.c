@@ -419,7 +419,7 @@ static void SetSpecialMapHasMon(u16 mapGroup, u16 mapNum)
     {
         u16 regionMapSectionId = GetRegionMapSectionId(mapGroup, mapNum);
 
-        if (GetCurrentRegion() != GetMapRegion(regionMapSectionId))
+        if (sPokedexAreaScreen->regionMap.currentRegion != GetMapRegion(regionMapSectionId))
             return;
 
         if (regionMapSectionId < MAPSEC_NONE)
@@ -500,7 +500,7 @@ static bool8 MonListHasMon(const struct WildPokemonInfo *info, u16 species, u16 
 static void BuildAreaGlowTilemap(void)
 {
     u16 i, y, x, j;
-    u8 currentRegion = GetCurrentRegion();
+    u8 currentRegion = sPokedexAreaScreen->regionMap.currentRegion;
 
     for (i = 0; i < ARRAY_COUNT(sPokedexAreaScreen->areaGlowTilemap); i++)
         sPokedexAreaScreen->areaGlowTilemap[i] = 0;
@@ -648,7 +648,7 @@ static void DoAreaGlow(void)
 
 #define tState data[0]
 
-void ShowPokedexAreaScreen(u16 species, u8 *screenSwitchState)
+void ShowPokedexAreaScreen(u16 species, u8 *screenSwitchState, u8 region)
 {
     u8 taskId;
 
@@ -657,7 +657,7 @@ void ShowPokedexAreaScreen(u16 species, u8 *screenSwitchState)
     sPokedexAreaScreen->screenSwitchState = screenSwitchState;
     screenSwitchState[0] = 0;
     sPokedexAreaScreen->regionMap.yOffset = -2;
-    sPokedexAreaScreen->regionMap.currentRegion = GetCurrentRegion();
+    sPokedexAreaScreen->regionMap.currentRegion = region;
     sPokedexAreaScreen->regionMap.permissions[MAPPERM_SWITCH] = FALSE;
     sPokedexAreaScreen->regionMap.permissions[MAPPERM_CLOSE] = FALSE;
     taskId = CreateTask(Task_ShowPokedexAreaScreen, 0);
@@ -677,7 +677,7 @@ static void Task_ShowPokedexAreaScreen(u8 taskId)
             break;
         case 1:
             SetBgAttribute(3, BG_ATTR_CHARBASEINDEX, 3);
-            LoadPokedexAreaMapGfx(&sPokedexAreaMapTemplate, sPokedexAreaScreen->regionMap.permissions);
+            LoadPokedexAreaMapGfx(&sPokedexAreaMapTemplate, sPokedexAreaScreen->regionMap.permissions, sPokedexAreaScreen->regionMap.currentRegion);
             StringFill(sPokedexAreaScreen->charBuffer, CHAR_SPACE, 16);
             break;
         case 2:
@@ -694,9 +694,6 @@ static void Task_ShowPokedexAreaScreen(u8 taskId)
             break;
         case 5:
             ShowRegionMapForPokedexAreaScreen(&sPokedexAreaScreen->regionMap);
-            CreateRegionMapPlayerIcon(1, 1);
-            CreateSecondaryLayerDots(5, 5);
-            CreateRegionMapName(6, 4);
             PokedexAreaScreen_UpdateRegionMapVariablesAndVideoRegs(0, -8);
             break;
         case 6:
@@ -719,6 +716,10 @@ static void Task_ShowPokedexAreaScreen(u8 taskId)
             SetGpuRegBits(REG_OFFSET_DISPCNT, DISPCNT_OBJ_ON);
             break;
         case 11:
+            if (sPokedexAreaScreen->regionMap.currentRegion == GetCurrentRegion())
+                CreateRegionMapPlayerIcon(1, 1);
+            CreateSecondaryLayerDots(5, 5);
+            CreateRegionMapName(6, 4);
             gTasks[taskId].func = Task_HandlePokedexAreaScreenInput;
             gTasks[taskId].tState = 0;
             return;
@@ -749,6 +750,17 @@ static void Task_HandlePokedexAreaScreenInput(u8 taskId)
         {
             gTasks[taskId].data[1] = 2;
             PlaySE(SE_DEX_PAGE);
+        }
+        else if (JOY_NEW(SELECT_BUTTON))
+        {
+            if (sPokedexAreaScreen->regionMap.currentRegion == REGION_JOHTO)
+                sPokedexAreaScreen->regionMap.currentRegion = REGION_KANTO;
+            else if (sPokedexAreaScreen->regionMap.currentRegion = REGION_KANTO)
+                sPokedexAreaScreen->regionMap.currentRegion = REGION_JOHTO;
+
+            gTasks[taskId].func = Task_ShowPokedexAreaScreen;
+            gTasks[taskId].tState = 0;
+            return;
         }
         else
             return;

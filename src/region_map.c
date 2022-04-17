@@ -1589,7 +1589,10 @@ void CreateRegionMapPlayerIcon(u16 tileTag, u16 paletteTag)
     if(FlagGet(FLAG_FAST_SHIP_DESTINATION_OLIVINE) && gMapHeader.regionMapSectionId == MAPSEC_FAST_SHIP)
         sprite->oam.matrixNum |= ST_OAM_HFLIP;
     if(gMapHeader.regionMapSectionId == MAPSEC_FAST_SHIP)
+    {
         sprite->callback = SpriteCB_ShipIcon;
+        sprite->y -= gRegionMap->yOffset * 8;
+    }
 }
 
 static void HideRegionMapPlayerIcon(void)

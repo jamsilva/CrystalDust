@@ -17,6 +17,7 @@
 #include "pokedex.h"
 #include "pokedex_area_screen.h"
 #include "pokedex_cry_screen.h"
+#include "region_map.h"
 #include "scanline_effect.h"
 #include "sound.h"
 #include "sprite.h"
@@ -2861,10 +2862,10 @@ static void CreateInterfaceSprites(u8 page)
             spriteId = CreateSprite(&sSeenOwnTextSpriteTemplate, 79, 120, 1);
             StartSpriteAnim(&gSprites[spriteId], 1);
 
-            // Hoenn text 
+            // Hoenn text
             CreateSprite(&sHoennNationalTextSpriteTemplate, 17, 125, 1);
 
-            // National text 
+            // National text
             spriteId = CreateSprite(&sHoennNationalTextSpriteTemplate, 17, 135, 1);
             StartSpriteAnim(&gSprites[spriteId], 1);
 
@@ -3477,7 +3478,7 @@ static void Task_LoadAreaScreen(u8 taskId)
         gMain.state++;
         break;
     case 2:
-        ShowPokedexAreaScreen(NationalPokedexNumToSpecies(sPokedexListItem->dexNum), &sPokedexView->screenSwitchState);
+        ShowPokedexAreaScreen(NationalPokedexNumToSpecies(sPokedexListItem->dexNum), &sPokedexView->screenSwitchState, GetCurrentRegion());
         SetVBlankCallback(gPokedexVBlankCB);
         sPokedexView->screenSwitchState = 0;
         gMain.state = 0;
@@ -5215,7 +5216,7 @@ void SetSearchRectHighlight(u8 flags, u8 x, u8 y, u8 width)
         temp &= 0x0fff;
         temp |= (flags << 12);
         *(u16 *)(ptr + (y + 0) * 64 + (x + i) * 2) = temp;
-        
+
         temp = *(u16 *)(ptr + (y + 1) * 64 + (x + i) * 2);
         temp &= 0x0fff;
         temp |= (flags << 12);

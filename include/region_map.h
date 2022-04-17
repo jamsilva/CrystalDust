@@ -6,9 +6,9 @@
 #define CORNER_BUTTON_X 21
 #define CORNER_BUTTON_Y 13
 
-// Exported type declarations
 #define MAP_NAME_LENGTH 16
 
+// Exported type declarations
 enum
 {
     MAP_INPUT_NONE,
