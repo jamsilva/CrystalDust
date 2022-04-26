@@ -430,7 +430,7 @@ static const struct WindowTemplate sSummaryTemplate[] =
         .tilemapTop = 2,
         .width = 10,
         .height = 14,
-        .paletteNum = 8,
+        .paletteNum = 9,
         .baseBlock = 91,
     },
     [WINDOW_ARR_ID_MOVES_WINDOW_LAST_MOVE] = {
@@ -439,7 +439,7 @@ static const struct WindowTemplate sSummaryTemplate[] =
         .tilemapTop = 16,
         .width = 10,
         .height = 4,
-        .paletteNum = 8,
+        .paletteNum = 9,
         .baseBlock = 231,
     },
     [WINDOW_ARR_ID_MOVES_WINDOW_LEFT] = {
@@ -463,8 +463,8 @@ enum
     PSS_COLOR_PP_FEW,
     PSS_COLOR_PP_NO_PP,
     PSS_COLOR_PP_MANY,
-    PSS_COLOR_MALE_GENDER_SYMBOL,
     PSS_COLOR_FEMALE_GENDER_SYMBOL,
+    PSS_COLOR_MALE_GENDER_SYMBOL,
 };
 
 static const u8 sTextColors[][3] =
@@ -475,8 +475,8 @@ static const u8 sTextColors[][3] =
     [PSS_COLOR_PP_SOME]              = {0, 6, 7},
     [PSS_COLOR_PP_FEW]               = {0, 8, 9},
     [PSS_COLOR_PP_NO_PP]             = {0, 10, 11},
-    [PSS_COLOR_MALE_GENDER_SYMBOL]   = {0, 12, 13},
-    [PSS_COLOR_FEMALE_GENDER_SYMBOL] = {0, 14, 15}
+    [PSS_COLOR_FEMALE_GENDER_SYMBOL] = {0, 12, 13},
+    [PSS_COLOR_MALE_GENDER_SYMBOL]   = {0, 14, 15}
 };
 
 static void (*const sTextPrinterFunctions[])(void) =
@@ -1242,7 +1242,7 @@ static bool8 DecompressGraphics(void)
         sMonSummaryScreen->switchCounter++;
         break;
     case 3:
-        LoadCompressedPalette(gSummaryScreenPalette, 0, 0x120);
+        LoadCompressedPalette(gSummaryScreenPalette, 0, 0x140);
         sMonSummaryScreen->switchCounter++;
         break;
     case 4:
