@@ -1145,7 +1145,9 @@ const u32 gSummaryScreenPageContestMoveDetailsTilemap[] = INCBIN_U32("graphics/s
 
 const u32 gSummaryExpBar_Tiles[] = INCBIN_U32("graphics/summary_screen/exp_bar.4bpp.lz");
 const u32 gSummaryHealthBar_Tiles[] = INCBIN_U32("graphics/summary_screen/hp_bar.4bpp.lz");
-const u16 gExpBarHealthBar_Pal[] = INCBIN_U16("graphics/summary_screen/exp_hp_bar.gbapal");
+const u16 gExpBarHighHealthBar_Pal[] = INCBIN_U16("graphics/summary_screen/exp_high_hp_bar.gbapal");
+const u16 gExpBarMediumHealthBar_Pal[] = INCBIN_U16("graphics/summary_screen/exp_medium_hp_bar.gbapal");
+const u16 gExpBarLowHealthBar_Pal[] = INCBIN_U16("graphics/summary_screen/exp_low_hp_bar.gbapal");
 
 const u32 gShinyIcon_Gfx[] = INCBIN_U32("graphics/summary_screen/shiny_icon.4bpp.lz");
 const u16 gShinyIcon_Pal[] = INCBIN_U16("graphics/summary_screen/shiny_icon.gbapal");
@@ -1527,7 +1529,7 @@ const u16 gMonIconPalettes[][16] =
 };
 
 const u16 gTitleScreenBgPalettes[] = INCBIN_U16("graphics/title_screen/pokemon_logo.gbapal",
-                                                "graphics/title_screen/emblem.gbapal", 
+                                                "graphics/title_screen/emblem.gbapal",
                                                 "graphics/title_screen/press_start.gbapal");
 
 const u32 sTitleScreenCloudsTilemap[] = INCBIN_U32("graphics/title_screen/press_start.bin.lz");

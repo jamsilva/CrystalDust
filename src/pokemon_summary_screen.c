@@ -166,24 +166,6 @@ static EWRAM_DATA struct PokemonSummaryScreenData
         bool8 fatefulEncounter;
         u8 OTName[17];
         u32 OTID;
-        u8 sheen;
-        u8 cool;
-        u8 beauty;
-        u8 cute;
-        u8 smart;
-        u8 tough;
-        u8 hpIV;
-        u8 atkIV;
-        u8 defIV;
-        u8 spatkIV;
-        u8 spdefIV;
-        u8 speedIV;
-        u8 hpEV;
-        u8 atkEV;
-        u8 defEV;
-        u8 spatkEV;
-        u8 spdefEV;
-        u8 speedEV;
     } summary;
     u16 bgTilemapBufferPage[0x400];
     u16 bgTilemapBufferBG[0x400];
@@ -382,7 +364,7 @@ static const struct WindowTemplate sSummaryTemplate[] =
         .tilemapTop = 0,
         .width = 30,
         .height = 2,
-        .paletteNum = 15,
+        .paletteNum = 8,
         .baseBlock = 1,
     },
     [WINDOW_ARR_ID_LVL_NICK_GENDER] = {
@@ -391,7 +373,7 @@ static const struct WindowTemplate sSummaryTemplate[] =
         .tilemapTop = 2,
         .width = 15,
         .height = 2,
-        .paletteNum = 2,
+        .paletteNum = 8,
         .baseBlock = 61,
     },
 
@@ -401,7 +383,7 @@ static const struct WindowTemplate sSummaryTemplate[] =
         .tilemapTop = 2,
         .width = 15,
         .height = 12,
-        .paletteNum = 4,
+        .paletteNum = 8,
         .baseBlock = 91,
     },
     [WINDOW_ARR_ID_INFO_MEMO] = {
@@ -410,7 +392,7 @@ static const struct WindowTemplate sSummaryTemplate[] =
         .tilemapTop = 14,
         .width = 28,
         .height = 6,
-        .paletteNum = 4,
+        .paletteNum = 8,
         .baseBlock = 271,
     },
 
@@ -420,7 +402,7 @@ static const struct WindowTemplate sSummaryTemplate[] =
         .tilemapTop = 2,
         .width = 9,
         .height = 14,
-        .paletteNum = 4,
+        .paletteNum = 8,
         .baseBlock = 91,
     },
     [WINDOW_ARR_ID_SKILLS_EXP_NEXT_ABILITY_NAME] = {
@@ -429,7 +411,7 @@ static const struct WindowTemplate sSummaryTemplate[] =
         .tilemapTop = 12,
         .width = 9,
         .height = 4,
-        .paletteNum = 4,
+        .paletteNum = 8,
         .baseBlock = 217,
     },
     [WINDOW_ARR_ID_SKILLS_ABILITY_TEXT] = {
@@ -438,7 +420,7 @@ static const struct WindowTemplate sSummaryTemplate[] =
         .tilemapTop = 16,
         .width = 30,
         .height = 4,
-        .paletteNum = 4,
+        .paletteNum = 8,
         .baseBlock = 253,
     },
 
@@ -448,7 +430,7 @@ static const struct WindowTemplate sSummaryTemplate[] =
         .tilemapTop = 2,
         .width = 10,
         .height = 14,
-        .paletteNum = 4,
+        .paletteNum = 8,
         .baseBlock = 91,
     },
     [WINDOW_ARR_ID_MOVES_WINDOW_LAST_MOVE] = {
@@ -457,7 +439,7 @@ static const struct WindowTemplate sSummaryTemplate[] =
         .tilemapTop = 16,
         .width = 10,
         .height = 4,
-        .paletteNum = 4,
+        .paletteNum = 8,
         .baseBlock = 231,
     },
     [WINDOW_ARR_ID_MOVES_WINDOW_LEFT] = {
@@ -466,7 +448,7 @@ static const struct WindowTemplate sSummaryTemplate[] =
         .tilemapTop = 6,
         .width = 16,
         .height = 14,
-        .paletteNum = 4,
+        .paletteNum = 8,
         .baseBlock = 271,
     },
 
@@ -475,28 +457,26 @@ static const struct WindowTemplate sSummaryTemplate[] =
 
 enum
 {
-    PSS_COLOR_WHITE_BLACK_SHADOW_TITLE,
     PSS_COLOR_WHITE_BLACK_SHADOW,
+    PSS_COLOR_BLACK_GRAY_SHADOW,
+    PSS_COLOR_PP_SOME,
+    PSS_COLOR_PP_FEW,
+    PSS_COLOR_PP_NO_PP,
+    PSS_COLOR_PP_MANY,
     PSS_COLOR_MALE_GENDER_SYMBOL,
     PSS_COLOR_FEMALE_GENDER_SYMBOL,
-    PSS_COLOR_BLACK_GRAY_SHADOW,
-    PSS_COLOR_SHINY_STARS,
-    PSS_COLOR_POKERUS_CURED,
-    PSS_COLOR_ORANGE,
-    PSS_COLOR_LIGHT_RED
 };
 
 static const u8 sTextColors[][3] =
 {
-    [PSS_COLOR_WHITE_BLACK_SHADOW_TITLE] = {0, 1, 2},
-    [PSS_COLOR_WHITE_BLACK_SHADOW]       = {0, 14, 15},
-    [PSS_COLOR_MALE_GENDER_SYMBOL]       = {0, 10, 11},
-    [PSS_COLOR_FEMALE_GENDER_SYMBOL]     = {0, 8, 9},
-    [PSS_COLOR_BLACK_GRAY_SHADOW]        = {0, 10, 11},
-    [PSS_COLOR_SHINY_STARS]              = {0, 5, 5},
-    [PSS_COLOR_POKERUS_CURED]            = {0, 9, 9},
-    [PSS_COLOR_ORANGE]                   = {0, 1, 2},
-    [PSS_COLOR_LIGHT_RED]                = {0, 3, 4}
+    [PSS_COLOR_WHITE_BLACK_SHADOW]   = {0, 1, 2},
+    [PSS_COLOR_BLACK_GRAY_SHADOW]    = {0, 3, 5},
+    [PSS_COLOR_PP_MANY]              = {0, 3, 5},
+    [PSS_COLOR_PP_SOME]              = {0, 6, 7},
+    [PSS_COLOR_PP_FEW]               = {0, 8, 9},
+    [PSS_COLOR_PP_NO_PP]             = {0, 10, 11},
+    [PSS_COLOR_MALE_GENDER_SYMBOL]   = {0, 12, 13},
+    [PSS_COLOR_FEMALE_GENDER_SYMBOL] = {0, 14, 15}
 };
 
 static void (*const sTextPrinterFunctions[])(void) =
@@ -507,7 +487,7 @@ static void (*const sTextPrinterFunctions[])(void) =
     [PSS_PAGE_CONTEST_MOVES] = PrintContestMoves
 };
 
-static const u8 sBlackTextColor[] = _("{COLOR 10}{SHADOW 11}");
+static const u8 sBlackTextColor[] = _("{COLOR 3}{SHADOW 5}");
 
 enum
 {
@@ -517,8 +497,8 @@ enum
     TAG_MOVE_TYPES,
     TAG_MON_MARKINGS,
     TAG_SPLIT_ICONS,
+    TAG_EXP_BAR,
     TAG_HEALTH_BAR,
-    TAG_EXP_BAR
 };
 
 static const struct OamData sOamData_MoveTypes =
@@ -1262,7 +1242,7 @@ static bool8 DecompressGraphics(void)
         sMonSummaryScreen->switchCounter++;
         break;
     case 3:
-        LoadCompressedPalette(gSummaryScreenPalette, 0, 0x100);
+        LoadCompressedPalette(gSummaryScreenPalette, 0, 0x120);
         sMonSummaryScreen->switchCounter++;
         break;
     case 4:
@@ -1373,30 +1353,6 @@ static bool8 ExtractMonDataToSummaryStruct(struct Pokemon *mon)
         sum->metLevel = GetMonData(mon, MON_DATA_MET_LEVEL);
         sum->metGame = GetMonData(mon, MON_DATA_MET_GAME);
         sum->friendship = GetMonData(mon, MON_DATA_FRIENDSHIP);
-        break;
-    case 4:
-        sum->sheen = GetMonData(mon, MON_DATA_SHEEN);
-        sum->cool = GetMonData(mon, MON_DATA_COOL);
-        sum->beauty = GetMonData(mon, MON_DATA_BEAUTY);
-        sum->cute = GetMonData(mon, MON_DATA_CUTE);
-        sum->smart = GetMonData(mon, MON_DATA_SMART);
-        sum->tough = GetMonData(mon, MON_DATA_TOUGH);
-        break;
-    case 5:
-        sum->hpIV = GetMonData(mon, MON_DATA_HP_IV);
-        sum->atkIV = GetMonData(mon, MON_DATA_ATK_IV);
-        sum->defIV = GetMonData(mon, MON_DATA_DEF_IV);
-        sum->spatkIV = GetMonData(mon, MON_DATA_SPATK_IV);
-        sum->spdefIV = GetMonData(mon, MON_DATA_SPDEF_IV);
-        sum->speedIV = GetMonData(mon, MON_DATA_SPEED_IV);
-        break;
-    case 6:
-        sum->hpEV = GetMonData(mon, MON_DATA_HP_EV);
-        sum->atkEV = GetMonData(mon, MON_DATA_ATK_EV);
-        sum->defEV = GetMonData(mon, MON_DATA_DEF_EV);
-        sum->spatkEV = GetMonData(mon, MON_DATA_SPATK_EV);
-        sum->spdefEV = GetMonData(mon, MON_DATA_SPDEF_EV);
-        sum->speedEV = GetMonData(mon, MON_DATA_SPEED_EV);
         break;
     default:
         sum->ribbonCount = GetMonData(mon, MON_DATA_RIBBON_COUNT);
@@ -2884,16 +2840,16 @@ static void PrintMoveNameAndPP(u8 moveIndex)
         switch (GetCurrentPpToMaxPpState(summary->pp[moveIndex], pp))
         {
             case PP_FEW:
-                color = PSS_COLOR_LIGHT_RED;
+                color = PSS_COLOR_PP_FEW;
                 break;
             case PP_SOME:
-                color = PSS_COLOR_ORANGE;
+                color = PSS_COLOR_PP_SOME;
                 break;
             case PP_NO_PP:
-                color = PSS_COLOR_FEMALE_GENDER_SYMBOL;
+                color = PSS_COLOR_PP_NO_PP;
                 break;
             case PP_MANY:
-                color = PSS_COLOR_BLACK_GRAY_SHADOW;
+                color = PSS_COLOR_PP_MANY;
                 break;
         }
 
@@ -3523,9 +3479,13 @@ static void CreateHealthBarSprites(u16 tileTag, u16 palTag)
             .tag = tileTag
         };
 
-        struct SpritePalette palette = {.data = gExpBarHealthBar_Pal, .tag = palTag};
+        struct SpritePalette palHigh   = {.data = gExpBarHighHealthBar_Pal,   .tag = palTag};
+        struct SpritePalette palMedium = {.data = gExpBarMediumHealthBar_Pal, .tag = palTag + 1};
+        struct SpritePalette palLow    = {.data = gExpBarLowHealthBar_Pal,    .tag = palTag + 2};
+        LoadSpritePalette(&palHigh);
+        LoadSpritePalette(&palMedium);
+        LoadSpritePalette(&palLow);
         LoadSpriteSheet(&sheet);
-        LoadSpritePalette(&palette);
     }
 
     for (i = 0; i < HP_BAR_SPRITES_COUNT; i++)
@@ -3557,13 +3517,14 @@ static void CreateHealthBarSprites(u16 tileTag, u16 palTag)
 
 static void ConfigureHealthBarSprites(void)
 {
-    u8 numWholeHpBarTiles = 0;
     u8 i;
     u8 animNum;
     u32 curHp;
     u32 maxHp;
-    s64 v0;
-    s64 v1;
+    s64 pointsPerTile;
+    s64 totalPoints;
+    u8 numWholeHpBarTiles = 0;
+    u16 paletteTag = TAG_HEALTH_BAR;
     struct PokeSummary *summary = &sMonSummaryScreen->summary;
 
     if (summary->isEgg)
@@ -3572,8 +3533,13 @@ static void ConfigureHealthBarSprites(void)
     curHp = GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_HP);
     maxHp = GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_MAX_HP);
 
+    if (maxHp / 5 >= curHp)
+        paletteTag += 2;
+    else if (maxHp / 2 >= curHp)
+        paletteTag += 1;
+
     for (i = 0; i < HP_BAR_SPRITES_COUNT; i++)
-        sHealthBar->sprites[i]->oam.paletteNum = IndexOfSpritePaletteTag(TAG_HEALTH_BAR);
+        sHealthBar->sprites[i]->oam.paletteNum = IndexOfSpritePaletteTag(paletteTag);
 
     if (curHp == maxHp)
     {
@@ -3582,14 +3548,14 @@ static void ConfigureHealthBarSprites(void)
     }
     else
     {
-        v0 = (maxHp << 2) / 8;
-        v1 = (curHp << 2);
+        pointsPerTile = (maxHp << 2) / 6;
+        totalPoints = (curHp << 2);
 
         while (TRUE)
         {
-            if (v1 <= v0)
+            if (totalPoints <= pointsPerTile)
                 break;
-            v1 -= v0;
+            totalPoints -= pointsPerTile;
             numWholeHpBarTiles++;
         }
 
@@ -3598,7 +3564,7 @@ static void ConfigureHealthBarSprites(void)
         for (i = 2; i < numWholeHpBarTiles; i++)
             StartSpriteAnim(sHealthBar->sprites[i], 8);
 
-        animNum = (v1 * 8) / v0;
+        animNum = (totalPoints * 8) / pointsPerTile;
         StartSpriteAnim(sHealthBar->sprites[numWholeHpBarTiles], animNum);
 
         for (i = numWholeHpBarTiles + 1; i < HP_BAR_SPRITES_COUNT - 1; i++)
@@ -3646,7 +3612,7 @@ static void CreateExpBarSprites(u16 tileTag, u16 palTag)
             .tag = tileTag
         };
 
-        struct SpritePalette palette = {.data = gExpBarHealthBar_Pal, .tag = palTag};
+        struct SpritePalette palette = {.data = gExpBarHighHealthBar_Pal, .tag = palTag};
         LoadSpriteSheet(&sheet);
         LoadSpritePalette(&palette);
     }
@@ -3790,8 +3756,8 @@ static void PrintTitleBar(u8 pageIndex, bool8 detailsShown)
             break;
     }
 
-    PrintTextOnWindow(WINDOW_ARR_ID_TITLE_BAR, gStringVar1, 4, 1, 0, PSS_COLOR_WHITE_BLACK_SHADOW_TITLE);
+    PrintTextOnWindow(WINDOW_ARR_ID_TITLE_BAR, gStringVar1, 4, 1, 0, PSS_COLOR_WHITE_BLACK_SHADOW);
     x = GetStringRightAlignXOffset(0, gStringVar2, 236);
-    PrintTextOnWindowSmall(WINDOW_ARR_ID_TITLE_BAR, gStringVar2, x, 0, 0, PSS_COLOR_WHITE_BLACK_SHADOW_TITLE);
+    PrintTextOnWindowSmall(WINDOW_ARR_ID_TITLE_BAR, gStringVar2, x, 0, 0, PSS_COLOR_WHITE_BLACK_SHADOW);
     PutWindowTilemap(WINDOW_ARR_ID_TITLE_BAR);
 }
