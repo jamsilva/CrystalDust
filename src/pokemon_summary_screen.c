@@ -64,8 +64,8 @@ enum {
 };
 
 enum {
-    PP_FEW,
     PP_SOME,
+    PP_FEW,
     PP_NO_PP,
     PP_MANY
 };
@@ -459,10 +459,10 @@ enum
 {
     PSS_COLOR_WHITE_BLACK_SHADOW,
     PSS_COLOR_BLACK_GRAY_SHADOW,
+    PSS_COLOR_PP_MANY,
     PSS_COLOR_PP_SOME,
     PSS_COLOR_PP_FEW,
     PSS_COLOR_PP_NO_PP,
-    PSS_COLOR_PP_MANY,
     PSS_COLOR_FEMALE_GENDER_SYMBOL,
     PSS_COLOR_MALE_GENDER_SYMBOL,
 };
@@ -2839,17 +2839,17 @@ static void PrintMoveNameAndPP(u8 moveIndex)
         StringAppend(gStringVar1, gStringVar2);
         switch (GetCurrentPpToMaxPpState(summary->pp[moveIndex], pp))
         {
-            case PP_FEW:
-                color = PSS_COLOR_PP_FEW;
+            case PP_MANY:
+                color = PSS_COLOR_PP_MANY;
                 break;
             case PP_SOME:
                 color = PSS_COLOR_PP_SOME;
                 break;
+            case PP_FEW:
+                color = PSS_COLOR_PP_FEW;
+                break;
             case PP_NO_PP:
                 color = PSS_COLOR_PP_NO_PP;
-                break;
-            case PP_MANY:
-                color = PSS_COLOR_PP_MANY;
                 break;
         }
 
@@ -3383,10 +3383,10 @@ static void SetMainMoveSelectorColor(u8 which)
     u8 i;
     u8 *spriteIds = &sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_MOVE_SELECTOR1];
     which *= 3;
-	StartSpriteAnim(&gSprites[spriteIds[0]], which);
+    StartSpriteAnim(&gSprites[spriteIds[0]], which);
     for (i = 1; i < MOVE_SELECTOR_SPRITES_COUNT; i++)
         StartSpriteAnim(&gSprites[spriteIds[i]], which + 1);
-	StartSpriteAnim(&gSprites[spriteIds[MOVE_SELECTOR_SPRITES_COUNT - 1]], which + 2);
+    StartSpriteAnim(&gSprites[spriteIds[MOVE_SELECTOR_SPRITES_COUNT - 1]], which + 2);
 }
 
 static void KeepMoveSelectorVisible(u8 firstSpriteId)
