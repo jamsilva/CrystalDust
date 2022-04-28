@@ -26,6 +26,9 @@
 #define AREA_SCREEN_WIDTH 32
 #define AREA_SCREEN_HEIGHT 20
 
+#define MAP_LEFTMOST_ROW  0
+#define MAP_RIGHTMOST_ROW 23
+
 #define GLOW_TILE_FULL          0xFFFF
 #define GLOW_TILE_LEFT          (1 << 0)
 #define GLOW_TILE_RIGHT         (1 << 1)
@@ -315,7 +318,7 @@ static bool8 DrawAreaGlow(void)
         }
         return TRUE;
     case 4:
-        ChangeBgX(2, -0x2000, 0);
+        ChangeBgX(2, -0x1800, 0);
         ChangeBgY(2, -0x1000, 0);
         break;
     default:
@@ -402,11 +405,16 @@ static void FindMapsWithMon(u16 species)
 
 static void SetAreaHasMon(u16 mapGroup, u16 mapNum)
 {
+    u16 regionMapSectionId = CorrectSpecialMapSecId(GetRegionMapSectionId(mapGroup, mapNum));
+
+    if (regionMapSectionId != MAPSEC_ROUTE_27 && regionMapSectionId != MAPSEC_ROUTE_28 && sPokedexAreaScreen->regionMap.currentRegion != GetMapRegion(regionMapSectionId))
+        return;
+
     if (sPokedexAreaScreen->numOverworldAreas < 0x40)
     {
         sPokedexAreaScreen->overworldAreasWithMons[sPokedexAreaScreen->numOverworldAreas].mapGroup = mapGroup;
         sPokedexAreaScreen->overworldAreasWithMons[sPokedexAreaScreen->numOverworldAreas].mapNum = mapNum;
-        sPokedexAreaScreen->overworldAreasWithMons[sPokedexAreaScreen->numOverworldAreas].regionMapSectionId = CorrectSpecialMapSecId(GetRegionMapSectionId(mapGroup, mapNum));
+        sPokedexAreaScreen->overworldAreasWithMons[sPokedexAreaScreen->numOverworldAreas].regionMapSectionId = regionMapSectionId;
         sPokedexAreaScreen->numOverworldAreas++;
     }
 }
@@ -483,18 +491,45 @@ static bool8 MonListHasMon(const struct WildPokemonInfo *info, u16 species, u16 
     u16 i;
     int timeOfDay;
 
-    if (info != NULL)
-    {
-        for (timeOfDay = 0; timeOfDay < TIMES_OF_DAY_COUNT; timeOfDay++)
-        {
-            for (i = 0; i < size; i++)
-            {
-                if (info->wildPokemon[timeOfDay][i].species == species)
-                    return TRUE;
-            }
-        }
-    }
+    if (info == NULL)
+        return FALSE;
+
+    for (timeOfDay = 0; timeOfDay < TIMES_OF_DAY_COUNT; timeOfDay++)
+        for (i = 0; i < size; i++)
+            if (info->wildPokemon[timeOfDay][i].species == species)
+                return TRUE;
+
     return FALSE;
+}
+
+static u16 GetRegionMapGlowSectionIdAt(u16 x, u16 y, u8 region)
+{
+    u16 sectionId;
+
+    if ((x == MAP_RIGHTMOST_ROW && region == REGION_JOHTO) ||
+        (x == MAP_LEFTMOST_ROW && region == REGION_KANTO))
+        sectionId = GetRegionMapSectionIdAt(MAP_LEFTMOST_ROW, y, REGION_KANTO);
+    else if (x == MAP_LEFTMOST_ROW || x >= MAP_RIGHTMOST_ROW)
+        return MAPSEC_NONE;
+    else
+        sectionId = GetRegionMapSectionIdAt(x - 1, y, region);
+
+    switch (sectionId)
+    {
+        case MAPSEC_ROUTE_32_FLYDUP:
+            sectionId = MAPSEC_ROUTE_32;
+            break;
+        case MAPSEC_ROUTE_3_FLYDUP:
+            sectionId = MAPSEC_ROUTE_3;
+            break;
+        case MAPSEC_ROUTE_10_FLYDUP:
+            sectionId = MAPSEC_ROUTE_10;
+            break;
+        default:
+            break;
+    }
+
+    return sectionId;
 }
 
 static void BuildAreaGlowTilemap(void)
@@ -512,12 +547,7 @@ static void BuildAreaGlowTilemap(void)
         {
             for (x = 0; x < AREA_SCREEN_WIDTH; x++)
             {
-                u16 sectionId = GetRegionMapSectionIdAt(x, y, currentRegion);
-
-                if (sectionId == MAPSEC_ROUTE_32_FLYDUP)
-                    sectionId = MAPSEC_ROUTE_32;
-
-                if (sectionId == sPokedexAreaScreen->overworldAreasWithMons[i].regionMapSectionId)
+                if (GetRegionMapGlowSectionIdAt(x, y, currentRegion) == sPokedexAreaScreen->overworldAreasWithMons[i].regionMapSectionId)
                     sPokedexAreaScreen->areaGlowTilemap[j] = GLOW_TILE_FULL;
 
                 j++;
@@ -559,6 +589,9 @@ static void BuildAreaGlowTilemap(void)
             j++;
         }
     }
+
+    for (y = 0; y < AREA_SCREEN_HEIGHT; y++)
+        sPokedexAreaScreen->areaGlowTilemap[y * AREA_SCREEN_WIDTH + MAP_RIGHTMOST_ROW + 1] = 0;
 
     for (i = 0; i < ARRAY_COUNT(sPokedexAreaScreen->areaGlowTilemap); i++)
     {
@@ -708,19 +741,17 @@ static void Task_ShowPokedexAreaScreen(u8 taskId)
             LoadAreaUnknownGraphics();
             break;
         case 8:
-            CreateAreaUnknownSprites();
-            break;
-        case 9:
             BeginNormalPaletteFade(PALETTES_ALL & ~(0x14), 0, 16, 0, RGB(0, 0, 0));
             break;
-        case 10:
+        case 9:
             SetGpuReg(REG_OFFSET_BLDCNT, BLDCNT_TGT1_BG0 | BLDCNT_EFFECT_BLEND | BLDCNT_TGT2_BG0 | BLDCNT_TGT2_ALL);
             StartAreaGlow();
+            CreateAreaUnknownSprites();
             ShowBg(2);
             ShowBg(3);
             SetGpuRegBits(REG_OFFSET_DISPCNT, DISPCNT_OBJ_ON);
             break;
-        case 11:
+        case 10:
             if (sPokedexAreaScreen->regionMap.currentRegion == GetCurrentRegion())
                 CreateRegionMapPlayerIcon(1, 1);
             CreateSecondaryLayerDots(5, 5);
@@ -763,7 +794,7 @@ static bool8 NextRegion()
             case REGION_JOHTO:
                 break;
             case REGION_KANTO:
-                if (GetCurrentRegion() == REGION_KANTO || MapsecWasVisited(MAPSEC_INDIGO_PLATEAU))
+                if (GetCurrentRegion() == REGION_KANTO || FlagGet(FLAG_ENTERED_KANTO))
                     break;
                 continue;
             case REGION_SEVII1:
