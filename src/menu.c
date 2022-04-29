@@ -598,7 +598,7 @@ u8 GetPlayerTextSpeedDelay(void)
 u8 sub_81979C4(u8 a1)
 {
     if (sStartMenuWindowId == WINDOW_NONE)
-        sStartMenuWindowId = sub_8198AA4(0, 0x15, 1, 8, (a1 * 2) + 2, 0xF, 0x139);
+        sStartMenuWindowId = sub_8198AA4(0, 0x16, 1, 7, (a1 * 2) - 1, 0xF, 0x13D);
     return sStartMenuWindowId;
 }
 
