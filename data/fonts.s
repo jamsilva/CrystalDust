@@ -74,3 +74,11 @@ gFont2JapaneseGlyphs::
 	.align 2
 gFont2JapaneseGlyphWidths::
 	.include "graphics/fonts/font2_japanese_widths.inc"
+
+	.align 2
+gFont3LatinGlyphs::
+	.incbin "graphics/fonts/font3.latfont"
+
+	.align 2
+gFont3LatinGlyphWidths::
+	.include "graphics/fonts/font3_latin_widths.inc"
