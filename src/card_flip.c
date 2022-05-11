@@ -817,7 +817,7 @@ static const struct BetOutlinePosition sBetTypeOutlines_Pikachu5[] = {
 
 static const struct BetOutlinePosition sBetTypeOutlines_Pikachu6[] = {
     {0, 136, 142},
-    {0, 136, 160},
+    {0, 136, 159},
     {2, 122, 150},
     {2, 151, 150},
     {0xFF, 0xFF, 0xFF},
@@ -865,7 +865,7 @@ static const struct BetOutlinePosition sBetTypeOutlines_Jigglypuff5[] = {
 
 static const struct BetOutlinePosition sBetTypeOutlines_Jigglypuff6[] = {
     {0, 165, 142},
-    {0, 165, 160},
+    {0, 165, 159},
     {2, 151, 150},
     {2, 181, 150},
     {0xFF, 0xFF, 0xFF},
@@ -913,7 +913,7 @@ static const struct BetOutlinePosition sBetTypeOutlines_Poliwag5[] = {
 
 static const struct BetOutlinePosition sBetTypeOutlines_Poliwag6[] = {
     {0, 195, 142},
-    {0, 195, 160},
+    {0, 195, 159},
     {2, 181, 150},
     {2, 211, 150},
     {0xFF, 0xFF, 0xFF},
@@ -961,7 +961,7 @@ static const struct BetOutlinePosition sBetTypeOutlines_Oddish5[] = {
 
 static const struct BetOutlinePosition sBetTypeOutlines_Oddish6[] = {
     {0, 225, 142},
-    {0, 225, 160},
+    {0, 225, 159},
     {2, 211, 150},
     {2, 240, 150},
     {0xFF, 0xFF, 0xFF},
@@ -969,57 +969,57 @@ static const struct BetOutlinePosition sBetTypeOutlines_Oddish6[] = {
 
 static const struct BetOutlinePosition sBetTypeOutlines_Pikachu[] = {
     {0, 136, 32},
-    {0, 136, 160},
+    {0, 136, 159},
     {1, 122, 48},
     {1, 122, 80},
     {1, 122, 112},
-    {1, 122, 143},
+    {1, 122, 142},
     {1, 151, 48},
     {1, 151, 80},
     {1, 151, 112},
-    {1, 151, 143},
+    {1, 151, 142},
     {0xFF, 0xFF, 0xFF},
 };
 
 static const struct BetOutlinePosition sBetTypeOutlines_JigglyPuff[] = {
     {0, 165, 32},
-    {0, 165, 160},
+    {0, 165, 159},
     {1, 151, 48},
     {1, 151, 80},
     {1, 151, 112},
-    {1, 151, 143},
+    {1, 151, 142},
     {1, 181, 48},
     {1, 181, 80},
     {1, 181, 112},
-    {1, 181, 143},
+    {1, 181, 142},
     {0xFF, 0xFF, 0xFF},
 };
 
 static const struct BetOutlinePosition sBetTypeOutlines_Poliwag[] = {
     {0, 195, 32},
-    {0, 195, 160},
+    {0, 195, 159},
     {1, 181, 48},
     {1, 181, 80},
     {1, 181, 112},
-    {1, 181, 143},
+    {1, 181, 142},
     {1, 211, 48},
     {1, 211, 80},
     {1, 211, 112},
-    {1, 211, 143},
+    {1, 211, 142},
     {0xFF, 0xFF, 0xFF},
 };
 
 static const struct BetOutlinePosition sBetTypeOutlines_Oddish[] = {
     {0, 225, 32},
-    {0, 225, 160},
+    {0, 225, 159},
     {1, 211, 48},
     {1, 211, 80},
     {1, 211, 112},
-    {1, 211, 143},
+    {1, 211, 142},
     {1, 240, 48},
     {1, 240, 80},
     {1, 240, 112},
-    {1, 240, 143},
+    {1, 240, 142},
     {0xFF, 0xFF, 0xFF},
 };
 
@@ -1109,109 +1109,109 @@ static const struct BetOutlinePosition sBetTypeOutlines_Level6[] = {
     {0, 185, 142},
     {0, 215, 142},
     {0, 225, 142},
-    {0, 125, 160},
-    {0, 155, 160},
-    {0, 185, 160},
-    {0, 215, 160},
-    {0, 225, 160},
-    {2, 111, 151},
-    {2, 240, 151},
+    {0, 125, 159},
+    {0, 155, 159},
+    {0, 185, 159},
+    {0, 215, 159},
+    {0, 225, 159},
+    {2, 111, 150},
+    {2, 240, 150},
     {0xFF, 0xFF, 0xFF},
 };
 
 static const struct BetOutlinePosition sBetTypeOutlines_PikachuJigglypuff[] = {
     {0, 136, 17},
     {0, 166, 17},
-    {0, 136, 160},
-    {0, 166, 160},
+    {0, 136, 159},
+    {0, 166, 159},
     {1, 122, 33},
     {1, 122, 65},
     {1, 122, 97},
     {1, 122, 129},
-    {1, 122, 143},
+    {1, 122, 142},
     {1, 181, 33},
     {1, 181, 65},
     {1, 181, 97},
     {1, 181, 129},
-    {1, 181, 143},
+    {1, 181, 142},
     {0xFF, 0xFF, 0xFF},
 };
 
 static const struct BetOutlinePosition sBetTypeOutlines_PoliwagOddish[] = {
     {0, 195, 17},
     {0, 225, 17},
-    {0, 195, 160},
-    {0, 225, 160},
+    {0, 195, 159},
+    {0, 225, 159},
     {1, 181, 33},
     {1, 181, 65},
     {1, 181, 97},
     {1, 181, 129},
-    {1, 181, 143},
+    {1, 181, 142},
     {1, 240, 33},
     {1, 240, 65},
     {1, 240, 97},
     {1, 240, 129},
-    {1, 240, 143},
+    {1, 240, 142},
     {0xFF, 0xFF, 0xFF},
 };
 
 static const struct BetOutlinePosition sBetTypeOutlines_Levels12[] = {
-    {0, 115, 57},
+    {0, 113, 57},
     {0, 130, 57},
     {0, 155, 57},
     {0, 185, 57},
     {0, 215, 57},
     {0, 225, 57},
-    {0, 115, 91},
+    {0, 113, 91},
     {0, 130, 91},
     {0, 155, 91},
     {0, 185, 91},
     {0, 215, 91},
     {0, 225, 91},
-    {2, 100, 65},
-    {2, 100, 82},
+    {2, 98, 65},
+    {2, 98, 82},
     {2, 240, 65},
     {2, 240, 82},
     {0xFF, 0xFF, 0xFF},
 };
 
 static const struct BetOutlinePosition sBetTypeOutlines_Levels34[] = {
-    {0, 115, 91},
+    {0, 113, 91},
     {0, 130, 91},
     {0, 155, 91},
     {0, 185, 91},
     {0, 215, 91},
     {0, 225, 91},
-    {0, 115, 125},
+    {0, 113, 125},
     {0, 130, 125},
     {0, 155, 125},
     {0, 185, 125},
     {0, 215, 125},
     {0, 225, 125},
-    {2, 100, 99},
-    {2, 100, 116},
+    {2, 98, 99},
+    {2, 98, 116},
     {2, 240, 99},
     {2, 240, 116},
     {0xFF, 0xFF, 0xFF},
 };
 
 static const struct BetOutlinePosition sBetTypeOutlines_Levels56[] = {
-    {0, 115, 125},
+    {0, 113, 125},
     {0, 130, 125},
     {0, 155, 125},
     {0, 185, 125},
     {0, 215, 125},
     {0, 225, 125},
-    {0, 115, 160},
-    {0, 130, 160},
-    {0, 155, 160},
-    {0, 185, 160},
-    {0, 215, 160},
-    {0, 225, 160},
-    {2, 100, 133},
-    {2, 100, 151},
+    {0, 113, 159},
+    {0, 130, 159},
+    {0, 155, 159},
+    {0, 185, 159},
+    {0, 215, 159},
+    {0, 225, 159},
+    {2, 98, 133},
+    {2, 98, 150},
     {2, 240, 133},
-    {2, 240, 151},
+    {2, 240, 150},
     {0xFF, 0xFF, 0xFF},
 };
 
@@ -1837,7 +1837,7 @@ static void ShuffleDeckMessage(void)
     AddTextPrinterParameterized(WIN_TEXT, 2, sShuffledCardsText, 0, 1, 0, NULL);
     CopyWindowToVram(WIN_TEXT, 3);
     ResetAndShuffleCardDeck();
-    sCardFlip->state = CARD_FLIP_STATE_SHUFFLE_DECK_INPUT;   
+    sCardFlip->state = CARD_FLIP_STATE_SHUFFLE_DECK_INPUT;
 }
 
 static void ProcessShuffleDeckInput(void)
@@ -1887,9 +1887,9 @@ static void InitCoinDigitSprites(void)
 static void InitMonIcons(void)
 {
     sCardFlip->suitSpriteIds[2] = CreateMonIcon(SPECIES_PIKACHU, SpriteCallbackDummy, 136, 40, 3, 0, 0);
-    sCardFlip->suitSpriteIds[1] = CreateMonIcon(SPECIES_JIGGLYPUFF, SpriteCallbackDummy, 166, 40, 3, 0, 0);
+    sCardFlip->suitSpriteIds[1] = CreateMonIcon(SPECIES_JIGGLYPUFF, SpriteCallbackDummy, 165, 40, 3, 0, 0);
     sCardFlip->suitSpriteIds[2] = CreateMonIcon(SPECIES_POLIWAG, SpriteCallbackDummy, 196, 40, 3, 0, 0);
-    sCardFlip->suitSpriteIds[3] = CreateMonIcon(SPECIES_ODDISH, SpriteCallbackDummy, 226, 40, 3, 0, 0);
+    sCardFlip->suitSpriteIds[3] = CreateMonIcon(SPECIES_ODDISH, SpriteCallbackDummy, 225, 40, 3, 0, 0);
 }
 
 static void InitCardNumberSprites(void)
@@ -1902,7 +1902,7 @@ static void InitCardNumberSprites(void)
         for (suit = 0; suit < NUM_SUITS; suit++)
         {
             int index = suit * NUM_NUMBERS + i;
-            x = 144 + 30 * suit;
+            x = 144 + 30 * suit + !suit;
             y = 65 + i * 17;
             if (i == NUM_NUMBERS - 1)
                 y++;
@@ -1950,7 +1950,7 @@ static void ChangeCoinAmountFixedDuration(int delta, int duration, int startDela
         AddCoins(delta);
     else
         RemoveCoins(-delta);
-    
+
     targetCoins = GetCoins();
     gTasks[taskId].data[1] = targetCoins;
     if (duration <= 0)
@@ -2201,7 +2201,7 @@ static void SlideOutCard(struct Sprite *sprite)
     sprite->x -= 5;
     if (sprite->x <= -32)
     {
-        // Signal that the UI animation is complete.            
+        // Signal that the UI animation is complete.
         gTasks[sprite->data[0]].data[0] = 0;
         DestroySpriteAndFreeResources(sprite);
     }
