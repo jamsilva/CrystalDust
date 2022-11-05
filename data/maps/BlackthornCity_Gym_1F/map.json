@@ -19,7 +19,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_COOLTRAINER_M",
-      "in_connection": false,
       "x": 3,
       "y": 17,
       "elevation": 3,
@@ -34,7 +33,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_COOLTRAINER_M",
-      "in_connection": false,
       "x": 7,
       "y": 9,
       "elevation": 4,
@@ -49,7 +47,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_COOLTRAINER_F",
-      "in_connection": false,
       "x": 10,
       "y": 5,
       "elevation": 4,
@@ -64,7 +61,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_CLAIR",
-      "in_connection": false,
       "x": 6,
       "y": 6,
       "elevation": 4,
@@ -79,7 +75,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_GYM_GUIDE",
-      "in_connection": false,
       "x": 9,
       "y": 18,
       "elevation": 3,
@@ -94,7 +89,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_PUSHABLE_BOULDER",
-      "in_connection": false,
       "x": 3,
       "y": 8,
       "elevation": 1,
@@ -109,7 +103,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_PUSHABLE_BOULDER",
-      "in_connection": false,
       "x": 9,
       "y": 10,
       "elevation": 1,
@@ -124,7 +117,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_PUSHABLE_BOULDER",
-      "in_connection": false,
       "x": 9,
       "y": 6,
       "elevation": 1,

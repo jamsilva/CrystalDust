@@ -19,7 +19,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
-      "in_connection": false,
       "x": 29,
       "y": 58,
       "elevation": 3,
@@ -34,7 +33,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
-      "in_connection": false,
       "x": 26,
       "y": 58,
       "elevation": 3,
@@ -49,7 +47,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
-      "in_connection": false,
       "x": 18,
       "y": 44,
       "elevation": 3,
@@ -64,7 +61,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
-      "in_connection": false,
       "x": 45,
       "y": 38,
       "elevation": 3,
@@ -79,7 +75,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
-      "in_connection": false,
       "x": 12,
       "y": 34,
       "elevation": 3,
@@ -94,7 +89,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_RIVAL",
-      "in_connection": false,
       "x": 33,
       "y": 14,
       "elevation": 3,

@@ -19,7 +19,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_LAPRAS",
-      "in_connection": false,
       "x": 14,
       "y": 39,
       "elevation": 1,
@@ -34,7 +33,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
-      "in_connection": false,
       "x": 20,
       "y": 3,
       "elevation": 3,
@@ -49,7 +47,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_COOLTRAINER_M",
-      "in_connection": false,
       "x": 19,
       "y": 25,
       "elevation": 3,
@@ -64,7 +61,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
-      "in_connection": false,
       "x": 16,
       "y": 25,
       "elevation": 3,
@@ -79,7 +75,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_COOLTRAINER_F",
-      "in_connection": false,
       "x": 5,
       "y": 18,
       "elevation": 3,
@@ -94,7 +89,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_COOLTRAINER_F",
-      "in_connection": false,
       "x": 4,
       "y": 38,
       "elevation": 3,

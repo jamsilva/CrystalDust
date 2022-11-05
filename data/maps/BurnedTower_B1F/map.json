@@ -19,7 +19,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_PUSHABLE_BOULDER",
-      "in_connection": false,
       "x": 17,
       "y": 10,
       "elevation": 3,
@@ -34,7 +33,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
-      "in_connection": false,
       "x": 16,
       "y": 6,
       "elevation": 3,
@@ -49,7 +47,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_EUSINE",
-      "in_connection": false,
       "x": 9,
       "y": 14,
       "elevation": 3,
@@ -64,7 +61,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_SUICUNE",
-      "in_connection": false,
       "x": 9,
       "y": 6,
       "elevation": 3,
@@ -79,7 +75,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_RAIKOU",
-      "in_connection": false,
       "x": 6,
       "y": 5,
       "elevation": 3,
@@ -94,7 +89,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ENTEI",
-      "in_connection": false,
       "x": 12,
       "y": 5,
       "elevation": 3,
@@ -109,7 +103,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_SUICUNE",
-      "in_connection": false,
       "x": 9,
       "y": 5,
       "elevation": 3,

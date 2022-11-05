@@ -19,7 +19,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_OLD_WOMAN",
-      "in_connection": false,
       "x": 4,
       "y": 4,
       "elevation": 3,
@@ -34,7 +33,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_DRATINI",
-      "in_connection": false,
       "x": 7,
       "y": 6,
       "elevation": 3,

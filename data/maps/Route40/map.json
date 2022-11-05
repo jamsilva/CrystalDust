@@ -35,7 +35,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_BOY_1",
-      "in_connection": false,
       "x": 27,
       "y": 13,
       "elevation": 3,
@@ -50,7 +49,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_LASS",
-      "in_connection": false,
       "x": 23,
       "y": 8,
       "elevation": 3,
@@ -65,7 +63,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_POKEFAN_M",
-      "in_connection": false,
       "x": 15,
       "y": 10,
       "elevation": 3,
@@ -80,7 +77,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_WOMAN",
-      "in_connection": false,
       "x": 20,
       "y": 17,
       "elevation": 3,
@@ -95,7 +91,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_SWIMMER_M",
-      "in_connection": false,
       "x": 24,
       "y": 24,
       "elevation": 3,
@@ -110,7 +105,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_SWIMMER_M",
-      "in_connection": false,
       "x": 29,
       "y": 42,
       "elevation": 3,
@@ -125,7 +119,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_SWIMMER_F",
-      "in_connection": false,
       "x": 19,
       "y": 36,
       "elevation": 3,
@@ -140,7 +133,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_SWIMMER_F",
-      "in_connection": false,
       "x": 9,
       "y": 32,
       "elevation": 3,
@@ -155,7 +147,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_BEAUTY",
-      "in_connection": false,
       "x": 17,
       "y": 14,
       "elevation": 3,
@@ -170,7 +161,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_BREAKABLE_ROCK",
-      "in_connection": false,
       "x": 13,
       "y": 12,
       "elevation": 3,
@@ -185,7 +175,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_BREAKABLE_ROCK",
-      "in_connection": false,
       "x": 12,
       "y": 13,
       "elevation": 3,
@@ -200,7 +189,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_BREAKABLE_ROCK",
-      "in_connection": false,
       "x": 14,
       "y": 15,
       "elevation": 3,

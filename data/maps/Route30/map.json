@@ -30,7 +30,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_YOUNGSTER",
-      "in_connection": false,
       "x": 8,
       "y": 28,
       "elevation": 3,
@@ -45,7 +44,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_YOUNGSTER",
-      "in_connection": false,
       "x": 2,
       "y": 32,
       "elevation": 3,
@@ -60,7 +58,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_YOUNGSTER",
-      "in_connection": false,
       "x": 8,
       "y": 25,
       "elevation": 3,
@@ -75,7 +72,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_BUG_CATCHER",
-      "in_connection": false,
       "x": 4,
       "y": 7,
       "elevation": 3,
@@ -90,7 +86,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_BOY_1",
-      "in_connection": false,
       "x": 10,
       "y": 34,
       "elevation": 3,
@@ -105,7 +100,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_PIDGEY",
-      "in_connection": false,
       "x": 8,
       "y": 26,
       "elevation": 3,
@@ -120,7 +114,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_RATTATA",
-      "in_connection": false,
       "x": 8,
       "y": 27,
       "elevation": 3,
@@ -135,7 +128,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_GIRL",
-      "in_connection": false,
       "x": 5,
       "y": 14,
       "elevation": 3,
@@ -150,7 +142,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
-      "in_connection": false,
       "x": 9,
       "y": 40,
       "elevation": 3,
@@ -165,7 +156,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_CUTTABLE_TREE",
-      "in_connection": false,
       "x": 11,
       "y": 6,
       "elevation": 3,

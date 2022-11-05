@@ -19,7 +19,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_BUGSY",
-      "in_connection": false,
       "x": 6,
       "y": 9,
       "elevation": 0,
@@ -34,7 +33,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_BUG_CATCHER",
-      "in_connection": false,
       "x": 7,
       "y": 3,
       "elevation": 0,
@@ -49,7 +47,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_BUG_CATCHER",
-      "in_connection": false,
       "x": 10,
       "y": 9,
       "elevation": 3,
@@ -64,7 +61,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_BUG_CATCHER",
-      "in_connection": false,
       "x": 1,
       "y": 2,
       "elevation": 3,
@@ -79,7 +75,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_GYM_GUIDE",
-      "in_connection": false,
       "x": 9,
       "y": 14,
       "elevation": 3,
@@ -94,7 +89,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_LITTLE_GIRL",
-      "in_connection": false,
       "x": 5,
       "y": 12,
       "elevation": 1,
@@ -109,7 +103,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_LITTLE_GIRL",
-      "in_connection": false,
       "x": 7,
       "y": 12,
       "elevation": 3,

@@ -19,7 +19,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_WORKER_F",
-      "in_connection": false,
       "x": 7,
       "y": 9,
       "elevation": 3,
@@ -34,7 +33,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_POKEMANIAC",
-      "in_connection": false,
       "x": 15,
       "y": 10,
       "elevation": 3,
@@ -49,7 +47,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_MAN",
-      "in_connection": false,
       "x": 1,
       "y": 6,
       "elevation": 3,
@@ -64,7 +61,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_GENTLEMAN",
-      "in_connection": false,
       "x": 10,
       "y": 4,
       "elevation": 3,
@@ -79,7 +75,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_OFFICER",
-      "in_connection": false,
       "x": 16,
       "y": 2,
       "elevation": 3,

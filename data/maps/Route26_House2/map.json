@@ -19,7 +19,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_BOOK",
-      "in_connection": false,
       "x": 5,
       "y": 4,
       "elevation": 3,

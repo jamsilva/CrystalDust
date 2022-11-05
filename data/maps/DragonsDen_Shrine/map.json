@@ -19,7 +19,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_OLD_MAN",
-      "in_connection": false,
       "x": 5,
       "y": 3,
       "elevation": 3,
@@ -34,7 +33,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_CLAIR",
-      "in_connection": false,
       "x": 5,
       "y": 10,
       "elevation": 3,
@@ -49,7 +47,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_OLD_MAN",
-      "in_connection": false,
       "x": 2,
       "y": 6,
       "elevation": 3,
@@ -64,7 +61,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_OLD_MAN",
-      "in_connection": false,
       "x": 8,
       "y": 6,
       "elevation": 3,

@@ -19,7 +19,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_EUSINE",
-      "in_connection": false,
       "x": 11,
       "y": 14,
       "elevation": 3,
@@ -34,7 +33,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_MORTY",
-      "in_connection": false,
       "x": 13,
       "y": 16,
       "elevation": 3,
@@ -49,7 +47,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_RIVAL",
-      "in_connection": false,
       "x": 7,
       "y": 11,
       "elevation": 3,
@@ -64,7 +61,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
-      "in_connection": false,
       "x": 13,
       "y": 4,
       "elevation": 3,
@@ -79,7 +75,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_BREAKABLE_ROCK",
-      "in_connection": false,
       "x": 14,
       "y": 6,
       "elevation": 3,

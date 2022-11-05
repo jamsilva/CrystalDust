@@ -19,7 +19,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_WORKER_F",
-      "in_connection": false,
       "x": 3,
       "y": 7,
       "elevation": 3,

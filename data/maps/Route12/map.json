@@ -35,7 +35,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_FISHERMAN",
-      "in_connection": false,
       "x": 9,
       "y": 10,
       "elevation": 3,
@@ -50,7 +49,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_FISHERMAN",
-      "in_connection": false,
       "x": 9,
       "y": 36,
       "elevation": 3,
@@ -65,7 +63,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_FISHERMAN",
-      "in_connection": false,
       "x": 17,
       "y": 63,
       "elevation": 3,
@@ -80,7 +77,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_FISHERMAN",
-      "in_connection": false,
       "x": 14,
       "y": 91,
       "elevation": 3,
@@ -95,7 +91,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_CUTTABLE_TREE",
-      "in_connection": false,
       "x": 11,
       "y": 99,
       "elevation": 3,
@@ -110,7 +105,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_CUTTABLE_TREE",
-      "in_connection": false,
       "x": 13,
       "y": 110,
       "elevation": 3,
@@ -125,7 +119,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
-      "in_connection": false,
       "x": 9,
       "y": 113,
       "elevation": 3,
@@ -140,7 +133,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
-      "in_connection": false,
       "x": 9,
       "y": 98,
       "elevation": 3,

@@ -19,7 +19,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_VAR_0",
-      "in_connection": false,
       "x": 5,
       "y": 6,
       "elevation": 3,
@@ -34,7 +33,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_VAR_1",
-      "in_connection": false,
       "x": 6,
       "y": 6,
       "elevation": 3,
@@ -49,7 +47,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_VAR_3",
-      "in_connection": false,
       "x": 1,
       "y": 2,
       "elevation": 3,
@@ -64,7 +61,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_VAR_2",
-      "in_connection": false,
       "x": 1,
       "y": 6,
       "elevation": 4,
@@ -79,7 +75,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ABRA",
-      "in_connection": false,
       "x": 0,
       "y": 2,
       "elevation": 3,

@@ -30,7 +30,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_OLD_MAN",
-      "in_connection": false,
       "x": 46,
       "y": 8,
       "elevation": 3,
@@ -45,7 +44,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_RIVAL",
-      "in_connection": false,
       "x": 55,
       "y": 8,
       "elevation": 3,
@@ -60,7 +58,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_WOMAN",
-      "in_connection": false,
       "x": 38,
       "y": 17,
       "elevation": 3,
@@ -75,7 +72,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_YOUNGSTER",
-      "in_connection": false,
       "x": 34,
       "y": 9,
       "elevation": 3,
@@ -90,7 +86,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_FISHERMAN",
-      "in_connection": false,
       "x": 15,
       "y": 16,
       "elevation": 3,

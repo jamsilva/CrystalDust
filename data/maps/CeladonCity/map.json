@@ -30,7 +30,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_POLIWRATH",
-      "in_connection": false,
       "x": 45,
       "y": 12,
       "elevation": 3,
@@ -53,7 +52,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_YOUNGSTER",
-      "in_connection": false,
       "x": 32,
       "y": 15,
       "elevation": 3,
@@ -68,7 +66,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_FAT_MAN",
-      "in_connection": false,
       "x": 44,
       "y": 12,
       "elevation": 3,
@@ -83,7 +80,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_BEAUTY",
-      "in_connection": false,
       "x": 16,
       "y": 19,
       "elevation": 3,
@@ -98,7 +94,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_OLD_MAN_2",
-      "in_connection": false,
       "x": 27,
       "y": 19,
       "elevation": 3,
@@ -113,7 +108,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_BATTLE_GIRL",
-      "in_connection": false,
       "x": 11,
       "y": 23,
       "elevation": 3,
@@ -128,7 +122,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_WOMAN",
-      "in_connection": false,
       "x": 34,
       "y": 25,
       "elevation": 3,
@@ -143,7 +136,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_BOY_1",
-      "in_connection": false,
       "x": 36,
       "y": 33,
       "elevation": 3,
@@ -158,7 +150,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_OLD_MAN",
-      "in_connection": false,
       "x": 14,
       "y": 31,
       "elevation": 3,
@@ -173,7 +164,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_CUTTABLE_TREE",
-      "in_connection": false,
       "x": 40,
       "y": 35,
       "elevation": 3,

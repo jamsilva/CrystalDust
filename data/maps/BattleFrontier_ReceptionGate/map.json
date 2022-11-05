@@ -19,7 +19,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_TEALA",
-      "in_connection": false,
       "x": 0,
       "y": 11,
       "elevation": 0,
@@ -34,7 +33,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_TEALA",
-      "in_connection": false,
       "x": 8,
       "y": 11,
       "elevation": 0,
@@ -49,7 +47,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_WORKER_M",
-      "in_connection": false,
       "x": 8,
       "y": 4,
       "elevation": 0,
@@ -64,7 +61,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ZSCOTT",
-      "in_connection": false,
       "x": 4,
       "y": 5,
       "elevation": 3,
@@ -79,7 +75,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_WORKER_M",
-      "in_connection": false,
       "x": 0,
       "y": 4,
       "elevation": 0,

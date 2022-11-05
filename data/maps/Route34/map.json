@@ -30,7 +30,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_CAMPER",
-      "in_connection": false,
       "x": 20,
       "y": 9,
       "elevation": 1,
@@ -45,7 +44,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_YOUNGSTER",
-      "in_connection": false,
       "x": 22,
       "y": 40,
       "elevation": 1,
@@ -60,7 +58,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_YOUNGSTER",
-      "in_connection": false,
       "x": 18,
       "y": 26,
       "elevation": 3,
@@ -75,7 +72,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_PICNICKER",
-      "in_connection": false,
       "x": 16,
       "y": 34,
       "elevation": 3,
@@ -90,7 +86,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_OFFICER",
-      "in_connection": false,
       "x": 15,
       "y": 15,
       "elevation": 3,
@@ -105,7 +100,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_POKEFAN_M",
-      "in_connection": false,
       "x": 25,
       "y": 36,
       "elevation": 3,
@@ -120,7 +114,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_OLD_MAN",
-      "in_connection": false,
       "x": 18,
       "y": 18,
       "elevation": 3,
@@ -135,7 +128,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_SENTRET",
-      "in_connection": false,
       "x": 21,
       "y": 24,
       "elevation": 3,
@@ -150,7 +142,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_MARILL",
-      "in_connection": false,
       "x": 23,
       "y": 23,
       "elevation": 3,
@@ -165,7 +156,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_WOOPER",
-      "in_connection": false,
       "x": 27,
       "y": 24,
       "elevation": 3,
@@ -180,7 +170,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_COOLTRAINER_F",
-      "in_connection": false,
       "x": 17,
       "y": 64,
       "elevation": 3,
@@ -195,7 +184,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_COOLTRAINER_F",
-      "in_connection": false,
       "x": 9,
       "y": 64,
       "elevation": 3,
@@ -210,7 +198,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_COOLTRAINER_F",
-      "in_connection": false,
       "x": 12,
       "y": 67,
       "elevation": 3,
@@ -225,7 +212,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
-      "in_connection": false,
       "x": 13,
       "y": 40,
       "elevation": 3,

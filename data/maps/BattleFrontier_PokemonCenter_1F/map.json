@@ -19,7 +19,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_NURSE",
-      "in_connection": false,
       "x": 7,
       "y": 2,
       "elevation": 3,
@@ -34,7 +33,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_SUPER_NERD",
-      "in_connection": false,
       "x": 4,
       "y": 5,
       "elevation": 3,
@@ -49,7 +47,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_COOLTRAINER_M",
-      "in_connection": false,
       "x": 12,
       "y": 4,
       "elevation": 3,
@@ -64,7 +61,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_PICNICKER",
-      "in_connection": false,
       "x": 2,
       "y": 3,
       "elevation": 3,
@@ -79,7 +75,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_PIDGEY",
-      "in_connection": false,
       "x": 1,
       "y": 3,
       "elevation": 3,

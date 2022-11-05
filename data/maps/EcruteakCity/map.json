@@ -35,7 +35,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_OLD_MAN",
-      "in_connection": false,
       "x": 7,
       "y": 16,
       "elevation": 3,
@@ -50,7 +49,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_GIRL",
-      "in_connection": false,
       "x": 7,
       "y": 19,
       "elevation": 3,
@@ -65,7 +63,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_BOY_1",
-      "in_connection": false,
       "x": 16,
       "y": 25,
       "elevation": 3,
@@ -80,7 +77,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_OLD_MAN",
-      "in_connection": false,
       "x": 27,
       "y": 27,
       "elevation": 3,
@@ -95,7 +91,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_OLD_MAN",
-      "in_connection": false,
       "x": 28,
       "y": 36,
       "elevation": 3,
@@ -110,7 +105,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_WORKER_F",
-      "in_connection": false,
       "x": 29,
       "y": 46,
       "elevation": 3,
@@ -125,7 +119,6 @@
     {
       "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_FAT_MAN",
-      "in_connection": false,
       "x": 15,
       "y": 37,
       "elevation": 3,
