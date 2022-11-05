@@ -22,7 +22,7 @@ def main():
         offset = 1  # insert after line
         for index, line in enumerate(text.splitlines()):
             if 'trainer_type' in line:
-                modified.insert(index + offset, '%s"type": "original",' % ((line.count(' ') - 1) * " "))
+                modified.insert(index + offset, '%s"type": "object",' % ((line.count(' ') - 1) * " "))
                 offset += 1
 
         with open(filepath, "w", newline='\n') as file:

@@ -39,13 +39,14 @@
   "object_events": [
     {
       "type": "clone",
+      "graphics_id": "",
       "x": 51,
       "y": 19,
-      "source_id": 1,
-      "source_map": "MAP_ROUTE9"
+      "target_local_id": 1,
+      "target_map": "MAP_ROUTE9"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_COOLTRAINER_F",
       "in_connection": false,
       "x": 25,
@@ -60,7 +61,7 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_SLOWBRO",
       "in_connection": false,
       "x": 24,
@@ -75,7 +76,7 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_COOLTRAINER_M",
       "in_connection": false,
       "x": 17,
@@ -90,7 +91,7 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_FAT_MAN",
       "in_connection": false,
       "x": 33,
@@ -105,7 +106,7 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_SUPER_NERD",
       "in_connection": false,
       "x": 26,
@@ -120,7 +121,7 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_YOUNGSTER",
       "in_connection": false,
       "x": 8,

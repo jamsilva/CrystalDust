@@ -24,10 +24,11 @@
   "object_events": [
     {
       "type": "clone",
+      "graphics_id": "",
       "x": -5,
       "y": 9,
-      "source_id": 2,
-      "source_map": "MAP_SILVER_CAVE_OUTSIDE"
+      "target_local_id": 2,
+      "target_map": "MAP_SILVER_CAVE_OUTSIDE"
     }
   ],
   "warp_events": [
