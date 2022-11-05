@@ -53,7 +53,7 @@
       "y": 6,
       "elevation": 0,
       "dest_map": "MAP_CELADON_CITY_DEPARTMENT_STORE_5F",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     }
   ],
   "coord_events": [

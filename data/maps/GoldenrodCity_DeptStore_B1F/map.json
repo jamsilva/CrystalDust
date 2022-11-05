@@ -158,14 +158,14 @@
       "y": 7,
       "elevation": 0,
       "dest_map": "MAP_GOLDENROD_CITY_DEPT_STORE_ELEVATOR",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 18,
       "y": 2,
       "elevation": 0,
       "dest_map": "MAP_GOLDENROD_CITY_UNDERGROUND_WAREHOUSE",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     }
   ],
   "coord_events": [

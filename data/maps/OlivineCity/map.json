@@ -102,63 +102,63 @@
       "y": 23,
       "elevation": 0,
       "dest_map": "MAP_OLIVINE_CITY_POKEMON_CENTER_1F",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 24,
       "y": 16,
       "elevation": 0,
       "dest_map": "MAP_OLIVINE_CITY_MART",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 37,
       "y": 29,
       "elevation": 0,
       "dest_map": "MAP_LIGHTHOUSE_1F",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 12,
       "y": 9,
       "elevation": 0,
       "dest_map": "MAP_OLIVINE_CITY_GYM",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 29,
       "y": 10,
       "elevation": 0,
       "dest_map": "MAP_OLIVINE_CITY_HOUSE2",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 34,
       "y": 10,
       "elevation": 0,
       "dest_map": "MAP_OLIVINE_CITY_HOUSE3",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 8,
       "y": 23,
       "elevation": 0,
       "dest_map": "MAP_OLIVINE_CITY_CAFE",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 15,
       "y": 16,
       "elevation": 0,
       "dest_map": "MAP_OLIVINE_CITY_HOUSE1",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 25,
       "y": 31,
       "elevation": 0,
       "dest_map": "MAP_OLIVINE_CITY_PORT_PASSAGE",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     }
   ],
   "coord_events": [

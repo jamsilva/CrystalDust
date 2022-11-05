@@ -83,28 +83,28 @@
       "y": 20,
       "elevation": 0,
       "dest_map": "MAP_ROUTE44",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 42,
       "y": 31,
       "elevation": 0,
       "dest_map": "MAP_BLACKTHORN_CITY",
-      "dest_warp_id": 2
+      "dest_warp_id": "2"
     },
     {
       "x": 42,
       "y": 6,
       "elevation": 0,
       "dest_map": "MAP_ICE_PATH_B1F",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     },
     {
       "x": 43,
       "y": 14,
       "elevation": 0,
       "dest_map": "MAP_ICE_PATH_B1F",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     }
   ],
   "coord_events": [

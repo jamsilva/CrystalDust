@@ -94,14 +94,14 @@
       "y": 12,
       "elevation": 0,
       "dest_map": "MAP_ROUTE11_GATEHOUSE_1F",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 61,
       "y": 12,
       "elevation": 0,
       "dest_map": "MAP_ROUTE11_GATEHOUSE_1F",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     }
   ],
   "coord_events": [

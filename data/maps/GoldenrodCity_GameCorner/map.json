@@ -188,7 +188,7 @@
       "y": 13,
       "elevation": 0,
       "dest_map": "MAP_GOLDENROD_CITY",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     }
   ],
   "coord_events": [

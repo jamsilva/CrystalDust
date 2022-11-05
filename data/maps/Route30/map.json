@@ -200,14 +200,14 @@
       "y": 45,
       "elevation": 3,
       "dest_map": "MAP_ROUTE30_BERRY_MANS_HOUSE",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 20,
       "y": 6,
       "elevation": 3,
       "dest_map": "MAP_ROUTE30_MR_POKEMONS_HOUSE",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     }
   ],
   "coord_events": [

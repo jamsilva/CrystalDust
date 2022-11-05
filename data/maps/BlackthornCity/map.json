@@ -139,56 +139,56 @@
       "y": 41,
       "elevation": 0,
       "dest_map": "MAP_BLACKTHORN_CITY_POKEMON_CENTER_1F",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 17,
       "y": 41,
       "elevation": 0,
       "dest_map": "MAP_BLACKTHORN_CITY_MART",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 42,
       "y": 19,
       "elevation": 0,
       "dest_map": "MAP_ICE_PATH_1F",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     },
     {
       "x": 21,
       "y": 18,
       "elevation": 0,
       "dest_map": "MAP_BLACKTHORN_CITY_GYM_1F",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 24,
       "y": 5,
       "elevation": 0,
       "dest_map": "MAP_DRAGONS_DEN_ENTRANCE",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 9,
       "y": 44,
       "elevation": 0,
       "dest_map": "MAP_BLACKTHORN_CITY_MOVE_DELETERS_HOUSE",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 13,
       "y": 31,
       "elevation": 0,
       "dest_map": "MAP_BLACKTHORN_CITY_HOUSE1",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 33,
       "y": 34,
       "elevation": 0,
       "dest_map": "MAP_BLACKTHORN_CITY_HOUSE2",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     }
   ],
   "coord_events": [

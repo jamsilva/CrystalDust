@@ -207,49 +207,49 @@
       "y": 4,
       "elevation": 0,
       "dest_map": "MAP_AZALEA_TOWN_MART",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 26,
       "y": 9,
       "elevation": 0,
       "dest_map": "MAP_AZALEA_TOWN_POKEMON_CENTER_1F",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 19,
       "y": 17,
       "elevation": 0,
       "dest_map": "MAP_AZALEA_TOWN_GYM",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 16,
       "y": 5,
       "elevation": 0,
       "dest_map": "MAP_AZALEA_TOWN_KURTS_HOUSE",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 32,
       "y": 15,
       "elevation": 0,
       "dest_map": "MAP_AZALEA_TOWN_CHARCOAL_KILN",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 8,
       "y": 11,
       "elevation": 0,
       "dest_map": "MAP_ROUTE34_ILEX_EAST_GATEHOUSE",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 42,
       "y": 8,
       "elevation": 0,
       "dest_map": "MAP_SLOWPOKE_WELL_B1F",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     }
   ],
   "coord_events": [

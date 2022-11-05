@@ -134,21 +134,21 @@
       "y": 5,
       "elevation": 0,
       "dest_map": "MAP_VICTORY_ROAD_GATEHOUSE",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 24,
       "y": 63,
       "elevation": 0,
       "dest_map": "MAP_ROUTE26_HOUSE1",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 7,
       "y": 77,
       "elevation": 0,
       "dest_map": "MAP_ROUTE26_HOUSE2",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     }
   ],
   "coord_events": [

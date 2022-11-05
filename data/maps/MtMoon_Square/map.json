@@ -68,21 +68,21 @@
       "y": 4,
       "elevation": 0,
       "dest_map": "MAP_MT_MOON_1F",
-      "dest_warp_id": 9
+      "dest_warp_id": "9"
     },
     {
       "x": 24,
       "y": 13,
       "elevation": 0,
       "dest_map": "MAP_MT_MOON_1F",
-      "dest_warp_id": 8
+      "dest_warp_id": "8"
     },
     {
       "x": 13,
       "y": 7,
       "elevation": 0,
       "dest_map": "MAP_MT_MOON_GIFT_SHOP",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     }
   ],
   "coord_events": [

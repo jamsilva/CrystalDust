@@ -300,14 +300,14 @@
       "y": 34,
       "elevation": 0,
       "dest_map": "MAP_LAKE_OF_RAGE_FISHING_GURUS_HOUSE",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 11,
       "y": 6,
       "elevation": 0,
       "dest_map": "MAP_LAKE_OF_RAGE_HIDDEN_POWER_HOUSE",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     }
   ],
   "coord_events": [

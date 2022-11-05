@@ -79,21 +79,21 @@
       "y": 5,
       "elevation": 0,
       "dest_map": "MAP_ROUTE6_GATEHOUSE",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 13,
       "y": 5,
       "elevation": 0,
       "dest_map": "MAP_ROUTE6_GATEHOUSE",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 19,
       "y": 13,
       "elevation": 0,
       "dest_map": "MAP_ROUTE6_UNDERGROUND_PATH_ENTRANCE",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     }
   ],
   "coord_events": [

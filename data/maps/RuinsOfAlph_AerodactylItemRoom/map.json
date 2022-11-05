@@ -83,28 +83,28 @@
       "y": 10,
       "elevation": 3,
       "dest_map": "MAP_RUINS_OF_ALPH_AERODACTYL_CHAMBER",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     },
     {
       "x": 4,
       "y": 2,
       "elevation": 3,
       "dest_map": "MAP_RUINS_OF_ALPH_AERODACTYL_WORD_ROOM",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 5,
       "y": 2,
       "elevation": 0,
       "dest_map": "MAP_RUINS_OF_ALPH_AERODACTYL_WORD_ROOM",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     },
     {
       "x": 6,
       "y": 2,
       "elevation": 0,
       "dest_map": "MAP_RUINS_OF_ALPH_AERODACTYL_WORD_ROOM",
-      "dest_warp_id": 2
+      "dest_warp_id": "2"
     }
   ],
   "coord_events": [

@@ -83,14 +83,14 @@
       "y": 6,
       "elevation": 0,
       "dest_map": "MAP_VERMILION_CITY_PORT_PASSAGE",
-      "dest_warp_id": 3
+      "dest_warp_id": "3"
     },
     {
       "x": 7,
       "y": 22,
       "elevation": 0,
       "dest_map": "MAP_FAST_SHIP_1F",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     }
   ],
   "coord_events": [

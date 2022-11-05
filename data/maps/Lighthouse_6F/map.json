@@ -68,21 +68,21 @@
       "y": 22,
       "elevation": 0,
       "dest_map": "MAP_LIGHTHOUSE_5F",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     },
     {
       "x": 25,
       "y": 7,
       "elevation": 0,
       "dest_map": "MAP_LIGHTHOUSE_5F",
-      "dest_warp_id": 5
+      "dest_warp_id": "5"
     },
     {
       "x": 26,
       "y": 7,
       "elevation": 0,
       "dest_map": "MAP_LIGHTHOUSE_5F",
-      "dest_warp_id": 6
+      "dest_warp_id": "6"
     }
   ],
   "coord_events": [

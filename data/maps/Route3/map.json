@@ -94,14 +94,14 @@
       "y": 6,
       "elevation": 0,
       "dest_map": "MAP_ROUTE3_POKEMON_CENTER_1F",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 79,
       "y": 5,
       "elevation": 0,
       "dest_map": "MAP_MT_MOON_1F",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     }
   ],
   "coord_events": [

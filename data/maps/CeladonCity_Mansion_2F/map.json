@@ -24,28 +24,28 @@
       "y": 2,
       "elevation": 0,
       "dest_map": "MAP_CELADON_CITY_MANSION_1F",
-      "dest_warp_id": 2
+      "dest_warp_id": "2"
     },
     {
       "x": 4,
       "y": 2,
       "elevation": 0,
       "dest_map": "MAP_CELADON_CITY_MANSION_1F",
-      "dest_warp_id": 3
+      "dest_warp_id": "3"
     },
     {
       "x": 11,
       "y": 2,
       "elevation": 0,
       "dest_map": "MAP_CELADON_CITY_MANSION_3F",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 2,
       "y": 2,
       "elevation": 0,
       "dest_map": "MAP_CELADON_CITY_MANSION_3F",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     }
   ],
   "coord_events": [

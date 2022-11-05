@@ -147,14 +147,14 @@
       "y": 11,
       "elevation": 0,
       "dest_map": "MAP_ROUTE15_GATEHOUSE_1F",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 16,
       "y": 11,
       "elevation": 0,
       "dest_map": "MAP_ROUTE15_GATEHOUSE_1F",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     }
   ],
   "coord_events": [

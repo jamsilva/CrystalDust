@@ -68,14 +68,14 @@
       "y": 17,
       "elevation": 0,
       "dest_map": "MAP_ECRUTEAK_CITY",
-      "dest_warp_id": 7
+      "dest_warp_id": "7"
     },
     {
       "x": 6,
       "y": 2,
       "elevation": 0,
       "dest_map": "MAP_ECRUTEAK_CITY_WISE_TRIOS_ROOM",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     }
   ],
   "coord_events": [

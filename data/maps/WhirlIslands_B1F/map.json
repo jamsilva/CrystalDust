@@ -113,63 +113,63 @@
       "y": 13,
       "elevation": 0,
       "dest_map": "MAP_WHIRL_ISLANDS_1F_NE",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     },
     {
       "x": 46,
       "y": 6,
       "elevation": 4,
       "dest_map": "MAP_WHIRL_ISLANDS_1F_NE",
-      "dest_warp_id": 2
+      "dest_warp_id": "2"
     },
     {
       "x": 12,
       "y": 39,
       "elevation": 0,
       "dest_map": "MAP_WHIRL_ISLANDS_1F_SW",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     },
     {
       "x": 29,
       "y": 41,
       "elevation": 0,
       "dest_map": "MAP_WHIRL_ISLANDS_1F_SW",
-      "dest_warp_id": 2
+      "dest_warp_id": "2"
     },
     {
       "x": 10,
       "y": 9,
       "elevation": 0,
       "dest_map": "MAP_WHIRL_ISLANDS_1F_NW",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     },
     {
       "x": 40,
       "y": 38,
       "elevation": 4,
       "dest_map": "MAP_WHIRL_ISLANDS_1F_SE",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     },
     {
       "x": 18,
       "y": 36,
       "elevation": 0,
       "dest_map": "MAP_WHIRL_ISLANDS_B2F",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     },
     {
       "x": 32,
       "y": 28,
       "elevation": 4,
       "dest_map": "MAP_WHIRL_ISLANDS_B2F",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 22,
       "y": 28,
       "elevation": 0,
       "dest_map": "MAP_WHIRL_ISLANDS_CAVE",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     }
   ],
   "coord_events": [

@@ -167,21 +167,21 @@
       "y": 13,
       "elevation": 3,
       "dest_map": "MAP_ROUTE36_NATIONAL_PARK_GATEHOUSE",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     },
     {
       "x": 52,
       "y": 18,
       "elevation": 0,
       "dest_map": "MAP_ROUTE36_RUINS_OF_ALPH_GATEHOUSE",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 53,
       "y": 18,
       "elevation": 0,
       "dest_map": "MAP_ROUTE36_RUINS_OF_ALPH_GATEHOUSE",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     }
   ],
   "coord_events": [

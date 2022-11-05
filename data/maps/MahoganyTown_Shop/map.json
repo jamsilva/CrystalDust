@@ -98,14 +98,14 @@
       "y": 9,
       "elevation": 0,
       "dest_map": "MAP_MAHOGANY_TOWN",
-      "dest_warp_id": 3
+      "dest_warp_id": "3"
     },
     {
       "x": 6,
       "y": 4,
       "elevation": 0,
       "dest_map": "MAP_TEAM_ROCKET_BASE_B1F",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     }
   ],
   "coord_events": [

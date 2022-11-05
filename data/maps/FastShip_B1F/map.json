@@ -188,14 +188,14 @@
       "y": 11,
       "elevation": 0,
       "dest_map": "MAP_FAST_SHIP_1F",
-      "dest_warp_id": 10
+      "dest_warp_id": "10"
     },
     {
       "x": 2,
       "y": 11,
       "elevation": 0,
       "dest_map": "MAP_FAST_SHIP_1F",
-      "dest_warp_id": 11
+      "dest_warp_id": "11"
     }
   ],
   "coord_events": [

@@ -128,14 +128,14 @@
       "y": 8,
       "elevation": 0,
       "dest_map": "MAP_MT_MORTAR_1F_INNER",
-      "dest_warp_id": 5
+      "dest_warp_id": "5"
     },
     {
       "x": 24,
       "y": 43,
       "elevation": 0,
       "dest_map": "MAP_MT_MORTAR_1F_OUTER",
-      "dest_warp_id": 8
+      "dest_warp_id": "8"
     }
   ],
   "coord_events": [

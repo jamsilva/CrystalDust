@@ -139,42 +139,42 @@
       "y": 55,
       "elevation": 0,
       "dest_map": "MAP_ROUTE43_GATEHOUSE1",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     },
     {
       "x": 25,
       "y": 55,
       "elevation": 0,
       "dest_map": "MAP_ROUTE43_GATEHOUSE1",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     },
     {
       "x": 34,
       "y": 41,
       "elevation": 0,
       "dest_map": "MAP_ROUTE43_GATEHOUSE2",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 35,
       "y": 41,
       "elevation": 0,
       "dest_map": "MAP_ROUTE43_GATEHOUSE2",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 34,
       "y": 35,
       "elevation": 0,
       "dest_map": "MAP_ROUTE43_GATEHOUSE2",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     },
     {
       "x": 35,
       "y": 35,
       "elevation": 0,
       "dest_map": "MAP_ROUTE43_GATEHOUSE2",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     }
   ],
   "coord_events": [

@@ -159,56 +159,56 @@
       "y": 18,
       "elevation": 0,
       "dest_map": "MAP_VIOLET_CITY_HOUSE1",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 37,
       "y": 19,
       "elevation": 0,
       "dest_map": "MAP_VIOLET_CITY_EARLS_ACADEMY",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 24,
       "y": 19,
       "elevation": 0,
       "dest_map": "MAP_VIOLET_CITY_GYM",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 38,
       "y": 28,
       "elevation": 0,
       "dest_map": "MAP_VIOLET_CITY_POKEMON_CENTER_1F",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 26,
       "y": 32,
       "elevation": 0,
       "dest_map": "MAP_VIOLET_CITY_HOUSE2",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 14,
       "y": 19,
       "elevation": 0,
       "dest_map": "MAP_VIOLET_CITY_MART",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 47,
       "y": 27,
       "elevation": 0,
       "dest_map": "MAP_ROUTE31_GATEHOUSE",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 30,
       "y": 8,
       "elevation": 0,
       "dest_map": "MAP_SPROUT_TOWER_1F",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     }
   ],
   "coord_events": [

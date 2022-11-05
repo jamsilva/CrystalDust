@@ -53,14 +53,14 @@
       "y": 4,
       "elevation": 0,
       "dest_map": "MAP_ROUTE34",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 3,
       "y": 9,
       "elevation": 0,
       "dest_map": "MAP_ROUTE34",
-      "dest_warp_id": 3
+      "dest_warp_id": "3"
     }
   ],
   "coord_events": [

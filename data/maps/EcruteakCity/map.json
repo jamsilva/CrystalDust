@@ -144,91 +144,91 @@
       "y": 43,
       "elevation": 0,
       "dest_map": "MAP_ECRUTEAK_CITY_POKEMON_CENTER_1F",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 47,
       "y": 42,
       "elevation": 0,
       "dest_map": "MAP_ROUTE42_GATEHOUSE",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 4,
       "y": 34,
       "elevation": 0,
       "dest_map": "MAP_ROUTE38_GATEHOUSE",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 20,
       "y": 43,
       "elevation": 0,
       "dest_map": "MAP_ECRUTEAK_CITY_HOUSE1",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 40,
       "y": 36,
       "elevation": 0,
       "dest_map": "MAP_ECRUTEAK_CITY_MART",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 11,
       "y": 36,
       "elevation": 0,
       "dest_map": "MAP_ECRUTEAK_CITY_HOUSE2",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 32,
       "y": 36,
       "elevation": 0,
       "dest_map": "MAP_ECRUTEAK_CITY_DANCE_THEATER",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 27,
       "y": 22,
       "elevation": 0,
       "dest_map": "MAP_ECRUTEAK_CITY_TIN_TOWER_GATE",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 12,
       "y": 43,
       "elevation": 0,
       "dest_map": "MAP_ECRUTEAK_CITY_GYM",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 9,
       "y": 15,
       "elevation": 0,
       "dest_map": "MAP_BURNED_TOWER_1F",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 41,
       "y": 10,
       "elevation": 0,
       "dest_map": "MAP_TIN_TOWER_1F",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 25,
       "y": 8,
       "elevation": 0,
       "dest_map": "MAP_ECRUTEAK_CITY_WISE_TRIOS_ROOM",
-      "dest_warp_id": 3
+      "dest_warp_id": "3"
     },
     {
       "x": 25,
       "y": 7,
       "elevation": 0,
       "dest_map": "MAP_ECRUTEAK_CITY_WISE_TRIOS_ROOM",
-      "dest_warp_id": 3
+      "dest_warp_id": "3"
     }
   ],
   "coord_events": [

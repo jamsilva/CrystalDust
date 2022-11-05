@@ -173,21 +173,21 @@
       "y": 8,
       "elevation": 0,
       "dest_map": "MAP_FAST_SHIP_1F",
-      "dest_warp_id": 7
+      "dest_warp_id": "7"
     },
     {
       "x": 20,
       "y": 8,
       "elevation": 0,
       "dest_map": "MAP_FAST_SHIP_1F",
-      "dest_warp_id": 8
+      "dest_warp_id": "8"
     },
     {
       "x": 37,
       "y": 8,
       "elevation": 0,
       "dest_map": "MAP_FAST_SHIP_1F",
-      "dest_warp_id": 9
+      "dest_warp_id": "9"
     }
   ],
   "coord_events": [

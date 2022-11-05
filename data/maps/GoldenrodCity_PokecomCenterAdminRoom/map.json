@@ -68,7 +68,7 @@
       "y": 7,
       "elevation": 0,
       "dest_map": "MAP_GOLDENROD_CITY_POKEMON_CENTER_1F",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     }
   ],
   "coord_events": [

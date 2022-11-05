@@ -149,14 +149,14 @@
       "y": 16,
       "elevation": 0,
       "dest_map": "MAP_ROUTE40_GATEHOUSE",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     },
     {
       "x": 30,
       "y": 16,
       "elevation": 0,
       "dest_map": "MAP_ROUTE40_GATEHOUSE",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     }
   ],
   "coord_events": [

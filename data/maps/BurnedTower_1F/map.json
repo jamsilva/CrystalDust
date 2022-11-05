@@ -98,21 +98,21 @@
       "y": 17,
       "elevation": 0,
       "dest_map": "MAP_ECRUTEAK_CITY",
-      "dest_warp_id": 9
+      "dest_warp_id": "9"
     },
     {
       "x": 9,
       "y": 11,
       "elevation": 0,
       "dest_map": "MAP_BURNED_TOWER_B1F",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     },
     {
       "x": 6,
       "y": 17,
       "elevation": 0,
       "dest_map": "MAP_BURNED_TOWER_B1F",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     }
   ],
   "coord_events": [

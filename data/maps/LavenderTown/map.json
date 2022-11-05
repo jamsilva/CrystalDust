@@ -99,49 +99,49 @@
       "y": 5,
       "elevation": 0,
       "dest_map": "MAP_LAVENDER_TOWN_POKEMON_CENTER_1F",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 2,
       "y": 5,
       "elevation": 0,
       "dest_map": "MAP_LAVENDER_TOWN_MART",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 6,
       "y": 11,
       "elevation": 0,
       "dest_map": "MAP_LAVENDER_TOWN_VOLUNTEER_POKEMON_HOUSE",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 9,
       "y": 16,
       "elevation": 0,
       "dest_map": "MAP_LAVENDER_TOWN_NAME_RATERS_HOUSE",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 4,
       "y": 16,
       "elevation": 0,
       "dest_map": "MAP_LAVENDER_TOWN_HOUSE",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 18,
       "y": 14,
       "elevation": 0,
       "dest_map": "MAP_LAVENDER_TOWN_SOUL_HOUSE",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 18,
       "y": 6,
       "elevation": 0,
       "dest_map": "MAP_LAVENDER_TOWN_RADIO_TOWER_1F",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     }
   ],
   "coord_events": [

@@ -53,7 +53,7 @@
       "y": 7,
       "elevation": 0,
       "dest_map": "MAP_BLACKTHORN_CITY",
-      "dest_warp_id": 6
+      "dest_warp_id": "6"
     }
   ],
   "coord_events": [

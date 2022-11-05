@@ -68,28 +68,28 @@
       "y": 46,
       "elevation": 0,
       "dest_map": "MAP_SILVER_CAVE_ROOM1",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     },
     {
       "x": 19,
       "y": 32,
       "elevation": 0,
       "dest_map": "MAP_SILVER_CAVE_ITEM_ROOMS",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 31,
       "y": 5,
       "elevation": 0,
       "dest_map": "MAP_SILVER_CAVE_ITEM_ROOMS",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     },
     {
       "x": 16,
       "y": 9,
       "elevation": 0,
       "dest_map": "MAP_SILVER_CAVE_ROOM3",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     }
   ],
   "coord_events": [

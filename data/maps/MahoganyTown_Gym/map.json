@@ -128,7 +128,7 @@
       "y": 20,
       "elevation": 0,
       "dest_map": "MAP_MAHOGANY_TOWN",
-      "dest_warp_id": 5
+      "dest_warp_id": "5"
     }
   ],
   "coord_events": [

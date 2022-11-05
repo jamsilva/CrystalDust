@@ -109,35 +109,35 @@
       "y": 11,
       "elevation": 0,
       "dest_map": "MAP_CHERRYGROVE_CITY_HOUSE1",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 36,
       "y": 12,
       "elevation": 0,
       "dest_map": "MAP_CHERRYGROVE_CITY_GUIDE_GENTS_HOUSE",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 42,
       "y": 5,
       "elevation": 0,
       "dest_map": "MAP_CHERRYGROVE_CITY_POKEMON_CENTER_1F",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 36,
       "y": 5,
       "elevation": 0,
       "dest_map": "MAP_CHERRYGROVE_CITY_MART",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 44,
       "y": 15,
       "elevation": 3,
       "dest_map": "MAP_CHERRYGROVE_CITY_HOUSE2",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     }
   ],
   "coord_events": [

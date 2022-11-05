@@ -269,49 +269,49 @@
       "y": 52,
       "elevation": 0,
       "dest_map": "MAP_CIANWOOD_CITY_POKEMON_CENTER_1F",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 12,
       "y": 52,
       "elevation": 0,
       "dest_map": "MAP_CIANWOOD_CITY_GYM",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 20,
       "y": 44,
       "elevation": 0,
       "dest_map": "MAP_CIANWOOD_CITY_HOUSE",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 20,
       "y": 57,
       "elevation": 0,
       "dest_map": "MAP_CIANWOOD_CITY_PHARMACY",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 23,
       "y": 50,
       "elevation": 0,
       "dest_map": "MAP_CIANWOOD_CITY_MANIAS_HOUSE",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 13,
       "y": 36,
       "elevation": 0,
       "dest_map": "MAP_CIANWOOD_CITY_PHOTO_STUDIO",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 8,
       "y": 18,
       "elevation": 0,
       "dest_map": "MAP_CIANWOOD_CITY_POKE_SEERS_HOUSE",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     }
   ],
   "coord_events": [

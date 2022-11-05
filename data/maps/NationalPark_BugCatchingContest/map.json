@@ -128,21 +128,21 @@
       "y": 49,
       "elevation": 3,
       "dest_map": "MAP_ROUTE35_NATIONAL_PARK_GATEHOUSE",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     },
     {
       "x": 13,
       "y": 49,
       "elevation": 3,
       "dest_map": "MAP_ROUTE35_NATIONAL_PARK_GATEHOUSE",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     },
     {
       "x": 40,
       "y": 19,
       "elevation": 0,
       "dest_map": "MAP_ROUTE36_NATIONAL_PARK_GATEHOUSE",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     }
   ],
   "coord_events": [

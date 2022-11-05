@@ -113,7 +113,7 @@
       "y": 19,
       "elevation": 0,
       "dest_map": "MAP_VIOLET_CITY",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     }
   ],
   "coord_events": [

@@ -244,28 +244,28 @@
       "y": 20,
       "elevation": 0,
       "dest_map": "MAP_ROUTE34_DAY_CARE",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 21,
       "y": 47,
       "elevation": 0,
       "dest_map": "MAP_ROUTE34_ILEX_NORTH_GATEHOUSE",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 22,
       "y": 47,
       "elevation": 0,
       "dest_map": "MAP_ROUTE34_ILEX_NORTH_GATEHOUSE",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 21,
       "y": 21,
       "elevation": 0,
       "dest_map": "MAP_ROUTE34_DAY_CARE",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     }
   ],
   "coord_events": [

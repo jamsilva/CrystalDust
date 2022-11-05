@@ -173,7 +173,7 @@
       "y": 14,
       "elevation": 0,
       "dest_map": "MAP_ECRUTEAK_CITY",
-      "dest_warp_id": 6
+      "dest_warp_id": "6"
     }
   ],
   "coord_events": [

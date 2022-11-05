@@ -113,42 +113,42 @@
       "y": 2,
       "elevation": 0,
       "dest_map": "MAP_ICE_PATH_B1F",
-      "dest_warp_id": 3
+      "dest_warp_id": "3"
     },
     {
       "x": 5,
       "y": 7,
       "elevation": 0,
       "dest_map": "MAP_ICE_PATH_B2F_MAHOGANY",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 5,
       "y": 15,
       "elevation": 0,
       "dest_map": "MAP_ICE_PATH_B2F_MAHOGANY",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 15,
       "y": 15,
       "elevation": 0,
       "dest_map": "MAP_ICE_PATH_B2F_MAHOGANY",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 14,
       "y": 5,
       "elevation": 0,
       "dest_map": "MAP_ICE_PATH_B2F_MAHOGANY",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 11,
       "y": 13,
       "elevation": 0,
       "dest_map": "MAP_ICE_PATH_B3F",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     }
   ],
   "coord_events": [

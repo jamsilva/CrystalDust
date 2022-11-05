@@ -169,21 +169,21 @@
       "y": 7,
       "elevation": 0,
       "dest_map": "MAP_TOHJO_FALLS",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 42,
       "y": 7,
       "elevation": 0,
       "dest_map": "MAP_TOHJO_FALLS",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     },
     {
       "x": 37,
       "y": 9,
       "elevation": 0,
       "dest_map": "MAP_ROUTE27_HOUSE",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     }
   ],
   "coord_events": [
