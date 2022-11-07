@@ -105,7 +105,7 @@ static const u16 sMovingRegionMapSections[3] =
 
 static const u16 sFeebasData[][3] =
 {
-    {SPECIES_FEEBAS, MAP_GROUP(NONE), MAP_NUM(NONE)},
+    {SPECIES_FEEBAS, MAP_GROUP(UNDEFINED), MAP_NUM(UNDEFINED)},
     {NUM_SPECIES}
 };
 

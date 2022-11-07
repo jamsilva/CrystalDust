@@ -206,25 +206,25 @@ static const struct {
         .species = SPECIES_NUZLEAF,
         .moves = {MOVE_HARDEN, MOVE_GROWTH, MOVE_NATURE_POWER, MOVE_LEECH_SEED},
         .level = 15, 
-        .location = MAP_NUM(NONE),
+        .location = MAP_NUM(UNDEFINED),
     },
     {
         .species = SPECIES_SEEDOT,
         .moves = {MOVE_HARDEN, MOVE_GROWTH, MOVE_NATURE_POWER, MOVE_LEECH_SEED},
         .level = 13, 
-        .location = MAP_NUM(NONE),
+        .location = MAP_NUM(UNDEFINED),
     },
     {
         .species = SPECIES_SEEDOT,
         .moves = {MOVE_GIGA_DRAIN, MOVE_FRUSTRATION, MOVE_SOLAR_BEAM, MOVE_LEECH_SEED},
         .level = 25, 
-        .location = MAP_NUM(NONE),
+        .location = MAP_NUM(UNDEFINED),
     },
     {
         .species = SPECIES_SKITTY,
         .moves = {MOVE_GROWL, MOVE_TACKLE, MOVE_TAIL_WHIP, MOVE_ATTRACT},
         .level = 8, 
-        .location = MAP_NUM(NONE),
+        .location = MAP_NUM(UNDEFINED),
     }
 };
 
@@ -2655,13 +2655,13 @@ static bool8 IsPriceDiscounted(u8 newsKind)
     switch (newsKind)
     {
         case POKENEWS_SLATEPORT:
-            if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(NONE) && gSaveBlock1Ptr->location.mapNum == MAP_NUM(NONE) && gSpecialVar_LastTalked == 25)
+            if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(UNDEFINED) && gSaveBlock1Ptr->location.mapNum == MAP_NUM(UNDEFINED) && gSpecialVar_LastTalked == 25)
             {
                 return TRUE;
             }
             return FALSE;
         case POKENEWS_LILYCOVE:
-            if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(NONE) && gSaveBlock1Ptr->location.mapNum == MAP_NUM(NONE))
+            if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(UNDEFINED) && gSaveBlock1Ptr->location.mapNum == MAP_NUM(UNDEFINED))
             {
                 return TRUE;
             }

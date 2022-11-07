@@ -23,7 +23,7 @@
     {
       "direction": "right",
       "offset": 0,
-      "map": "MAP_NONE"
+      "map": "MAP_DYNAMIC"
     },
     {
       "direction": "right",
