@@ -28,9 +28,8 @@
   ],
   "object_events": [
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_CUTTABLE_TREE",
-      "in_connection": false,
       "x": 68,
       "y": 5,
       "elevation": 3,
@@ -43,9 +42,8 @@
       "flag": "FLAG_TEMP_11"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ROCKER",
-      "in_connection": false,
       "x": 66,
       "y": 7,
       "elevation": 3,
@@ -58,9 +56,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ROCKER",
-      "in_connection": false,
       "x": 67,
       "y": 7,
       "elevation": 3,
@@ -73,9 +70,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_POKEFAN_M",
-      "in_connection": false,
       "x": 49,
       "y": 9,
       "elevation": 3,
@@ -88,9 +84,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_POKEFAN_M",
-      "in_connection": false,
       "x": 36,
       "y": 7,
       "elevation": 3,
@@ -103,9 +98,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_HIKER",
-      "in_connection": false,
       "x": 17,
       "y": 11,
       "elevation": 3,

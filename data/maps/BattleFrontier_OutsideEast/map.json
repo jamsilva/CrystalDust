@@ -23,9 +23,8 @@
   ],
   "object_events": [
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_LITTLE_BOY",
-      "in_connection": false,
       "x": 20,
       "y": 17,
       "elevation": 0,
@@ -38,9 +37,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_COOLTRAINER_M",
-      "in_connection": false,
       "x": 42,
       "y": 15,
       "elevation": 0,
@@ -53,9 +51,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_HIKER",
-      "in_connection": false,
       "x": 53,
       "y": 6,
       "elevation": 0,
@@ -68,9 +65,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_OLD_WOMAN",
-      "in_connection": false,
       "x": 54,
       "y": 16,
       "elevation": 0,
@@ -83,9 +79,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_BLACK_BELT",
-      "in_connection": false,
       "x": 37,
       "y": 32,
       "elevation": 0,
@@ -98,9 +93,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_COOK",
-      "in_connection": false,
       "x": 41,
       "y": 56,
       "elevation": 3,
@@ -113,9 +107,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_OLD_WOMAN",
-      "in_connection": false,
       "x": 8,
       "y": 46,
       "elevation": 0,
@@ -128,9 +121,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ROCKER",
-      "in_connection": false,
       "x": 34,
       "y": 41,
       "elevation": 0,
@@ -143,9 +135,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_BOY_1",
-      "in_connection": false,
       "x": 45,
       "y": 47,
       "elevation": 3,
@@ -158,9 +149,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_BIKER",
-      "in_connection": false,
       "x": 59,
       "y": 35,
       "elevation": 0,
@@ -173,9 +163,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_LITTLE_GIRL",
-      "in_connection": false,
       "x": 18,
       "y": 40,
       "elevation": 0,
@@ -188,9 +177,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_POKEFAN_M",
-      "in_connection": false,
       "x": 17,
       "y": 40,
       "elevation": 0,
@@ -203,9 +191,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_SLOWPOKE",
-      "in_connection": false,
       "x": 40,
       "y": 56,
       "elevation": 3,
@@ -218,9 +205,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_SUDOWOODO",
-      "in_connection": false,
       "x": 54,
       "y": 62,
       "elevation": 3,
@@ -233,9 +219,8 @@
       "flag": "FLAG_HIDE_BATTLE_FRONTIER_SUDOWOODO"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_SUPER_NERD",
-      "in_connection": false,
       "x": 42,
       "y": 34,
       "elevation": 3,
@@ -248,9 +233,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_BATTLE_GIRL",
-      "in_connection": false,
       "x": 51,
       "y": 53,
       "elevation": 3,
@@ -263,9 +247,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_COOLTRAINER_M",
-      "in_connection": false,
       "x": 62,
       "y": 18,
       "elevation": 0,
@@ -278,9 +261,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_COOLTRAINER_M",
-      "in_connection": false,
       "x": 11,
       "y": 21,
       "elevation": 0,
@@ -293,9 +275,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_COOLTRAINER_F",
-      "in_connection": false,
       "x": 10,
       "y": 21,
       "elevation": 0,
@@ -308,9 +289,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_COOLTRAINER_F",
-      "in_connection": false,
       "x": 16,
       "y": 30,
       "elevation": 0,
@@ -323,9 +303,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_BLACK_BELT",
-      "in_connection": false,
       "x": 33,
       "y": 14,
       "elevation": 0,
@@ -338,9 +317,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_SUPER_NERD",
-      "in_connection": false,
       "x": 54,
       "y": 31,
       "elevation": 0,
@@ -353,9 +331,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_BEAUTY",
-      "in_connection": false,
       "x": 54,
       "y": 32,
       "elevation": 0,
@@ -368,9 +345,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_OLD_WOMAN",
-      "in_connection": false,
       "x": 58,
       "y": 55,
       "elevation": 3,
@@ -383,9 +359,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_GENTLEMAN",
-      "in_connection": false,
       "x": 48,
       "y": 41,
       "elevation": 0,
@@ -398,9 +373,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_CAMPER",
-      "in_connection": false,
       "x": 29,
       "y": 14,
       "elevation": 0,
@@ -419,98 +393,98 @@
       "y": 14,
       "elevation": 0,
       "dest_map": "MAP_BATTLE_FRONTIER_BATTLE_TOWER_LOBBY",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 39,
       "y": 29,
       "elevation": 0,
       "dest_map": "MAP_BATTLE_FRONTIER_BATTLE_ARENA_LOBBY",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 45,
       "y": 56,
       "elevation": 0,
       "dest_map": "MAP_BATTLE_FRONTIER_BATTLE_PALACE_LOBBY",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 58,
       "y": 14,
       "elevation": 0,
       "dest_map": "MAP_BATTLE_FRONTIER_BATTLE_PYRAMID_LOBBY",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 35,
       "y": 12,
       "elevation": 3,
       "dest_map": "MAP_BATTLE_FRONTIER_RANKING_HALL",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 4,
       "y": 44,
       "elevation": 0,
       "dest_map": "MAP_BATTLE_FRONTIER_LOUNGE1",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 10,
       "y": 28,
       "elevation": 0,
       "dest_map": "MAP_BATTLE_FRONTIER_EXCHANGE_SERVICE_CORNER",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 22,
       "y": 51,
       "elevation": 0,
       "dest_map": "MAP_BATTLE_FRONTIER_LOUNGE5",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 5,
       "y": 8,
       "elevation": 0,
       "dest_map": "MAP_BATTLE_FRONTIER_LOUNGE6",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 65,
       "y": 31,
       "elevation": 0,
       "dest_map": "MAP_BATTLE_FRONTIER_LOUNGE3",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 14,
       "y": 51,
       "elevation": 0,
       "dest_map": "MAP_BATTLE_FRONTIER_LOUNGE8",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 21,
       "y": 45,
       "elevation": 0,
       "dest_map": "MAP_BATTLE_FRONTIER_LOUNGE9",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 4,
       "y": 51,
       "elevation": 0,
       "dest_map": "MAP_BATTLE_FRONTIER_POKEMON_CENTER_1F",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 28,
       "y": 7,
       "elevation": 0,
       "dest_map": "MAP_ARTISAN_CAVE_1F",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     }
   ],
   "coord_events": [

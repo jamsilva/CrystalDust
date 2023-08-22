@@ -17,9 +17,8 @@
   "connections": 0,
   "object_events": [
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_PRYCE",
-      "in_connection": false,
       "x": 7,
       "y": 6,
       "elevation": 3,
@@ -32,9 +31,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_BOARDER",
-      "in_connection": false,
       "x": 3,
       "y": 7,
       "elevation": 3,
@@ -47,9 +45,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_BOARDER",
-      "in_connection": false,
       "x": 7,
       "y": 12,
       "elevation": 3,
@@ -62,9 +59,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_BOARDER",
-      "in_connection": false,
       "x": 1,
       "y": 20,
       "elevation": 3,
@@ -77,9 +73,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_SKIER",
-      "in_connection": false,
       "x": 6,
       "y": 9,
       "elevation": 3,
@@ -92,9 +87,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_SKIER",
-      "in_connection": false,
       "x": 11,
       "y": 20,
       "elevation": 3,
@@ -107,9 +101,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_GYM_GUIDE",
-      "in_connection": false,
       "x": 5,
       "y": 17,
       "elevation": 3,
@@ -128,7 +121,7 @@
       "y": 20,
       "elevation": 0,
       "dest_map": "MAP_MAHOGANY_TOWN",
-      "dest_warp_id": 5
+      "dest_warp_id": "5"
     }
   ],
   "coord_events": [

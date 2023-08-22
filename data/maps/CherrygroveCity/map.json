@@ -28,9 +28,8 @@
   ],
   "object_events": [
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_OLD_MAN",
-      "in_connection": false,
       "x": 46,
       "y": 8,
       "elevation": 3,
@@ -43,9 +42,8 @@
       "flag": "FLAG_HIDE_CHERRYGROVE_CITY_GUIDE_GENT_OUTSIDE"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_RIVAL",
-      "in_connection": false,
       "x": 55,
       "y": 8,
       "elevation": 3,
@@ -58,9 +56,8 @@
       "flag": "FLAG_HIDE_CHERRYGROVE_CITY_RIVAL"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_WOMAN",
-      "in_connection": false,
       "x": 38,
       "y": 17,
       "elevation": 3,
@@ -73,9 +70,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_YOUNGSTER",
-      "in_connection": false,
       "x": 34,
       "y": 9,
       "elevation": 3,
@@ -88,9 +84,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_FISHERMAN",
-      "in_connection": false,
       "x": 15,
       "y": 16,
       "elevation": 3,
@@ -109,35 +104,35 @@
       "y": 11,
       "elevation": 0,
       "dest_map": "MAP_CHERRYGROVE_CITY_HOUSE1",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 36,
       "y": 12,
       "elevation": 0,
       "dest_map": "MAP_CHERRYGROVE_CITY_GUIDE_GENTS_HOUSE",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 42,
       "y": 5,
       "elevation": 0,
       "dest_map": "MAP_CHERRYGROVE_CITY_POKEMON_CENTER_1F",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 36,
       "y": 5,
       "elevation": 0,
       "dest_map": "MAP_CHERRYGROVE_CITY_MART",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 44,
       "y": 15,
       "elevation": 3,
       "dest_map": "MAP_CHERRYGROVE_CITY_HOUSE2",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     }
   ],
   "coord_events": [

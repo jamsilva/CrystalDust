@@ -263,7 +263,7 @@ static u16 sDebug_DisintegrationData[8];
 
 bool8 IsMirageTowerVisible(void)
 {
-    if (!(gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(NONE) && gSaveBlock1Ptr->location.mapNum == MAP_NUM(NONE)))
+    if (!(gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(UNDEFINED) && gSaveBlock1Ptr->location.mapNum == MAP_NUM(UNDEFINED)))
         return FALSE;
     return FlagGet(0xFFFF);
 }
@@ -286,8 +286,8 @@ void TryStartMirageTowerPulseBlendEffect(void)
         return;
     }
 
-    if (gSaveBlock1Ptr->location.mapGroup != MAP_GROUP(NONE)
-     || gSaveBlock1Ptr->location.mapNum != MAP_NUM(NONE)
+    if (gSaveBlock1Ptr->location.mapGroup != MAP_GROUP(UNDEFINED)
+     || gSaveBlock1Ptr->location.mapNum != MAP_NUM(UNDEFINED)
      || !FlagGet(0xFFFF))
         return;
 
@@ -300,8 +300,8 @@ void TryStartMirageTowerPulseBlendEffect(void)
 
 void ClearMirageTowerPulseBlendEffect(void)
 {
-    if (gSaveBlock1Ptr->location.mapGroup != MAP_GROUP(NONE)
-     || gSaveBlock1Ptr->location.mapNum   != MAP_NUM(NONE)
+    if (gSaveBlock1Ptr->location.mapGroup != MAP_GROUP(UNDEFINED)
+     || gSaveBlock1Ptr->location.mapNum   != MAP_NUM(UNDEFINED)
      || !FlagGet(0xFFFF)
      || sMirageTowerPulseBlend == NULL)
         return;

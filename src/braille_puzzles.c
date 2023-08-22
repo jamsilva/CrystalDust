@@ -70,8 +70,8 @@ extern const u8 RuinsOfAlph_AerodactylChamber_EventScript_OpenHoleInWall[];
 bool8 ShouldDoBrailleDigEffect(void)
 {
     if (!FlagGet(FLAG_SYS_BRAILLE_DIG)
-     && (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(NONE)
-     && gSaveBlock1Ptr->location.mapNum == MAP_NUM(NONE)))
+     && (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(UNDEFINED)
+     && gSaveBlock1Ptr->location.mapNum == MAP_NUM(UNDEFINED)))
     {
         if (gSaveBlock1Ptr->pos.x == 10 && gSaveBlock1Ptr->pos.y == 3)
             return TRUE;
@@ -242,8 +242,8 @@ void SealedChamberShakingEffect(u8 taskId)
 bool8 ShouldDoBrailleRegirockEffect(void)
 {
     if (!FlagGet(FLAG_SYS_REGIROCK_PUZZLE_COMPLETED)
-        && gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(NONE)
-        && gSaveBlock1Ptr->location.mapNum == MAP_NUM(NONE))
+        && gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(UNDEFINED)
+        && gSaveBlock1Ptr->location.mapNum == MAP_NUM(UNDEFINED))
     {
         if (gSaveBlock1Ptr->pos.x == 6 && gSaveBlock1Ptr->pos.y == 23)
         {
@@ -419,8 +419,8 @@ bool8 ShouldDoBrailleRegicePuzzle(void)
 {
     u8 i;
 
-    if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(NONE)
-        && gSaveBlock1Ptr->location.mapNum == MAP_NUM(NONE))
+    if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(UNDEFINED)
+        && gSaveBlock1Ptr->location.mapNum == MAP_NUM(UNDEFINED))
     {
         if (FlagGet(FLAG_SYS_BRAILLE_REGICE_COMPLETED))
             return FALSE;

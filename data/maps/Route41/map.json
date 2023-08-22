@@ -28,9 +28,8 @@
   ],
   "object_events": [
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_SWIMMER_F",
-      "in_connection": false,
       "x": 19,
       "y": 7,
       "elevation": 3,
@@ -43,9 +42,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_SWIMMER_M",
-      "in_connection": false,
       "x": 44,
       "y": 8,
       "elevation": 3,
@@ -58,9 +56,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_SWIMMER_M",
-      "in_connection": false,
       "x": 66,
       "y": 9,
       "elevation": 3,
@@ -73,9 +70,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_SWIMMER_F",
-      "in_connection": false,
       "x": 33,
       "y": 24,
       "elevation": 3,
@@ -88,9 +84,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_SWIMMER_M",
-      "in_connection": false,
       "x": 28,
       "y": 32,
       "elevation": 3,
@@ -103,9 +98,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_SWIMMER_M",
-      "in_connection": false,
       "x": 46,
       "y": 37,
       "elevation": 3,
@@ -118,9 +112,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_SWIMMER_F",
-      "in_connection": false,
       "x": 61,
       "y": 33,
       "elevation": 3,
@@ -133,9 +126,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_SWIMMER_F",
-      "in_connection": false,
       "x": 36,
       "y": 44,
       "elevation": 3,
@@ -148,9 +140,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_SWIMMER_M",
-      "in_connection": false,
       "x": 30,
       "y": 57,
       "elevation": 3,
@@ -163,9 +154,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_SWIMMER_F",
-      "in_connection": false,
       "x": 14,
       "y": 63,
       "elevation": 3,
@@ -184,28 +174,28 @@
       "y": 21,
       "elevation": 0,
       "dest_map": "MAP_WHIRL_ISLANDS_1F_NW",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 50,
       "y": 23,
       "elevation": 0,
       "dest_map": "MAP_WHIRL_ISLANDS_1F_NE",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 17,
       "y": 48,
       "elevation": 0,
       "dest_map": "MAP_WHIRL_ISLANDS_1F_SW",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 49,
       "y": 54,
       "elevation": 0,
       "dest_map": "MAP_WHIRL_ISLANDS_1F_SE",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     }
   ],
   "coord_events": [

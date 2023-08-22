@@ -28,9 +28,8 @@
   ],
   "object_events": [
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_COOLTRAINER_M",
-      "in_connection": false,
       "x": 11,
       "y": 11,
       "elevation": 3,
@@ -43,9 +42,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
-      "in_connection": false,
       "x": 18,
       "y": 14,
       "elevation": 3,
@@ -58,9 +56,8 @@
       "flag": "FLAG_ITEM_ROUTE_44_MAX_REPEL"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_FISHERMAN",
-      "in_connection": false,
       "x": 25,
       "y": 17,
       "elevation": 3,
@@ -73,9 +70,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_COOLTRAINER_F",
-      "in_connection": false,
       "x": 38,
       "y": 20,
       "elevation": 3,
@@ -88,9 +84,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_COOLTRAINER_M",
-      "in_connection": false,
       "x": 51,
       "y": 22,
       "elevation": 3,
@@ -103,9 +98,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ROCKER",
-      "in_connection": false,
       "x": 60,
       "y": 8,
       "elevation": 3,
@@ -118,9 +112,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
-      "in_connection": false,
       "x": 54,
       "y": 7,
       "elevation": 3,
@@ -133,9 +126,8 @@
       "flag": "FLAG_ITEM_ROUTE_44_ULTRA_BALL"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_POKEMANIAC",
-      "in_connection": false,
       "x": 52,
       "y": 5,
       "elevation": 3,
@@ -148,9 +140,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_FISHERMAN",
-      "in_connection": false,
       "x": 41,
       "y": 6,
       "elevation": 3,
@@ -163,9 +154,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
-      "in_connection": false,
       "x": 36,
       "y": 13,
       "elevation": 3,
@@ -184,7 +174,7 @@
       "y": 11,
       "elevation": 0,
       "dest_map": "MAP_ICE_PATH_1F",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     }
   ],
   "coord_events": [

@@ -24,7 +24,7 @@
       "y": 2,
       "elevation": 0,
       "dest_map": "MAP_PALLET_TOWN_REDS_HOUSE_1F",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     }
   ],
   "coord_events": [

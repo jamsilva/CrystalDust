@@ -28,9 +28,8 @@
   ],
   "object_events": [
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_FISHERMAN",
-      "in_connection": false,
       "x": 13,
       "y": 8,
       "elevation": 3,
@@ -43,9 +42,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_HIKER",
-      "in_connection": false,
       "x": 11,
       "y": 8,
       "elevation": 3,
@@ -58,9 +56,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_SWIMMER_M",
-      "in_connection": false,
       "x": 13,
       "y": 26,
       "elevation": 3,
@@ -73,9 +70,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_SWIMMER_M",
-      "in_connection": false,
       "x": 10,
       "y": 38,
       "elevation": 3,
@@ -88,9 +84,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_SWIMMER_F",
-      "in_connection": false,
       "x": 11,
       "y": 38,
       "elevation": 3,
@@ -103,9 +98,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_SWIMMER_M",
-      "in_connection": false,
       "x": 14,
       "y": 51,
       "elevation": 3,
@@ -124,14 +118,14 @@
       "y": 5,
       "elevation": 0,
       "dest_map": "MAP_ROUTE19_GATEHOUSE",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 10,
       "y": 5,
       "elevation": 0,
       "dest_map": "MAP_ROUTE19_GATEHOUSE",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     }
   ],
   "coord_events": [

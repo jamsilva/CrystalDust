@@ -17,9 +17,8 @@
   "connections": 0,
   "object_events": [
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_SAGE",
-      "in_connection": false,
       "x": 7,
       "y": 15,
       "elevation": 3,
@@ -32,9 +31,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_SAGE",
-      "in_connection": false,
       "x": 7,
       "y": 10,
       "elevation": 3,
@@ -47,9 +45,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_SAGE",
-      "in_connection": false,
       "x": 9,
       "y": 3,
       "elevation": 3,
@@ -62,9 +59,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_SAGE",
-      "in_connection": false,
       "x": 11,
       "y": 13,
       "elevation": 3,
@@ -77,9 +73,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
-      "in_connection": false,
       "x": 5,
       "y": 16,
       "elevation": 3,
@@ -92,9 +87,8 @@
       "flag": "FLAG_ITEM_SPROUT_TOWER_3F_POTION"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
-      "in_connection": false,
       "x": 14,
       "y": 2,
       "elevation": 3,
@@ -107,9 +101,8 @@
       "flag": "FLAG_ITEM_SPROUT_TOWER_3F_ESCAPE_ROPE"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_RIVAL",
-      "in_connection": false,
       "x": 9,
       "y": 5,
       "elevation": 3,
@@ -128,7 +121,7 @@
       "y": 16,
       "elevation": 3,
       "dest_map": "MAP_SPROUT_TOWER_2F",
-      "dest_warp_id": 3
+      "dest_warp_id": "3"
     }
   ],
   "coord_events": [

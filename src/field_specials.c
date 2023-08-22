@@ -3898,11 +3898,11 @@ bool8 AbnormalWeatherHasExpired(void)
     if (++steps > 999)
     {
         VarSet(VAR_ABNORMAL_WEATHER_STEP_COUNTER, 0);
-        if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(NONE))
+        if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(UNDEFINED))
         {
-            switch (gSaveBlock1Ptr->location.mapNum)
+            switch ((u8)gSaveBlock1Ptr->location.mapNum)
             {
-                case MAP_NUM(NONE):
+                case MAP_NUM(UNDEFINED):
                     VarSet(VAR_SHOULD_END_ABNORMAL_WEATHER, 1);
                     return FALSE;
                 default:
@@ -3910,11 +3910,11 @@ bool8 AbnormalWeatherHasExpired(void)
             }
         }
 
-        if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(NONE))
+        if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(UNDEFINED))
         {
-            switch (gSaveBlock1Ptr->location.mapNum)
+            switch ((u8)gSaveBlock1Ptr->location.mapNum)
             {
-                case MAP_NUM(NONE):
+                case MAP_NUM(UNDEFINED):
                     VarSet(VAR_SHOULD_END_ABNORMAL_WEATHER, 1);
                     return FALSE;
                 default:

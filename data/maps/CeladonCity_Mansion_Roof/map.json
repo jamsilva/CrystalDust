@@ -17,9 +17,8 @@
   "connections": 0,
   "object_events": [
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_FAT_MAN",
-      "in_connection": false,
       "x": 9,
       "y": 9,
       "elevation": 3,
@@ -38,21 +37,21 @@
       "y": 2,
       "elevation": 0,
       "dest_map": "MAP_CELADON_CITY_MANSION_3F",
-      "dest_warp_id": 2
+      "dest_warp_id": "2"
     },
     {
       "x": 4,
       "y": 2,
       "elevation": 0,
       "dest_map": "MAP_CELADON_CITY_MANSION_3F",
-      "dest_warp_id": 3
+      "dest_warp_id": "3"
     },
     {
       "x": 2,
       "y": 12,
       "elevation": 0,
       "dest_map": "MAP_CELADON_CITY_MANSION_PENTHOUSE",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     }
   ],
   "coord_events": [

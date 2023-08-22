@@ -17,9 +17,8 @@
   "connections": 0,
   "object_events": [
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_SAILOR",
-      "in_connection": false,
       "x": 36,
       "y": 2,
       "elevation": 3,
@@ -32,9 +31,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_GENTLEMAN",
-      "in_connection": false,
       "x": 33,
       "y": 5,
       "elevation": 3,
@@ -47,9 +45,8 @@
       "flag": "FLAG_TEMP_3"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_SAILOR",
-      "in_connection": false,
       "x": 24,
       "y": 10,
       "elevation": 3,
@@ -62,9 +59,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_SAILOR",
-      "in_connection": false,
       "x": 34,
       "y": 20,
       "elevation": 3,
@@ -77,9 +73,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ZSCOTT",
-      "in_connection": false,
       "x": 33,
       "y": 2,
       "elevation": 3,
@@ -97,85 +92,85 @@
       "x": 36,
       "y": 1,
       "elevation": 0,
-      "dest_map": "MAP_NONE",
-      "dest_warp_id": 127
+      "dest_map": "MAP_DYNAMIC",
+      "dest_warp_id": "127"
     },
     {
       "x": 25,
       "y": 10,
       "elevation": 0,
       "dest_map": "MAP_FAST_SHIP_CABINS_NNW_NNE_NE",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 40,
       "y": 10,
       "elevation": 0,
       "dest_map": "MAP_FAST_SHIP_CABINS_NNW_NNE_NE",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     },
     {
       "x": 35,
       "y": 10,
       "elevation": 0,
       "dest_map": "MAP_FAST_SHIP_CABINS_NNW_NNE_NE",
-      "dest_warp_id": 2
+      "dest_warp_id": "2"
     },
     {
       "x": 30,
       "y": 17,
       "elevation": 0,
       "dest_map": "MAP_FAST_SHIP_CABINS_SW_SSW_NW",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 25,
       "y": 17,
       "elevation": 0,
       "dest_map": "MAP_FAST_SHIP_CABINS_SW_SSW_NW",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     },
     {
       "x": 30,
       "y": 10,
       "elevation": 0,
       "dest_map": "MAP_FAST_SHIP_CABINS_SW_SSW_NW",
-      "dest_warp_id": 2
+      "dest_warp_id": "2"
     },
     {
       "x": 35,
       "y": 17,
       "elevation": 0,
       "dest_map": "MAP_FAST_SHIP_CABINS_SE_SSE_CAPTAINS",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 40,
       "y": 17,
       "elevation": 0,
       "dest_map": "MAP_FAST_SHIP_CABINS_SE_SSE_CAPTAINS",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     },
     {
       "x": 4,
       "y": 13,
       "elevation": 0,
       "dest_map": "MAP_FAST_SHIP_CABINS_SE_SSE_CAPTAINS",
-      "dest_warp_id": 2
+      "dest_warp_id": "2"
     },
     {
       "x": 45,
       "y": 16,
       "elevation": 0,
       "dest_map": "MAP_FAST_SHIP_B1F",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 10,
       "y": 12,
       "elevation": 0,
       "dest_map": "MAP_FAST_SHIP_B1F",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     }
   ],
   "coord_events": [

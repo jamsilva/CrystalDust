@@ -28,9 +28,8 @@
   ],
   "object_events": [
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_CAMPER",
-      "in_connection": false,
       "x": 29,
       "y": 46,
       "elevation": 3,
@@ -43,9 +42,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_PICNICKER",
-      "in_connection": false,
       "x": 23,
       "y": 28,
       "elevation": 3,
@@ -58,9 +56,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_POKEMANIAC",
-      "in_connection": false,
       "x": 28,
       "y": 25,
       "elevation": 3,
@@ -73,9 +70,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_FISHERMAN",
-      "in_connection": false,
       "x": 17,
       "y": 18,
       "elevation": 3,
@@ -88,9 +84,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_POKEMANIAC",
-      "in_connection": false,
       "x": 30,
       "y": 5,
       "elevation": 3,
@@ -103,9 +98,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_POKEMANIAC",
-      "in_connection": false,
       "x": 29,
       "y": 3,
       "elevation": 3,
@@ -118,9 +112,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
-      "in_connection": false,
       "x": 28,
       "y": 37,
       "elevation": 3,
@@ -139,42 +132,42 @@
       "y": 55,
       "elevation": 0,
       "dest_map": "MAP_ROUTE43_GATEHOUSE1",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     },
     {
       "x": 25,
       "y": 55,
       "elevation": 0,
       "dest_map": "MAP_ROUTE43_GATEHOUSE1",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     },
     {
       "x": 34,
       "y": 41,
       "elevation": 0,
       "dest_map": "MAP_ROUTE43_GATEHOUSE2",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 35,
       "y": 41,
       "elevation": 0,
       "dest_map": "MAP_ROUTE43_GATEHOUSE2",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 34,
       "y": 35,
       "elevation": 0,
       "dest_map": "MAP_ROUTE43_GATEHOUSE2",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     },
     {
       "x": 35,
       "y": 35,
       "elevation": 0,
       "dest_map": "MAP_ROUTE43_GATEHOUSE2",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     }
   ],
   "coord_events": [

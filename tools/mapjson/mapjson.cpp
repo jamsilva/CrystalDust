@@ -178,10 +178,10 @@ string generate_map_events_text(Json map_data) {
                 text << "\tobject_clone_event " << i + 1 << ", "
                     << obj_event["x"].int_value() << ", "
                     << obj_event["y"].int_value() << ", "
-                    << obj_event["source_id"].int_value() << ", "
-                    << obj_event["source_map"].string_value() << "\n";
+                    << obj_event["target_local_id"].int_value() << ", "
+                    << obj_event["target_map"].string_value() << "\n";
             }
-            else /*if (obj_event["type"].string_value() == "original")*/ {
+            else /*if (obj_event["type"].string_value() == "object")*/ {
                 text << "\tobject_event " << i + 1 << ", "
                     << obj_event["graphics_id"].string_value() << ", 0, "
                     << obj_event["x"].int_value() << ", "
@@ -209,7 +209,7 @@ string generate_map_events_text(Json map_data) {
                  << warp_event["x"].int_value() << ", "
                  << warp_event["y"].int_value() << ", "
                  << warp_event["elevation"].int_value() << ", "
-                 << warp_event["dest_warp_id"].int_value() << ", "
+                 << warp_event["dest_warp_id"].string_value() << ", "
                  << warp_event["dest_map"].string_value() << "\n";
         }
         text << "\n";

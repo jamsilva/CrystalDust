@@ -17,9 +17,8 @@
   "connections": 0,
   "object_events": [
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_BOY_1",
-      "in_connection": false,
       "x": 0,
       "y": 0,
       "elevation": 3,
@@ -32,9 +31,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_BOY_1",
-      "in_connection": false,
       "x": 1,
       "y": 0,
       "elevation": 3,
@@ -47,9 +45,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_BOY_1",
-      "in_connection": false,
       "x": 2,
       "y": 0,
       "elevation": 3,
@@ -62,9 +59,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_BOY_1",
-      "in_connection": false,
       "x": 3,
       "y": 0,
       "elevation": 3,
@@ -77,9 +73,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_BOY_1",
-      "in_connection": false,
       "x": 4,
       "y": 0,
       "elevation": 3,
@@ -92,9 +87,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
-      "in_connection": false,
       "x": 39,
       "y": 15,
       "elevation": 3,
@@ -107,9 +101,8 @@
       "flag": "FLAG_ITEM_NATIONAL_PARK_SOOTHE_BELL"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
-      "in_connection": false,
       "x": 3,
       "y": 43,
       "elevation": 3,
@@ -128,21 +121,21 @@
       "y": 49,
       "elevation": 3,
       "dest_map": "MAP_ROUTE35_NATIONAL_PARK_GATEHOUSE",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     },
     {
       "x": 13,
       "y": 49,
       "elevation": 3,
       "dest_map": "MAP_ROUTE35_NATIONAL_PARK_GATEHOUSE",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     },
     {
       "x": 40,
       "y": 19,
       "elevation": 0,
       "dest_map": "MAP_ROUTE36_NATIONAL_PARK_GATEHOUSE",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     }
   ],
   "coord_events": [

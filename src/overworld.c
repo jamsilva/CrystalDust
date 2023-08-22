@@ -1118,9 +1118,9 @@ static bool16 NoMusicInSotopolisWithLegendaries(struct WarpData *warp)
 {
     if (VarGet(VAR_SKY_PILLAR_STATE) != 1)
         return FALSE;
-    else if (warp->mapGroup != MAP_GROUP(NONE))
+    else if (warp->mapGroup != MAP_GROUP(UNDEFINED))
         return FALSE;
-    else if (warp->mapNum == MAP_NUM(NONE))
+    else if (warp->mapNum == MAP_NUM(UNDEFINED))
         return TRUE;
     else
         return FALSE;
@@ -1130,10 +1130,10 @@ static bool16 IsInfiltratedWeatherInstitute(struct WarpData *warp)
 {
     if (VarGet(VAR_WEATHER_INSTITUTE_STATE))
         return FALSE;
-    else if (warp->mapGroup != MAP_GROUP(NONE))
+    else if (warp->mapGroup != MAP_GROUP(UNDEFINED))
         return FALSE;
-    else if (warp->mapNum == MAP_NUM(NONE)
-     || warp->mapNum == MAP_NUM(NONE))
+    else if (warp->mapNum == MAP_NUM(UNDEFINED)
+     || warp->mapNum == MAP_NUM(UNDEFINED))
         return TRUE;
     else
         return FALSE;
@@ -1145,10 +1145,10 @@ static bool16 IsInflitratedSpaceCenter(struct WarpData *warp)
         return FALSE;
     else if (VarGet(VAR_MOSSDEEP_CITY_STATE) > 2)
         return FALSE;
-    else if (warp->mapGroup != MAP_GROUP(NONE))
+    else if (warp->mapGroup != MAP_GROUP(UNDEFINED))
         return FALSE;
-    else if (warp->mapNum == MAP_NUM(NONE)
-     || warp->mapNum == MAP_NUM(NONE))
+    else if (warp->mapNum == MAP_NUM(UNDEFINED)
+     || warp->mapNum == MAP_NUM(UNDEFINED))
         return TRUE;
     return FALSE;
 }
@@ -1295,10 +1295,10 @@ void TryFadeOutOldMapMusic(void)
     {
         /*if (currentMusic == MUS_SURF
             && VarGet(VAR_SKY_PILLAR_STATE) == 2
-            && gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(NONE)
-            && gSaveBlock1Ptr->location.mapNum == MAP_NUM(NONE)
-            && sWarpDestination.mapGroup == MAP_GROUP(NONE)
-            && sWarpDestination.mapNum == MAP_NUM(NONE)
+            && gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(UNDEFINED)
+            && gSaveBlock1Ptr->location.mapNum == MAP_NUM(UNDEFINED)
+            && sWarpDestination.mapGroup == MAP_GROUP(UNDEFINED)
+            && sWarpDestination.mapNum == MAP_NUM(UNDEFINED)
             && sWarpDestination.x == 29
             && sWarpDestination.y == 53)
             return;*/

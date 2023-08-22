@@ -28,9 +28,8 @@
   ],
   "object_events": [
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_POKEFAN_M",
-      "in_connection": false,
       "x": 8,
       "y": 19,
       "elevation": 3,
@@ -43,9 +42,8 @@
       "flag": "FLAG_HIDE_GOLDENROD_CITY_CIVILIANS"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_BOY_1",
-      "in_connection": false,
       "x": 36,
       "y": 18,
       "elevation": 3,
@@ -58,9 +56,8 @@
       "flag": "FLAG_HIDE_GOLDENROD_CITY_CIVILIANS"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_COOLTRAINER_F",
-      "in_connection": false,
       "x": 18,
       "y": 17,
       "elevation": 3,
@@ -73,9 +70,8 @@
       "flag": "FLAG_HIDE_GOLDENROD_CITY_CIVILIANS"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_BEAUTY",
-      "in_connection": false,
       "x": 24,
       "y": 28,
       "elevation": 3,
@@ -88,9 +84,8 @@
       "flag": "FLAG_HIDE_GOLDENROD_CITY_CIVILIANS"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_YOUNGSTER",
-      "in_connection": false,
       "x": 23,
       "y": 18,
       "elevation": 3,
@@ -103,9 +98,8 @@
       "flag": "FLAG_HIDE_GOLDENROD_CITY_CIVILIANS"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_GIRL",
-      "in_connection": false,
       "x": 21,
       "y": 10,
       "elevation": 3,
@@ -118,9 +112,8 @@
       "flag": "FLAG_HIDE_GOLDENROD_CITY_CIVILIANS"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_OLD_MAN",
-      "in_connection": false,
       "x": 10,
       "y": 27,
       "elevation": 3,
@@ -133,9 +126,8 @@
       "flag": "FLAG_HIDE_GOLDENROD_CITY_CIVILIANS"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ROCKET_GRUNT_M",
-      "in_connection": false,
       "x": 5,
       "y": 17,
       "elevation": 3,
@@ -148,9 +140,8 @@
       "flag": "FLAG_HIDE_GOLDENROD_CITY_ROCKET_SCOUT"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ROCKET_GRUNT_M",
-      "in_connection": false,
       "x": 33,
       "y": 21,
       "elevation": 3,
@@ -163,9 +154,8 @@
       "flag": "FLAG_HIDE_GOLDENROD_CITY_ROCKET_TAKEOVER"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ROCKET_GRUNT_M",
-      "in_connection": false,
       "x": 11,
       "y": 16,
       "elevation": 3,
@@ -178,9 +168,8 @@
       "flag": "FLAG_HIDE_GOLDENROD_CITY_ROCKET_TAKEOVER"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ROCKET_GRUNT_M",
-      "in_connection": false,
       "x": 20,
       "y": 25,
       "elevation": 3,
@@ -193,9 +182,8 @@
       "flag": "FLAG_HIDE_RADIO_TOWER_ROCKET_TAKEOVER"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ROCKET_GRUNT_M",
-      "in_connection": false,
       "x": 34,
       "y": 21,
       "elevation": 3,
@@ -208,9 +196,8 @@
       "flag": "FLAG_HIDE_RADIO_TOWER_ROCKET_TAKEOVER"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ROCKET_GRUNT_M",
-      "in_connection": false,
       "x": 34,
       "y": 7,
       "elevation": 3,
@@ -223,9 +210,8 @@
       "flag": "FLAG_HIDE_RADIO_TOWER_ROCKET_TAKEOVER"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ROCKET_GRUNT_M",
-      "in_connection": false,
       "x": 36,
       "y": 10,
       "elevation": 3,
@@ -238,9 +224,8 @@
       "flag": "FLAG_HIDE_RADIO_TOWER_ROCKET_TAKEOVER"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_POKEFAN_M",
-      "in_connection": false,
       "x": 16,
       "y": 24,
       "elevation": 0,
@@ -259,112 +244,112 @@
       "y": 7,
       "elevation": 0,
       "dest_map": "MAP_GOLDENROD_CITY_GYM",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 18,
       "y": 23,
       "elevation": 0,
       "dest_map": "MAP_GOLDENROD_CITY_GAME_CORNER",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 29,
       "y": 30,
       "elevation": 0,
       "dest_map": "MAP_GOLDENROD_CITY_DEPT_STORE_1F",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 18,
       "y": 30,
       "elevation": 0,
       "dest_map": "MAP_GOLDENROD_CITY_POKEMON_CENTER_1F",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 34,
       "y": 32,
       "elevation": 0,
       "dest_map": "MAP_GOLDENROD_CITY_BIKE_SHOP",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 6,
       "y": 16,
       "elevation": 0,
       "dest_map": "MAP_RADIO_TOWER_1F",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 14,
       "y": 15,
       "elevation": 0,
       "dest_map": "MAP_GOLDENROD_CITY_MAGNET_TRAIN_STATION",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 36,
       "y": 22,
       "elevation": 0,
       "dest_map": "MAP_GOLDENROD_CITY_HOUSE1",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 4,
       "y": 27,
       "elevation": 0,
       "dest_map": "MAP_GOLDENROD_CITY_BILLS_FAMILYS_HOUSE",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 38,
       "y": 9,
       "elevation": 0,
       "dest_map": "MAP_GOLDENROD_CITY_HOUSE2",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 34,
       "y": 5,
       "elevation": 0,
       "dest_map": "MAP_GOLDENROD_CITY_FLOWER_SHOP",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 19,
       "y": 7,
       "elevation": 0,
       "dest_map": "MAP_GOLDENROD_CITY_NAME_RATERS_HOUSE",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 10,
       "y": 6,
       "elevation": 0,
       "dest_map": "MAP_GOLDENROD_CITY_UNDERGROUND_NORTH_ENTRANCE",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 11,
       "y": 32,
       "elevation": 0,
       "dest_map": "MAP_GOLDENROD_CITY_UNDERGROUND_SOUTH_ENTRANCE",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 23,
       "y": 1,
       "elevation": 0,
       "dest_map": "MAP_ROUTE35_GOLDENROD_GATEHOUSE",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 24,
       "y": 1,
       "elevation": 0,
       "dest_map": "MAP_ROUTE35_GOLDENROD_GATEHOUSE",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     }
   ],
   "coord_events": [

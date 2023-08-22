@@ -621,14 +621,14 @@ static EWRAM_DATA u8 gRotatingGate_PuzzleCount = 0;
 // text
 static s32 GetCurrentMapRotatingGatePuzzleType(void)
 {
-    if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(NONE) &&
-        gSaveBlock1Ptr->location.mapNum == MAP_NUM(NONE))
+    if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(UNDEFINED) &&
+        gSaveBlock1Ptr->location.mapNum == MAP_NUM(UNDEFINED))
     {
         return PUZZLE_FORTREE_CITY_GYM;
     }
 
-    if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(NONE) &&
-        gSaveBlock1Ptr->location.mapNum == MAP_NUM(NONE))
+    if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(UNDEFINED) &&
+        gSaveBlock1Ptr->location.mapNum == MAP_NUM(UNDEFINED))
     {
         return PUZZLE_ROUTE110_TRICK_HOUSE_PUZZLE6;
     }

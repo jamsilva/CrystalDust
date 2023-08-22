@@ -28,9 +28,8 @@
   ],
   "object_events": [
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_LITTLE_GIRL",
-      "in_connection": false,
       "x": 4,
       "y": 14,
       "elevation": 3,
@@ -43,9 +42,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_LITTLE_GIRL",
-      "in_connection": false,
       "x": 6,
       "y": 14,
       "elevation": 3,
@@ -58,9 +56,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_COOLTRAINER_M",
-      "in_connection": false,
       "x": 4,
       "y": 8,
       "elevation": 3,
@@ -73,9 +70,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_LITTLE_BOY",
-      "in_connection": false,
       "x": 20,
       "y": 9,
       "elevation": 3,
@@ -89,10 +85,11 @@
     },
     {
       "type": "clone",
+      "graphics_id": "",
       "x": 13,
       "y": -4,
-      "source_id": 6,
-      "source_map": "MAP_ECRUTEAK_CITY"
+      "target_local_id": 6,
+      "target_map": "MAP_ECRUTEAK_CITY"
     }
   ],
   "warp_events": [

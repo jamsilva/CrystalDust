@@ -28,9 +28,8 @@
   ],
   "object_events": [
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_HIKER",
-      "in_connection": false,
       "x": 12,
       "y": 21,
       "elevation": 3,
@@ -43,9 +42,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
-      "in_connection": false,
       "x": 7,
       "y": 26,
       "elevation": 3,
@@ -58,9 +56,8 @@
       "flag": "FLAG_ITEM_ROUTE_45_ELIXIR"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_COOLTRAINER_M",
-      "in_connection": false,
       "x": 21,
       "y": 25,
       "elevation": 3,
@@ -73,9 +70,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
-      "in_connection": false,
       "x": 8,
       "y": 42,
       "elevation": 3,
@@ -88,9 +84,8 @@
       "flag": "FLAG_ITEM_ROUTE_45_MAX_POTION"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_HIKER",
-      "in_connection": false,
       "x": 6,
       "y": 36,
       "elevation": 3,
@@ -103,9 +98,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_COOLTRAINER_F",
-      "in_connection": false,
       "x": 6,
       "y": 46,
       "elevation": 3,
@@ -118,9 +112,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
-      "in_connection": false,
       "x": 7,
       "y": 64,
       "elevation": 3,
@@ -133,9 +126,8 @@
       "flag": "FLAG_ITEM_ROUTE_45_NUGGET"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_BLACK_BELT",
-      "in_connection": false,
       "x": 13,
       "y": 63,
       "elevation": 3,
@@ -148,9 +140,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
-      "in_connection": false,
       "x": 7,
       "y": 83,
       "elevation": 3,
@@ -163,9 +154,8 @@
       "flag": "FLAG_ITEM_ROUTE_45_REVIVE"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_HIKER",
-      "in_connection": false,
       "x": 12,
       "y": 81,
       "elevation": 3,
@@ -178,9 +168,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_HIKER",
-      "in_connection": false,
       "x": 19,
       "y": 82,
       "elevation": 3,
@@ -193,9 +182,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_CAMPER",
-      "in_connection": false,
       "x": 5,
       "y": 88,
       "elevation": 3,
@@ -214,7 +202,7 @@
       "y": 5,
       "elevation": 0,
       "dest_map": "MAP_DARK_CAVE_B1F",
-      "dest_warp_id": 1
+      "dest_warp_id": "1"
     }
   ],
   "coord_events": [

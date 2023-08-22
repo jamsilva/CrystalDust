@@ -23,7 +23,7 @@
       "movement_range_x": 1,
       "movement_range_y": 1,
       "trainer_type": "TRAINER_TYPE_NONE",
-      "type": "original",
+      "type": "object",
       "trainer_sight_or_berry_tree_id": "0",
       "script": "NavelRock_Bottom_EventScript_Lugia",
       "flag": "FLAG_HIDE_LUGIA"
@@ -35,7 +35,7 @@
       "y": 19,
       "elevation": 0,
       "dest_map": "MAP_NAVEL_ROCK_DOWN11",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     }
   ],
   "coord_events": [],

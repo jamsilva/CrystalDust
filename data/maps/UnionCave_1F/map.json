@@ -17,9 +17,8 @@
   "connections": 0,
   "object_events": [
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_HIKER",
-      "in_connection": false,
       "x": 2,
       "y": 7,
       "elevation": 3,
@@ -32,9 +31,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_POKEMANIAC",
-      "in_connection": false,
       "x": 3,
       "y": 24,
       "elevation": 3,
@@ -47,9 +45,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_HIKER",
-      "in_connection": false,
       "x": 13,
       "y": 10,
       "elevation": 3,
@@ -62,9 +59,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_FIREBREATHER",
-      "in_connection": false,
       "x": 18,
       "y": 31,
       "elevation": 3,
@@ -77,9 +73,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_FIREBREATHER",
-      "in_connection": false,
       "x": 17,
       "y": 22,
       "elevation": 3,
@@ -92,9 +87,8 @@
       "flag": "0"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
-      "in_connection": false,
       "x": 22,
       "y": 24,
       "elevation": 3,
@@ -107,9 +101,8 @@
       "flag": "FLAG_ITEM_UNION_CAVE_1F_GREAT_BALL"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
-      "in_connection": false,
       "x": 4,
       "y": 1,
       "elevation": 3,
@@ -122,9 +115,8 @@
       "flag": "FLAG_ITEM_UNION_CAVE_1F_X_ATTACK"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
-      "in_connection": false,
       "x": 3,
       "y": 20,
       "elevation": 3,
@@ -137,9 +129,8 @@
       "flag": "FLAG_ITEM_UNION_CAVE_1F_POTION"
     },
     {
-      "type": "original",
+      "type": "object",
       "graphics_id": "OBJ_EVENT_GFX_ITEM_BALL",
-      "in_connection": false,
       "x": 16,
       "y": 38,
       "elevation": 3,
@@ -158,28 +149,28 @@
       "y": 3,
       "elevation": 3,
       "dest_map": "MAP_ROUTE32",
-      "dest_warp_id": 2
+      "dest_warp_id": "2"
     },
     {
       "x": 21,
       "y": 36,
       "elevation": 3,
       "dest_map": "MAP_ROUTE33",
-      "dest_warp_id": 0
+      "dest_warp_id": "0"
     },
     {
       "x": 6,
       "y": 22,
       "elevation": 3,
       "dest_map": "MAP_UNION_CAVE_B1F",
-      "dest_warp_id": 2
+      "dest_warp_id": "2"
     },
     {
       "x": 2,
       "y": 38,
       "elevation": 0,
       "dest_map": "MAP_UNION_CAVE_B1F",
-      "dest_warp_id": 3
+      "dest_warp_id": "3"
     }
   ],
   "coord_events": [
